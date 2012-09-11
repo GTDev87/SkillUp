@@ -1,0 +1,11 @@
+setup
+- install node
+- install npm
+- npm -g coffee-script tower forever grunt
+
+install dependencies
+  - npm install
+
+watch files
+  - cake watch
+  
