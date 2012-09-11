@@ -1,7 +1,13 @@
+Standards
+  - tabs are two spaces
+  - function names and variables lookLikeThis
+  - Class names LookLikeThis
+  - Avoid inheritance however use aggregation and interfaces
+
 setup
-- install node
-- install npm
-- npm -g coffee-script tower forever grunt
+  - install node
+  - install npm
+  - npm -g coffee-script tower forever grunt
 
 install dependencies
   - npm install
@@ -9,3 +15,5 @@ install dependencies
 watch files
   - cake watch
   
+to install dependencies
+  - npm install <dep-name> --save

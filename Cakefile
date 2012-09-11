@@ -82,3 +82,6 @@ task 'jobs', ->
         atOnce = 2 # @todo configurable
         for type in types
           jobs.process(type, atOnce, run)
+
+task 'test', ->
+  spawn('npm', ['test'])
