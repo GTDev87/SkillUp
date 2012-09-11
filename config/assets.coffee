@@ -8,6 +8,16 @@ module.exports =
       '/app/client/controllers/applicationController'
       '/templates'
       '/app/client/views/layouts/application'
+      '/app/models/user'
+      '/app/client/views/users/form'
+      '/app/client/views/users/index'
+      '/app/client/views/users/show'
+      '/app/client/controllers/usersController'
+      '/app/models/task'
+      '/app/client/views/tasks/form'
+      '/app/client/views/tasks/index'
+      '/app/client/views/tasks/show'
+      '/app/client/controllers/tasksController'
     ]
 
     lib: [
@@ -47,6 +57,8 @@ module.exports =
       '/vendor/javascripts/mocha'
       '/vendor/javascripts/chai'
       '/test/client'
+      '/test/models/userTest'
+      '/test/models/taskTest'
     ]
 
   stylesheets:

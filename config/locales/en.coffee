@@ -16,6 +16,8 @@ module.exports =
     edit: "Editing %{name}"
 
   links:
+    tasks: "Tasks"
+    users: "Users"
     default: "%{name}"
     home: "Home"
     docs: "Docs"

@@ -3,7 +3,9 @@ Standards
   - function names and variables lookLikeThis
   - Class names LookLikeThis
   - Avoid inheritance however use aggregation and interfaces
-
+  - tests go into test file and end with Test
+  - acceptance tests go into test/features
+  
 setup
   - install node
   - install npm
@@ -17,3 +19,7 @@ watch files
   
 to install dependencies
   - npm install <dep-name> --save
+  
+to test
+  all tests
+    - cake test
