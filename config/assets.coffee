@@ -18,6 +18,16 @@ module.exports =
       '/app/client/views/tasks/index'
       '/app/client/views/tasks/show'
       '/app/client/controllers/tasksController'
+      '/app/models/aptitude'
+      '/app/client/views/aptitudes/form'
+      '/app/client/views/aptitudes/index'
+      '/app/client/views/aptitudes/show'
+      '/app/client/controllers/aptitudesController'
+      '/app/models/skill'
+      '/app/client/views/skills/form'
+      '/app/client/views/skills/index'
+      '/app/client/views/skills/show'
+      '/app/client/controllers/skillsController'
     ]
 
     lib: [
@@ -59,6 +69,8 @@ module.exports =
       '/test/client'
       '/test/models/userTest'
       '/test/models/taskTest'
+      '/test/models/aptitudeTest'
+      '/test/models/skillTest'
     ]
 
   stylesheets:

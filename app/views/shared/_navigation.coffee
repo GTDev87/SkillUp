@@ -3,6 +3,10 @@ a '{{action showRoot href=true}}', class: 'brand', -> t('title')
 div class: 'nav-collapse', ->
   ul class: 'nav', ->
     li ->
+      a '{{action indexSkill href=true}}', t('links.skills')
+    li ->
+      a '{{action indexAptitude href=true}}', t('links.aptitudes')
+    li ->
       a '{{action indexTask href=true}}', t('links.tasks')
     li ->
       a '{{action indexUser href=true}}', t('links.users')

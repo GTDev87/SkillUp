@@ -3,6 +3,7 @@ class App.User extends Tower.Model
   @field 'firstName', type: 'String'
   @field 'lastName', type: 'String'
 
+  @hasMany 'aptitudes'
   @hasMany 'tasks'
 
   @timestamps()

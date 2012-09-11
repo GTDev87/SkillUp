@@ -1,6 +1,8 @@
 # Tower.debug = Tower.env == 'development'
 
 App.bootstrap = (data) ->
+  App.Skill.load(data.skills) if data.skills
+  App.Aptitude.load(data.aptitudes) if data.aptitudes
   App.Task.load(data.tasks) if data.tasks
   App.User.load(data.users) if data.users
   # Optimized rendering (force right at bottom of DOM, before DOM ready)
