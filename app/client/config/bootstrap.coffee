@@ -1,6 +1,9 @@
 # Tower.debug = Tower.env == 'development'
 
 App.bootstrap = (data) ->
+  App.SkillAbilityTag.load(data.skillAbilityTags) if data.skillAbilityTags
+  App.Mission.load(data.missions) if data.missions
+  App.Ability.load(data.abilities) if data.abilities
   App.Skill.load(data.skills) if data.skills
   App.Aptitude.load(data.aptitudes) if data.aptitudes
   App.Task.load(data.tasks) if data.tasks

@@ -16,6 +16,9 @@ module.exports =
     edit: "Editing %{name}"
 
   links:
+    skillAbilityTags: "Skill ability tags"
+    missions: "Missions"
+    abilities: "Abilities"
     skills: "Skills"
     aptitudes: "Aptitudes"
     tasks: "Tasks"

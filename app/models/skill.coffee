@@ -3,5 +3,6 @@ class App.Skill extends Tower.Model
   @field 'title', type: 'String'
 
   @belongsTo 'aptitude'
+  @hasMany 'SkillAbilityTags'
 
   @timestamps()

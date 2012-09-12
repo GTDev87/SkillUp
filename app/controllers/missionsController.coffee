@@ -1,44 +1,46 @@
-class App.TasksController extends App.ApplicationController
+class App.MissionsController extends App.ApplicationController
+  @param 'title'
+  @param 'description'
 ###
   index: ->
-    App.Task.where(@criteria()).all (error, collection) =>
+    App.Mission.where(@criteria()).all (error, collection) =>
       @render "index"
 
   new: ->
-    resource = new App.Task
+    resource = new App.Mission
     @render "new"
 
   create: ->
-    App.Task.create @params.task, (error, resource) =>
+    App.Mission.create @params.mission, (error, resource) =>
       if error
         @redirectTo "new"
       else
         @redirectTo @urlFor(resource)
 
   show:  ->
-    App.Task.find @params.id, (error, resource) =>
+    App.Mission.find @params.id, (error, resource) =>
       if resource
         @render "show"
       else
         @redirectTo "index"
 
   edit: ->
-    App.Task.find @params.id, (error, resource) =>
+    App.Mission.find @params.id, (error, resource) =>
       if resource
         @render "edit"
       else
         @redirectTo "index"
 
   update: ->
-    App.Task.find @params.id (error, resource) =>
+    App.Mission.find @params.id (error, resource) =>
       if error
         @redirectTo "edit"
       else
-        resource.updateAttributes @params.task, (error) =>
+        resource.updateAttributes @params.mission, (error) =>
           @redirectTo @urlFor(resource)
 
   destroy: ->
-    App.Task.find @params.id, (error, resource) =>
+    App.Mission.find @params.id, (error, resource) =>
       if error
         @redirectTo "index"
       else

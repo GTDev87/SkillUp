@@ -1,4 +1,7 @@
 Tower.Route.draw ->
+  @resources "skill-ability-tags"
+  @resources "missions"
+  @resources "abilities"
   @resources "skills"
   @resources "aptitudes"
   @resources "tasks"

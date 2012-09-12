@@ -18,6 +18,15 @@ class App.ApplicationController extends Tower.Controller
     # for every model you add, you can add it to the bootstrap
     # dataset by using this async helper.
     _.series [
+      (next) => App.SkillAbilityTag.all (error, skillAbilityTags) =>
+        data.skillAbilityTags = skillAbilityTags
+        next()
+      (next) => App.Mission.all (error, missions) =>
+        data.missions = missions
+        next()
+      (next) => App.Ability.all (error, abilities) =>
+        data.abilities = abilities
+        next()
       (next) => App.Skill.all (error, skills) =>
         data.skills = skills
         next()

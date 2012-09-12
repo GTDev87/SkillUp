@@ -28,6 +28,21 @@ module.exports =
       '/app/client/views/skills/index'
       '/app/client/views/skills/show'
       '/app/client/controllers/skillsController'
+      '/app/models/ability'
+      '/app/client/views/abilities/form'
+      '/app/client/views/abilities/index'
+      '/app/client/views/abilities/show'
+      '/app/client/controllers/abilitiesController'
+      '/app/models/mission'
+      '/app/client/views/missions/form'
+      '/app/client/views/missions/index'
+      '/app/client/views/missions/show'
+      '/app/client/controllers/missionsController'
+      '/app/models/skillAbilityTag'
+      '/app/client/views/skillAbilityTags/form'
+      '/app/client/views/skillAbilityTags/index'
+      '/app/client/views/skillAbilityTags/show'
+      '/app/client/controllers/skillAbilityTagsController'
     ]
 
     lib: [
@@ -71,6 +86,9 @@ module.exports =
       '/test/models/taskTest'
       '/test/models/aptitudeTest'
       '/test/models/skillTest'
+      '/test/models/abilityTest'
+      '/test/models/missionTest'
+      '/test/models/skillAbilityTagTest'
     ]
 
   stylesheets:
