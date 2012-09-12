@@ -23,3 +23,10 @@ to install dependencies
 to test
   all tests
     - cake test
+    
+Database schema description
+  - Users embed many aptitudes and tasks
+  - aptitudes have one skill
+  - tasks have one mission
+  - skills are many to many with ability through skillAbilityTags
+  - missions embed aptitudes
