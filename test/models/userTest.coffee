@@ -3,21 +3,16 @@ user = null
 describe "App.User", ->
   describe "fields", ->
     beforeEach (done) ->
-      user = new App.User
+      user = App.User.build
         email: "A email"
-        firstName: "A firstName"
-        lastName: "A lastName"
+        username: "A username"
 
       done()
 
     test "email", ->
       assert.ok user.get("email")
 
-    test "firstName", ->
-      assert.ok user.get("firstName")
-
-    test "lastName", ->
-      assert.ok user.get("lastName")
+    test "username", ->
+      assert.ok user.get("username")
 
   describe "relations", ->
-

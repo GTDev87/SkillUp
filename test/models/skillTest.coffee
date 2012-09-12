@@ -3,7 +3,7 @@ skill = null
 describe "App.Skill", ->
   describe "fields", ->
     beforeEach (done) ->
-      skill = new App.Skill
+      skill = App.Skill.build
         description: "A description"
         title: "A title"
 

@@ -3,7 +3,7 @@ mission = null
 describe "App.Mission", ->
   describe "fields", ->
     beforeEach (done) ->
-      mission = new App.Mission
+      mission = App.Mission.build
         title: "A title"
         description: "A description"
 
@@ -16,4 +16,3 @@ describe "App.Mission", ->
       assert.ok mission.get("description")
 
   describe "relations", ->
-

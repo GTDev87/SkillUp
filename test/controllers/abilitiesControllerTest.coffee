@@ -1,3 +1,4 @@
+###
 describe 'AbilitiesController', ->
   controller = undefined
   ability = undefined
@@ -61,3 +62,4 @@ describe 'AbilitiesController', ->
   describe "#update", ->
 
   describe "#destroy", ->
+###

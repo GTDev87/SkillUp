@@ -1,5 +1,5 @@
 class App.AptitudesController extends App.ApplicationController
-  @param 'baseLevel'
+  @param 'level'
 ###
   index: ->
     App.Aptitude.where(@criteria()).all (error, collection) =>

@@ -1,3 +1,4 @@
+###
 describe 'UsersController', ->
   controller = undefined
   user = undefined
@@ -61,3 +62,4 @@ describe 'UsersController', ->
   describe "#update", ->
 
   describe "#destroy", ->
+###

@@ -1,3 +1,4 @@
+###
 describe 'SkillAbilityTagsController', ->
   controller = undefined
   skillAbilityTag = undefined
@@ -61,3 +62,4 @@ describe 'SkillAbilityTagsController', ->
   describe "#update", ->
 
   describe "#destroy", ->
+###

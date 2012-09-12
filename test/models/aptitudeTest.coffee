@@ -3,8 +3,8 @@ aptitude = null
 describe "App.Aptitude", ->
   describe "fields", ->
     beforeEach (done) ->
-      aptitude = new App.Aptitude
-        level: "A level"
+      aptitude = App.Aptitude.build
+        level: 10
 
       done()
 

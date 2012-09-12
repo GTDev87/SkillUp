@@ -1,3 +1,4 @@
+###
 describe 'SkillsController', ->
   controller = undefined
   skill = undefined
@@ -61,3 +62,4 @@ describe 'SkillsController', ->
   describe "#update", ->
 
   describe "#destroy", ->
+###

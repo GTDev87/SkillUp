@@ -1,5 +1,5 @@
 class App.Aptitude extends Tower.Model
-  @field 'baseLevel', type: 'Int'
+  @field 'level', type: 'Number'
   
   @belongsTo 'aptitudeable', polymorphic: true, embed: true
   

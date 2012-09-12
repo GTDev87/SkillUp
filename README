@@ -22,7 +22,8 @@ to install dependencies
   
 to test
   all tests
-    - cake test
+    - cake test or
+    - npm test
     
 Database schema description
   - Users embed many aptitudes and tasks

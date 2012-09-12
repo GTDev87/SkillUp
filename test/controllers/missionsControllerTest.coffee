@@ -1,3 +1,4 @@
+###
 describe 'MissionsController', ->
   controller = undefined
   mission = undefined
@@ -61,3 +62,4 @@ describe 'MissionsController', ->
   describe "#update", ->
 
   describe "#destroy", ->
+###

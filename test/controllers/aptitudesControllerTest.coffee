@@ -1,3 +1,4 @@
+###
 describe 'AptitudesController', ->
   controller = undefined
   aptitude = undefined
@@ -61,3 +62,4 @@ describe 'AptitudesController', ->
   describe "#update", ->
 
   describe "#destroy", ->
+###
