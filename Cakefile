@@ -1,6 +1,9 @@
 require 'tower'
 knox  = require('knox')
-spawn = require('child_process').spawn
+child_process = require('child_process')
+
+spawn = child_process.spawn
+exec = child_process.exec
 
 # Watches and compiles assets to ./public
 task 'watch', ->
@@ -84,4 +87,4 @@ task 'jobs', ->
           jobs.process(type, atOnce, run)
 
 task 'test', ->
-  spawn('npm', ['test'])
+  exec('npm', ['test'])

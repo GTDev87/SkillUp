@@ -1,7 +1,6 @@
 class App.UsersController extends App.ApplicationController
   @param 'email'
-  @param 'firstName'
-  @param 'lastName'
+  @param 'username'
 ###
   index: ->
     App.User.where(@criteria()).all (error, collection) =>
