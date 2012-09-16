@@ -1,0 +1,21 @@
+<h1>Listing skill_aptitudes</h1>
+
+<table>
+  <tr>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @skill_aptitudes.each do |skill_aptitude| %>
+  <tr>
+    <td><%= link_to 'Show', skill_aptitude %></td>
+    <td><%= link_to 'Edit', edit_skill_aptitude_path(skill_aptitude) %></td>
+    <td><%= link_to 'Destroy', skill_aptitude, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Skill aptitude', new_skill_aptitude_path %>

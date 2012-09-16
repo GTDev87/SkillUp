@@ -1,0 +1,2 @@
+module SkillAptitudesHelper
+end

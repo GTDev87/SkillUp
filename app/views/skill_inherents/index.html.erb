@@ -1,0 +1,21 @@
+<h1>Listing skill_inherents</h1>
+
+<table>
+  <tr>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @skill_inherents.each do |skill_inherent| %>
+  <tr>
+    <td><%= link_to 'Show', skill_inherent %></td>
+    <td><%= link_to 'Edit', edit_skill_inherent_path(skill_inherent) %></td>
+    <td><%= link_to 'Destroy', skill_inherent, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Skill inherent', new_skill_inherent_path %>

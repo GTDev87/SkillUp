@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Title:</b>
+  <%= @ability.title %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @ability.description %>
+</p>
+
+
+<%= link_to 'Edit', edit_ability_path(@ability) %> |
+<%= link_to 'Back', abilities_path %>
