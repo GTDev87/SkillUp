@@ -6,15 +6,16 @@ SkillUp::Application.routes.draw do
   get 'login', to: 'sessions#new', as: 'login'
   get 'logout', to: 'sessions#destroy', as: 'logout'
   
-  resources :skill_aptitudes
+  
   resources :abilities
+  resources :mission_abilities
   resources :missions
-  resources :skills
-  resources :tasks
-  resources :skill_inherents
-  resources :users
   resources :sessions
-
+  resources :skills
+  resources :user_abilities
+  resources :user_missions
+  resources :users
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

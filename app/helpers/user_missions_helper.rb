@@ -1,0 +1,2 @@
+module UserMissionsHelper
+end

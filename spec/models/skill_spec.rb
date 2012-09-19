@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Skill do 
+describe Skill do
   it "should create Skill" do
     skill = Skill.new(:title => "A title", :description => "A description")
     
@@ -8,7 +8,7 @@ describe Skill do
   end
   
   describe "validation" do
-    it "should require that Skill have titles" do
+    it "should require that Skills have titles" do
       skill = Skill.new(:description => "A description")
     
       skill.save.should be_false
@@ -16,11 +16,14 @@ describe Skill do
   end
   
   describe "relations" do
-    it "should be able to hold multiple abilities" do
+    it "should be able to hold multiple skills" do
       skill = Skill.create(:title => "A title", :description => "A description")
       
-      skill.abilities << create(:ability)
-      skill.abilities << create(:ability)
+      ability1 = create(:ability)
+      ability2 = create(:ability)
+      
+      skill.abilities << ability1
+      skill.abilities << ability2
       
       savedSkill = Skill.first
       

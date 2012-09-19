@@ -1,2 +1,0 @@
-module SkillInherentsHelper
-end

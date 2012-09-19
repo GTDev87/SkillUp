@@ -36,32 +36,32 @@ describe User do
   end
   
   describe "relations" do
-    it "should give multiple skill inherents to a user" do
+    it "should give multiple user ability to a user" do
       user = User.new(:username => "username", :email => "user@example.com", :password => "password", :password_confirmation => "password")
       
-      skill_inherent1 = SkillInherent.new(:skill => create(:skill))
-      skill_inherent2 = SkillInherent.new(:skill => create(:skill))
+      user_ability1 = UserAbility.new(:ability => create(:ability))
+      user_ability2 = UserAbility.new(:ability => create(:ability))
       
-      user.skill_inherents << skill_inherent1
-      user.skill_inherents << skill_inherent2
+      user.user_abilities << user_ability1
+      user.user_abilities << user_ability2
       
       user.save
       
-      User.first.skill_inherents.size.should == 2
+      User.first.user_abilities.size.should == 2
     end
     
-    it "should give multiple tasks to a user" do
+    it "should give multiple user mission to a user" do
       user = User.new(:username => "username", :email => "user@example.com", :password => "password", :password_confirmation => "password")
       
-      task1 = Task.new(:mission => create(:mission))
-      task2 = Task.new(:mission => create(:mission))
+      user_mission1 = UserMission.new(:mission => create(:mission))
+      user_mission2 = UserMission.new(:mission => create(:mission))
       
-      user.tasks << task2
-      user.tasks << task2
+      user.user_missions << user_mission1
+      user.user_missions << user_mission2
       
       user.save
       
-      User.first.tasks.size.should == 2
+      User.first.user_missions.size.should == 2
     end
   end
   

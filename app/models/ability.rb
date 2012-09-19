@@ -1,6 +1,9 @@
 class Ability
   include Mongoid::Document
   
+  belongs_to :user_ability, :inverse_of => :ability
+  belongs_to :mission_ability, :inverse_of => :ability
+  
   field :title, type: String
   validates_presence_of :title
   

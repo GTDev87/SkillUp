@@ -1,0 +1,2 @@
+module MissionAbilitiesHelper
+end

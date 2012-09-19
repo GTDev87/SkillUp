@@ -15,3 +15,6 @@
 /tmp
 
 /node_backup/node_modules
+
+# Ignore my redcar files
+/.redcar

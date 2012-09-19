@@ -18,8 +18,8 @@ class User
   has_secure_password
   
   
-  embeds_many :skill_inherents
-  embeds_many :tasks
+  embeds_many :user_abilities
+  embeds_many :user_missions
   
   def self.find_by_email(email)
     where(:email => email).first

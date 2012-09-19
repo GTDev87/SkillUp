@@ -16,18 +16,18 @@ describe Mission do
   end
   
   describe "relations" do
-    it "should give multiple skill aptitudes to a mission" do
+    it "should give multiple mission abilies to a mission" do
       mission = Mission.new(:title => "A title", :description => "A description")
       
-      skill_aptitude1 = SkillAptitude.new(:skill => create(:skill))
-      skill_aptitude2 = SkillAptitude.new(:skill => create(:skill))
+      mission_ability1 = MissionAbility.new(:ability => create(:ability))
+      mission_ability2 = MissionAbility.new(:ability => create(:ability))
       
-      mission.skill_aptitudes << skill_aptitude1
-      mission.skill_aptitudes << skill_aptitude2
+      mission.mission_abilities << mission_ability1
+      mission.mission_abilities << mission_ability2
       
       mission.save
       
-      Mission.first.skill_aptitudes.size.should == 2
+      Mission.first.mission_abilities.size.should == 2
     end
   end
 end
