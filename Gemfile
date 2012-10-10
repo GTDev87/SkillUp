@@ -25,13 +25,13 @@ end
 group :development, :test do
   gem 'rb-inotify'
   gem 'rspec-rails'
-  gem 'cucumber-rails'
   gem 'mongoid-rspec'
   gem 'factory_girl_rails'
   gem 'capybara'
   gem 'guard-rspec'
   gem 'launchy'
-  
+  gem 'steak'
+  gem 'jasminerice'
   # To use ruby debugger
   gem 'debugger'
   # run rails s --debugger

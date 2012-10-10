@@ -17,18 +17,20 @@ FactoryGirl.define do
   end
 
   factory :user_ability do
-    level 10
+    points 10
   end
 
   factory :user_mission do
-    level 10
   end
 
   factory :mission_ability do
+    points 10
   end
 
   factory :user do
     sequence(:username) { |n| "username#{n}" }
     sequence(:email) { |n| "foo#{n}@example.com" }
+    password "password"
+    password_confirmation "password"
   end
 end

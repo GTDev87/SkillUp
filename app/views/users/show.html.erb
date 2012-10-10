@@ -10,6 +10,33 @@
   <%= @user.email %>
 </p>
 
+<%= form_for @user do |f| %>
+  <h2>Tasks</h2>
+  <%= f.fields_for :user_missions do |user_mission_builder| %>
+    <%= render 'user_mission_fields', f: user_mission_builder %>
+  <% end %>
+  <%= link_to_add_fields "Add Task", f, :user_missions %>
+  <div class="action">
+    <%= f.submit"Save Tasks" %>
+  </div>
+<% end %>
+
+<h2>Calculated Ability</h2>
+<% @user.ability_aptitude.sort_by {|k,v| -v}.each do |title, points| %>
+  <%= title %>: <%= points %><br />
+<% end %>
+
+<%= form_for @user do |f| %>
+  <h2>Added Abilities Number</h2>
+  <%= f.fields_for :user_abilities do |user_ability_builder|%>
+    <%= render 'user_ability_fields', f: user_ability_builder %>
+  <% end %>
+  <%= link_to_add_fields "Add Ability", f, :user_abilities %>
+  <div class="action">
+    <%= f.submit"Save Abilities" %>
+  </div>
+<% end %>
+
 
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>

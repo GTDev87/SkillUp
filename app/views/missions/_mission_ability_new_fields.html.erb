@@ -1,0 +1,7 @@
+<fieldset>
+  <%= f.label :ability_title %><br />
+  <%= f.text_field :ability_title, {:class => 'autocomplete_field', data: {autocomplete_source: abilities_path } } %><br />
+  <%= f.label :points %>: <%= f.text_field :points %><br />
+  <%= f.hidden_field :_destroy %>
+  <%= link_to "remove", '#', class: "remove_fields" %>
+</fieldset>

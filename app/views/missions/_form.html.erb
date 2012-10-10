@@ -19,6 +19,11 @@
     <%= f.label :description %><br />
     <%= f.text_area :description %>
   </div>
+  <h2>Mission Abilities</h2>
+  <%= f.fields_for :mission_abilities do |mission_ability_builder| %>
+      <%= render 'mission_ability_fields', f: mission_ability_builder %>
+  <% end %>
+  <%= link_to_add_fields "Add Ability", f, :mission_abilities %>
   <div class="actions">
     <%= f.submit %>
   </div>

@@ -10,6 +10,13 @@
   <%= @mission.description %>
 </p>
 
+<p>
+  <b>Abilites:</b><br />
+  <% @mission.mission_abilities.each do |mission_ability| %>
+    <%= mission_ability.ability.title %><br />
+    Points: <%= mission_ability.points %><br />
+  <% end %>
+</p>
 
 <%= link_to 'Edit', edit_mission_path(@mission) %> |
 <%= link_to 'Back', missions_path %>

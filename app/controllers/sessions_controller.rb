@@ -3,7 +3,7 @@ class SessionsController < ApplicationController
   end
   
   def create
-    user = User.find_by_email(params[:email])
+    user = User.find_by(:email => email)
     if user && user.authenticate(params[:password])
       session[:user_id] = user.id
       redirect_to main_app.user_path(user.id), notice: "Logged in!"

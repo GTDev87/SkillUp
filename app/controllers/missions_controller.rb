@@ -2,11 +2,15 @@ class MissionsController < ApplicationController
   # GET /missions
   # GET /missions.json
   def index
-    @missions = Mission.all
+    if params[:term].present?
+      @missions = Mission.search_titles(params[:term])
+    else
+      @missions = Mission.all
+    end
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @missions }
+      format.json { render json: @missions.map(&:title) }
     end
   end
 
