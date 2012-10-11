@@ -7,12 +7,11 @@ SkillUp::Application.routes.draw do
   get 'logout', to: 'sessions#destroy', as: 'logout'
   
   
-  resources :abilities
-  resources :mission_abilities
+  resources :mission_skills
   resources :missions
   resources :sessions
   resources :skills
-  resources :user_abilities
+  resources :user_skills
   resources :user_missions
   resources :users
   

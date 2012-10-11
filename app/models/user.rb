@@ -17,24 +17,24 @@ class User
   attr_accessible :password_confirmation
   has_secure_password
   
-  embeds_many :user_abilities
-  attr_accessible :user_abilities_attributes
-  accepts_nested_attributes_for :user_abilities, :allow_destroy => true
+  embeds_many :user_skills
+  attr_accessible :user_skills_attributes
+  accepts_nested_attributes_for :user_skills, :allow_destroy => true
   
   embeds_many :user_missions
   attr_accessible :user_missions_attributes
   accepts_nested_attributes_for :user_missions, :allow_destroy => true
   
-  def ability_aptitude
-    sum_over_mission_abilities(sum_over_abilities(Hash.new(0)))
+  def skill_aptitude
+    sum_over_mission_skills(sum_over_skills(Hash.new(0)))
   end
   
 private
-  def sum_over_abilities(aggregated_abilities)
-    user_abilities.each_with_object(aggregated_abilities) { |user_ability, abilities| abilities[user_ability.ability.title] += user_ability.points}
+  def sum_over_skills(aggregated_skills)
+    user_skills.each_with_object(aggregated_skills) { |user_skill, skills| skills[user_skill.skill.title] += user_skill.points}
   end
   
-  def sum_over_mission_abilities(aggregated_abilities)
-    user_missions.each_with_object(aggregated_abilities) { |user_mission, abilities_through| user_mission.mission.mission_abilities.each_with_object(abilities_through) { |mission_ability, abilities| abilities[mission_ability.ability.title] += mission_ability.points } }
+  def sum_over_mission_skills(aggregated_skills)
+    user_missions.each_with_object(aggregated_skills) { |user_mission, skills_through| user_mission.mission.mission_skills.each_with_object(skills_through) { |mission_skill, skills| skills[mission_skill.skill.title] += mission_skill.points } }
   end
 end

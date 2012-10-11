@@ -12,9 +12,9 @@
 
 <p>
   <b>Abilites:</b><br />
-  <% @mission.mission_abilities.each do |mission_ability| %>
-    <%= mission_ability.ability.title %><br />
-    Points: <%= mission_ability.points %><br />
+  <% @mission.mission_skills.each do |mission_skill| %>
+    <%= mission_skill.skill.title %><br />
+    Points: <%= mission_skill.points %><br />
   <% end %>
 </p>
 

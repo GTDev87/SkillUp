@@ -1,0 +1,17 @@
+<%= form_for(@mission_skill) do |f| %>
+  <% if @mission_skill.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@mission_skill.errors.count, "error") %> prohibited this mission_ability from being saved:</h2>
+
+      <ul>
+      <% @mission_skill.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

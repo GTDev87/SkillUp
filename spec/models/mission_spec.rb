@@ -32,59 +32,59 @@ describe Mission do
   end
   
   describe "relations" do
-    it "should give multiple mission abilies to a mission" do
+    it "should give multiple mission skills to a mission" do
       mission = Mission.new(title: "A title", description: "A description")
       
-      mission.mission_abilities << build(:mission_ability, ability: create(:ability))
-      mission.mission_abilities << build(:mission_ability, ability: create(:ability))
+      mission.mission_skills << build(:mission_skill, skill: create(:skill))
+      mission.mission_skills << build(:mission_skill, skill: create(:skill))
       
       mission.save!
       
-      Mission.first.mission_abilities.size.should == 2
+      Mission.first.mission_skills.size.should == 2
     end
   end
   
   describe "nested attributes" do
-    it "should fill out mission_ability through mission_ability nested attribute" do
+    it "should fill out mission_skill through mission_skill nested attribute" do
       mission = Mission.new(title: "A Title")
     
-      mission.mission_abilities_attributes = { 
+      mission.mission_skills_attributes = { 
         "0" => { 
-          ability_title: "Ability A",
+          skill_title: "Skill A",
           points: 10 },
         "1" => { 
-          ability_title: "Ability B",
+          skill_title: "Skill B",
           points: 9 } }
       
       mission.save!
       saved_mission = Mission.first
       
-      saved_mission.mission_abilities.size.should == 2
-      saved_mission.mission_abilities[0].ability.title.should == "Ability A"
-      saved_mission.mission_abilities[0].points.should == 10
-      saved_mission.mission_abilities[1].ability.title.should == "Ability B"
-      saved_mission.mission_abilities[1].points.should == 9
+      saved_mission.mission_skills.size.should == 2
+      saved_mission.mission_skills[0].skill.title.should == "Skill A"
+      saved_mission.mission_skills[0].points.should == 10
+      saved_mission.mission_skills[1].skill.title.should == "Skill B"
+      saved_mission.mission_skills[1].points.should == 9
     end
     
     it "should delete using nested attributes" do
       mission = Mission.new(title: "A Title")
     
-      mission.mission_abilities_attributes = { 
+      mission.mission_skills_attributes = { 
         "0" => { 
-          ability_title: "Ability A",
+          skill_title: "Skill A",
           points: 10 } }
       mission.save!
       
       saved_mission = Mission.first
-      saved_mission.mission_abilities.size.should == 1
+      saved_mission.mission_skills.size.should == 1
       
-      saved_mission.mission_abilities_attributes = { 
-          "0" => { _id: saved_mission.mission_abilities.first._id, _destroy: '1' } }
+      saved_mission.mission_skills_attributes = { 
+          "0" => { _id: saved_mission.mission_skills.first._id, _destroy: '1' } }
       saved_mission.save!
       
       emptied_mission = Mission.first
     
-      emptied_mission.mission_abilities.size.should == 0
+      emptied_mission.mission_skills.size.should == 0
     end
   end
   
@@ -95,17 +95,17 @@ describe Mission do
       Mission.first.title.should == "Mission Title"
     end
     
-    it "should be able to mass_assign mission_abilities_attributes" do
+    it "should be able to mass_assign mission_skillls_attributes" do
       Mission.create!(
         title: "Mission Title", 
-        mission_abilities_attributes: {
+        mission_skills_attributes: {
           "0" => {
-            ability_title: "Ability A",
+            skill_title: "Skill A",
             points: 10 } } )
       
-      Mission.first.mission_abilities.size.should == 1
-      Mission.first.mission_abilities.first.ability.title.should == "Ability A"
-      Mission.first.mission_abilities.first.points.should == 10
+      Mission.first.mission_skills.size.should == 1
+      Mission.first.mission_skills.first.skill.title.should == "Skill A"
+      Mission.first.mission_skills.first.points.should == 10
     end
   end
 end

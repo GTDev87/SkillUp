@@ -10,9 +10,9 @@ class Mission
   
   field :description, type: String
   
-  embeds_many :mission_abilities
-  accepts_nested_attributes_for :mission_abilities, :allow_destroy => true
-  attr_accessible :mission_abilities_attributes
+  embeds_many :mission_skills
+  accepts_nested_attributes_for :mission_skills, :allow_destroy => true
+  attr_accessible :mission_skills_attributes
   
   def self.search_titles(mission_title_name)
     Mission.any_of({lowercase_title: /.*#{mission_title_name.downcase}.*/ }).sort(lowercase_title: 1).entries  

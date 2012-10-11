@@ -3,10 +3,6 @@ class UserMission
  
   embedded_in :user, :inverse_of => :user_missions
   
-  
-  
-  
-  
   belongs_to :mission, :inverse_of => nil
   validates_presence_of :mission
   

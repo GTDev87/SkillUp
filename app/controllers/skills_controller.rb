@@ -2,11 +2,15 @@ class SkillsController < ApplicationController
   # GET /skills
   # GET /skills.json
   def index
-    @skills = Skill.all
+    if params[:term].present?
+      @skills = Skill.search_titles(params[:term])
+    else
+      @skills = Skill.all
+    end
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @skills }
+      format.json { render json: @skills.map(&:title) }
     end
   end
 

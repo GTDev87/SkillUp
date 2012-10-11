@@ -1,14 +1,9 @@
 FactoryGirl.define do
-  factory :ability do
-    sequence(:title) { |n| "Ability Title #{n}" }
-    sequence(:description) { |n| "Ability Description #{n}" }
-  end
-
   factory :mission do
     sequence(:title) { |n| "Mission Title #{n}" }
     sequence(:description) { |n| "Mission Description #{n}" }
     
-    mission_abilities []
+    mission_skills []
   end
 
   factory :skill do
@@ -16,14 +11,14 @@ FactoryGirl.define do
     sequence(:description) { |n| "Skill Description #{n}" }
   end
 
-  factory :user_ability do
+  factory :user_skill do
     points 10
   end
 
   factory :user_mission do
   end
 
-  factory :mission_ability do
+  factory :mission_skill do
     points 10
   end
 

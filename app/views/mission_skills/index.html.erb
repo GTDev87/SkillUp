@@ -1,0 +1,21 @@
+<h1>Listing mission_skills</h1>
+
+<table>
+  <tr>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @mission_skills.each do |mission_skill| %>
+  <tr>
+    <td><%= link_to 'Show', mission_skill %></td>
+    <td><%= link_to 'Edit', edit_mission_skill_path(mission_skill) %></td>
+    <td><%= link_to 'Destroy', mission_skill, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Mission skill', new_mission_skill_path %>

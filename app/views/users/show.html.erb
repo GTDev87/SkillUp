@@ -21,19 +21,19 @@
   </div>
 <% end %>
 
-<h2>Calculated Ability</h2>
-<% @user.ability_aptitude.sort_by {|k,v| -v}.each do |title, points| %>
+<h2>Calculated Skills</h2>
+<% @user.skill_aptitude.sort_by {|k,v| -v}.each do |title, points| %>
   <%= title %>: <%= points %><br />
 <% end %>
 
 <%= form_for @user do |f| %>
-  <h2>Added Abilities Number</h2>
-  <%= f.fields_for :user_abilities do |user_ability_builder|%>
-    <%= render 'user_ability_fields', f: user_ability_builder %>
+  <h2>Added Skills</h2>
+  <%= f.fields_for :user_skills do |user_skill_builder|%>
+    <%= render 'user_skill_fields', f: user_skill_builder %>
   <% end %>
-  <%= link_to_add_fields "Add Ability", f, :user_abilities %>
+  <%= link_to_add_fields "Add Skill", f, :user_skills %>
   <div class="action">
-    <%= f.submit"Save Abilities" %>
+    <%= f.submit"Save Skills" %>
   </div>
 <% end %>
 

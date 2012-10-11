@@ -20,10 +20,10 @@
     <%= f.text_area :description %>
   </div>
   <h2>Mission Abilities</h2>
-  <%= f.fields_for :mission_abilities do |mission_ability_builder| %>
-      <%= render 'mission_ability_fields', f: mission_ability_builder %>
+  <%= f.fields_for :mission_skills do |mission_skill_builder| %>
+      <%= render 'mission_skill_fields', f: mission_skill_builder %>
   <% end %>
-  <%= link_to_add_fields "Add Ability", f, :mission_abilities %>
+  <%= link_to_add_fields "Add Skill", f, :mission_skills %>
   <div class="actions">
     <%= f.submit %>
   </div>
