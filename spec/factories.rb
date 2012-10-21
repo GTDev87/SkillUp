@@ -28,4 +28,8 @@ FactoryGirl.define do
     password "password"
     password_confirmation "password"
   end
+  
+  factory :skill_embedding do
+    weight 10
+  end
 end

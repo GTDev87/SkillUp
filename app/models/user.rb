@@ -19,22 +19,28 @@ class User
   
   embeds_many :user_skills
   attr_accessible :user_skills_attributes
-  accepts_nested_attributes_for :user_skills, :allow_destroy => true
+  accepts_nested_attributes_for :user_skills, allow_destroy: true
   
   embeds_many :user_missions
   attr_accessible :user_missions_attributes
-  accepts_nested_attributes_for :user_missions, :allow_destroy => true
+  accepts_nested_attributes_for :user_missions, allow_destroy: true
   
-  def skill_aptitude
+  def ability_aptitude
     sum_over_mission_skills(sum_over_skills(Hash.new(0)))
   end
   
 private
   def sum_over_skills(aggregated_skills)
-    user_skills.each_with_object(aggregated_skills) { |user_skill, skills| skills[user_skill.skill.title] += user_skill.points}
+    user_skills.each_with_object(aggregated_skills) do |user_skill, skills| 
+      skills[user_skill.skill.title] += user_skill.points
+    end
   end
   
   def sum_over_mission_skills(aggregated_skills)
-    user_missions.each_with_object(aggregated_skills) { |user_mission, skills_through| user_mission.mission.mission_skills.each_with_object(skills_through) { |mission_skill, skills| skills[mission_skill.skill.title] += mission_skill.points } }
+    user_missions.inject(aggregated_skills) do |skills_through, user_mission|
+      skills_through.merge(user_mission.mission.ability_points) do |key, agg_val, skill_val|
+        agg_val + skill_val
+      end
+    end
   end
 end

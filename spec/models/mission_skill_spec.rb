@@ -19,6 +19,13 @@ describe MissionSkill do
       lambda {mission_skill.save!}.should raise_error
     end
     
+    it "should have a mission" do
+      mission_skill = MissionSkill.new(points: 10)
+      mission_skill.skill = create(:skill)
+    
+      lambda {mission_skill.save!}.should raise_error
+    end
+    
     it "should have level" do
       mission_skill = MissionSkill.new
       mission_skill.skill = create(:skill)
@@ -29,8 +36,50 @@ describe MissionSkill do
     end
   end
   
+  describe "relations" do
+    describe Skill do
+      it "should reference Skill" do
+        mission_skill = MissionSkill.new(points: 10)
+        mission_skill.skill = create(:skill, title: "Skill Title")
+        mission_skill.mission = create(:mission, title: "Mission Title")
+        mission_skill.save!
+      
+        MissionSkill.first.skill.title.should == "Skill Title"
+      end
+      
+      it "should be referenced by Skill" do
+        mission_skill = MissionSkill.new(points: 10)
+        mission_skill.skill = create(:skill, title: "Skill Title")
+        mission_skill.mission = create(:mission, title: "Mission Title")
+        mission_skill.save!
+      
+        Skill.first.mission_skills.first.points.should == 10
+      end
+    end
+    
+    describe Mission do
+      it "should reference Mission" do
+        mission_skill = MissionSkill.new(points: 10)
+        mission_skill.skill = create(:skill, title: "Skill Title")
+        mission_skill.mission = create(:mission, title: "Mission Title")
+        mission_skill.save!
+      
+        MissionSkill.first.mission.title.should == "Mission Title"
+      end
+      
+      it "should be referenced by Mission" do
+        mission_skill = MissionSkill.new(points: 10)
+        mission_skill.skill = create(:skill, title: "Skill Title")
+        mission_skill.mission = create(:mission, title: "Mission Title")
+        mission_skill.save!
+      
+        Mission.first.mission_skills.first.points.should == 10
+      end
+    end
+  end
+  
   describe "mass assignment" do
-    it "should be able to mass assign level" do
+    it "should be able to mass assign points" do
       mission_skill = MissionSkill.new(points: 10)
       mission_skill.skill = create(:skill, title: "Skill Title")
       create(:mission).mission_skills << mission_skill

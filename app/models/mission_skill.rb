@@ -1,14 +1,16 @@
 class MissionSkill
   include Mongoid::Document
   
-  embedded_in :mission, :inverse_of => :mission_skills
+  #Many to many REFERENCED IN MISSION AND SKILL
+  belongs_to :mission, inverse_of: :mission_skills
+  validates_presence_of :mission
+  
+  belongs_to :skill, inverse_of: :mission_skills
+  validates_presence_of :skill
   
   attr_accessible :points
   field :points, type: Integer
   validates_presence_of :points
-  
-  belongs_to :skill, :inverse_of => nil
-  validates_presence_of :skill
   
   attr_accessible :skill_title
   
@@ -17,6 +19,6 @@ class MissionSkill
   end
 
   def skill_title=(title)
-    self.skill = Skill.find_or_create_by(:title => title) if title.present?
+    self.skill = Skill.find_or_create_by(title: title) if title.present?
   end
 end

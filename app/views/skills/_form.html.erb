@@ -19,6 +19,13 @@
     <%= f.label :description %><br />
     <%= f.text_area :description %>
   </div>
+  <div class="field">
+    <h2>Sub Skills</h2>
+    <%= f.fields_for :sub_embeddings do |sub_embedding_builder| %>
+      <%= render 'sub_embedding_fields', f: sub_embedding_builder %>
+    <% end %>
+    <%= link_to_add_fields "Add Sub Skill", f, :sub_embeddings %>  
+  </div>
   <div class="actions">
     <%= f.submit %>
   </div>

@@ -10,6 +10,20 @@
   <%= @skill.description %>
 </p>
 
+<p>
+  <b>Direct Sub Skills:</b><br />
+  <% @skill.sub_embeddings.each do |sub_embedding| %>
+    <%= sub_embedding.sub_skill.title %><br />
+    Weight: <%= sub_embedding.weight %><br />
+  <% end %>
+</p>
+
+<p>
+  <b>Ability Point Values:</b><br />
+  <% @skill.ability_points.sort_by {|k,v| -v}.each do |title, points| %>
+    <%= title %>: <%= points %><br />
+  <% end %>
+</p>
 
 <%= link_to 'Edit', edit_skill_path(@skill) %> |
 <%= link_to 'Back', skills_path %>
