@@ -1,5 +1,7 @@
 SkillUp::Application.routes.draw do
 
+  resources :mission_embeddings
+
   root :to => "home#index"
   
   get 'signup', to: 'users#new', as: 'signup'

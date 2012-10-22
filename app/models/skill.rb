@@ -17,18 +17,13 @@ class Skill
   
   has_many :sub_embeddings, class_name: "SkillEmbedding", inverse_of: :super_skill, autosave: true
   accepts_nested_attributes_for :sub_embeddings, allow_destroy: true
-  validates :sub_embeddings, :cyclical_reference => true
+  validates :sub_embeddings, cyclical_reference: true, unique_reference: true
   attr_accessible :sub_embeddings_attributes
   
   def ability_points
     sub_embeddings.inject({ self.title => 1 }) do |aggregate_hash, embedding|
-      modified_embedding = embedding.sub_skill.ability_points.inject({}) do |hash, (k, v)| 
-        hash[k] = v * embedding.weight
-        hash
-      end
-      aggregate_hash.merge(modified_embedding) do |k,agg_val,embed_val|
-        agg_val + embed_val
-      end
+      modified_embedding = HashOperations.multiply_hash_by_value(embedding.sub_skill.ability_points, embedding.weight)
+      HashOperations.add_hashes(aggregate_hash, modified_embedding)
     end
   end
   

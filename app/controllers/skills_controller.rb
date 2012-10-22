@@ -61,12 +61,16 @@ class SkillsController < ApplicationController
   # PUT /skills/1.json
   def update
     @skill = Skill.find(params[:id])
-
+    
     respond_to do |format|
       if @skill.update_attributes(params[:skill])
         format.html { redirect_to @skill, notice: 'Skill was successfully updated.' }
         format.json { head :no_content }
       else
+        #debugger
+        #errors = @skill.errors
+        @skill = Skill.find(params[:id])
+        #@skill.errors = errors
         format.html { render action: "edit" }
         format.json { render json: @skill.errors, status: :unprocessable_entity }
       end

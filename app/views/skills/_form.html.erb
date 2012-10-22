@@ -20,7 +20,7 @@
     <%= f.text_area :description %>
   </div>
   <div class="field">
-    <h2>Sub Skills</h2>
+    <h2>Sub Skills size: <%= @skill.sub_embeddings.size %></h2>
     <%= f.fields_for :sub_embeddings do |sub_embedding_builder| %>
       <%= render 'sub_embedding_fields', f: sub_embedding_builder %>
     <% end %>

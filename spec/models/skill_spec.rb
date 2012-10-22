@@ -29,6 +29,50 @@ describe Skill do
     
       lambda {skill.save!}.should raise_error
     end
+    
+    describe "sub skill cycle detection" do
+      it "should not create/save if skill has cyclical reference" do
+        skill_a = Skill.create!(title: "Sub Skill A")
+        skill_b = Skill.create!(title: "Sub Skill B")
+      
+        skill_a.sub_embeddings.build(weight: 1)
+        skill_a.sub_embeddings.first.sub_skill = skill_b
+        skill_a.save
+      
+        skill_b.sub_embeddings.build(weight: 1)
+        skill_b.sub_embeddings.first.sub_skill = skill_a      #skill_b.sub_embeddings << build(:skill_embedding, sub_skill: skill_a, weight: 1)
+        
+        skill_b.save.should == false
+        Skill.find(skill_a._id).sub_embeddings.size.should == 1
+        Skill.find(skill_b._id).sub_embeddings.size.should == 0
+      end
+    
+      it "should not create/save if skill has cyclical reference with itself" do
+        skill_a = Skill.create!(title: "Sub Skill A")
+      
+        skill_a.sub_embeddings.build(weight: 1)
+        skill_a.sub_embeddings.first.sub_skill = skill_a
+        
+        skill_a.save.should == false
+        Skill.find(skill_a._id).sub_embeddings.size.should == 0
+      end
+    end
+    
+    describe "unique subskill detection" do
+      it "should not create/save if skill has cyclical reference with itself" do
+        skill_a = Skill.create!(title: "Skill A")
+        
+        sub_skill_a = Skill.create!(title: "Sub Skill A")
+      
+        sub_embedding_1 = skill_a.sub_embeddings.build(weight: 1)
+        sub_embedding_1.sub_skill = sub_skill_a
+        sub_embedding_2 = skill_a.sub_embeddings.build(weight: 1)
+        sub_embedding_2.sub_skill = sub_skill_a
+
+        skill_a.save.should == false
+        Skill.find(skill_a._id).sub_embeddings.size.should == 0
+      end
+    end
   end
   
   describe "relations" do
@@ -191,34 +235,6 @@ describe Skill do
       saved_skill = Skill.find_by(title: "Skill A")
     
       saved_skill.sub_embeddings.size.should == 0
-    end
-  end
-  
-  describe "sub skill cycle detection" do
-    it "should not create/save if skill has cyclical reference" do
-      skill_a = Skill.create!(title: "Sub Skill A")
-      skill_b = Skill.create!(title: "Sub Skill B")
-      
-      skill_a.sub_embeddings.build(weight: 1)
-      skill_a.sub_embeddings.first.sub_skill = skill_b
-      skill_a.save
-      
-      skill_b.sub_embeddings.build(weight: 1)
-      skill_b.sub_embeddings.first.sub_skill = skill_a      #skill_b.sub_embeddings << build(:skill_embedding, sub_skill: skill_a, weight: 1)
-      skill_b.save
-      
-      Skill.find(skill_a._id).sub_embeddings.size.should == 1
-      Skill.find(skill_b._id).sub_embeddings.size.should == 0
-    end
-    
-    it "should not create/save if skill has cyclical reference with itself" do
-      skill_a = Skill.create!(title: "Sub Skill A")
-      
-      skill_a.sub_embeddings.build(weight: 1)
-      skill_a.sub_embeddings.first.sub_skill = skill_a
-      skill_a.save
-      
-      Skill.find(skill_a._id).sub_embeddings.size.should == 0
     end
   end
   

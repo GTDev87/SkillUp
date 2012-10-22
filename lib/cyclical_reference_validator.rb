@@ -1,5 +1,4 @@
 class CyclicalReferenceValidator < ActiveModel::EachValidator
-  
   def validate_each(object, attribute, value)
     if cycle_created?(object)
       object.errors[attribute] << (options[:message] || "is not formatted properly") 

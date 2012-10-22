@@ -25,22 +25,27 @@ class User
   attr_accessible :user_missions_attributes
   accepts_nested_attributes_for :user_missions, allow_destroy: true
   
-  def ability_aptitude
-    sum_over_mission_skills(sum_over_skills(Hash.new(0)))
+  def total_ability_points
+    HashOperations.add_hashes(mission_only_points, ability_only_points)
   end
   
-private
-  def sum_over_skills(aggregated_skills)
-    user_skills.each_with_object(aggregated_skills) do |user_skill, skills| 
-      skills[user_skill.skill.title] += user_skill.points
+  def skill_only_points
+    user_skills.inject(Hash.new(0)) do |skills_agg, user_skill| 
+      skills_agg[user_skill.skill.title] += user_skill.points
+      skills_agg
     end
   end
   
-  def sum_over_mission_skills(aggregated_skills)
-    user_missions.inject(aggregated_skills) do |skills_through, user_mission|
-      skills_through.merge(user_mission.mission.ability_points) do |key, agg_val, skill_val|
-        agg_val + skill_val
-      end
+  def ability_only_points
+    user_skills.inject(Hash.new(0)) do |skills_agg, user_skill|
+      mod_user_skill_points = HashOperations.multiply_hash_by_value(user_skill.skill.ability_points, user_skill.points)
+      HashOperations.add_hashes(skills_agg, mod_user_skill_points)
     end
   end
+  
+  def mission_only_points
+    user_missions.inject(Hash.new(0)) do |skills_agg, user_mission|
+      HashOperations.add_hashes(skills_agg, user_mission.mission.ability_points)
+    end
+  end 
 end

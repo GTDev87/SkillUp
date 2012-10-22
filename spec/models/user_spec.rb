@@ -63,7 +63,7 @@ describe User do
     end
   end
   
-  describe "calculating ability aptitudes" do
+  describe "calculating total ability aptitudes" do
     it "should aggregate ability points of skills over multiple tasks" do
       user = User.create(username: "username", email: "user@example.com", password: "password", password_confirmation: "password")
     
@@ -78,7 +78,7 @@ describe User do
       user.user_missions << build(:user_mission, mission: running_mile)
       user.user_missions << build(:user_mission, mission: sprinting)
       
-      user.ability_aptitude["Running"].should == 15
+      user.total_ability_points["Running"].should == 15
     end
     
     it "should aggregate values of skills over multiple tasks and inherent user skill" do
@@ -93,7 +93,7 @@ describe User do
       
       user.user_missions << build(:user_mission, mission: running_mile)
       
-      user.ability_aptitude["Running"].should == 18
+      user.total_ability_points["Running"].should == 18
     end
     
     it "should aggregate multiple skills" do
@@ -113,8 +113,8 @@ describe User do
       user.user_missions << build(:user_mission, mission: running_mile)
       user.user_missions << build(:user_mission, mission: sprinting)
       
-      user.ability_aptitude["Running"].should == 15
-      user.ability_aptitude["Cardio"].should == 25
+      user.total_ability_points["Running"].should == 15
+      user.total_ability_points["Cardio"].should == 25
     end
     
     it "should aggregate multiple abilities through sub skills" do
@@ -122,8 +122,8 @@ describe User do
     
       running_cardio_sub_embedding_points = 2
       
-      running_mile_running_skill = 8
-      running_mile_cardio_skill = 3
+      running_mile_running_skill_points = 8
+      running_mile_cardio_skill_points = 3
       
       cardio = create(:skill ,title: "Cardio")
       
@@ -131,13 +131,104 @@ describe User do
       running.sub_embeddings << build(:skill_embedding, sub_skill: cardio, weight: running_cardio_sub_embedding_points)
       
       running_mile = create(:mission, title: "Running Mile")
-      running_mile.mission_skills << build(:mission_skill, skill: running, points: running_mile_running_skill)
-      running_mile.mission_skills << build(:mission_skill, skill: cardio, points: running_mile_cardio_skill)
+      running_mile.mission_skills << build(:mission_skill, skill: running, points: running_mile_running_skill_points)
+      running_mile.mission_skills << build(:mission_skill, skill: cardio, points: running_mile_cardio_skill_points)
 
       user.user_missions << build(:user_mission, mission: running_mile)
       
-      user.ability_aptitude["Running"].should == running_mile_running_skill
-      user.ability_aptitude["Cardio"].should == running_mile_running_skill * running_cardio_sub_embedding_points + running_mile_cardio_skill
+      user.total_ability_points["Running"].should == running_mile_running_skill_points
+      user.total_ability_points["Cardio"].should == running_mile_running_skill_points * running_cardio_sub_embedding_points + running_mile_cardio_skill_points
+    end
+  end
+  
+  describe "skill only points" do
+    it "should keep track of the points ignoring subskills" do
+      user = User.create(username: "username", email: "user@example.com", password: "password", password_confirmation: "password")
+    
+      running_cardio_sub_embedding_points = 2
+      
+      running_skill_points = 8
+      cardio_skill_points = 3
+      
+      cardio = create(:skill ,title: "Cardio")
+      
+      running = create(:skill, title: "Running")
+      running.sub_embeddings << build(:skill_embedding, sub_skill: cardio, weight: running_cardio_sub_embedding_points)
+      
+      user.user_skills << build(:user_skill, skill: running, points: running_skill_points)
+      user.user_skills << build(:user_skill, skill: cardio, points: cardio_skill_points)
+      
+      doesnt_matter = 12345
+      
+      running_mile = create(:mission, title: "Running Mile")
+      running_mile.mission_skills << build(:mission_skill, skill: running, points: doesnt_matter)
+      running_mile.mission_skills << build(:mission_skill, skill: cardio, points: doesnt_matter)
+
+      user.user_missions << build(:user_mission, mission: running_mile)
+      
+      user.skill_only_points["Running"].should == running_skill_points
+      user.skill_only_points["Cardio"].should == cardio_skill_points
+    end
+  end
+  
+  describe "ability only points" do
+    it "should keep track of the points with subskill points ignoring missions" do
+      user = User.create(username: "username", email: "user@example.com", password: "password", password_confirmation: "password")
+    
+      running_cardio_sub_embedding_points = 2
+      
+      running_skill_points = 8
+      cardio_skill_points = 3
+      
+      cardio = create(:skill ,title: "Cardio")
+      
+      running = create(:skill, title: "Running")
+      running.sub_embeddings << build(:skill_embedding, sub_skill: cardio, weight: running_cardio_sub_embedding_points)
+      
+      user.user_skills << build(:user_skill, skill: running, points: running_skill_points)
+      user.user_skills << build(:user_skill, skill: cardio, points: cardio_skill_points)
+      
+      doesnt_matter = 12345
+      
+      running_mile = create(:mission, title: "Running Mile")
+      running_mile.mission_skills << build(:mission_skill, skill: running, points: doesnt_matter)
+      running_mile.mission_skills << build(:mission_skill, skill: cardio, points: doesnt_matter)
+
+      user.user_missions << build(:user_mission, mission: running_mile)
+      
+      user.ability_only_points["Running"].should == running_skill_points
+      user.ability_only_points["Cardio"].should == cardio_skill_points + running_skill_points * running_cardio_sub_embedding_points
+    end
+  end
+  
+  describe "mission only points" do
+    it "should keep track of the points with missions and subskills ignoring user_ability" do
+      user = User.create(username: "username", email: "user@example.com", password: "password", password_confirmation: "password")
+    
+      running_cardio_sub_embedding_points = 2
+      
+      running_skill_points = 8
+      cardio_skill_points = 3
+      
+      cardio = create(:skill ,title: "Cardio")
+      
+      running = create(:skill, title: "Running")
+      running.sub_embeddings << build(:skill_embedding, sub_skill: cardio, weight: running_cardio_sub_embedding_points)
+      
+      user.user_skills << build(:user_skill, skill: running, points: running_skill_points)
+      user.user_skills << build(:user_skill, skill: cardio, points: cardio_skill_points)
+      
+      mission_skill_running = 1
+      mission_skill_cardio = 2
+      
+      running_mile = create(:mission, title: "Running Mile")
+      running_mile.mission_skills << build(:mission_skill, skill: running, points: mission_skill_running)
+      running_mile.mission_skills << build(:mission_skill, skill: cardio, points: mission_skill_cardio)
+
+      user.user_missions << build(:user_mission, mission: running_mile)
+      
+      user.mission_only_points["Running"].should == mission_skill_running
+      user.mission_only_points["Cardio"].should == mission_skill_cardio + mission_skill_running * running_cardio_sub_embedding_points
     end
   end
   

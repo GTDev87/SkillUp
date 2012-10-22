@@ -21,8 +21,8 @@
   </div>
 <% end %>
 
-<h2>Calculated Skills</h2>
-<% @user.skill_aptitude.sort_by {|k,v| -v}.each do |title, points| %>
+<h2>Calculated Ability Points</h2>
+<% @user.total_ability_points.sort_by {|k,v| -v}.each do |title, points| %>
   <%= title %>: <%= points %><br />
 <% end %>
 
