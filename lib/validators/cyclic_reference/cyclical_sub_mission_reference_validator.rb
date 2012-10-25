@@ -1,4 +1,4 @@
-class CyclicalReferenceValidator < ActiveModel::EachValidator
+class CyclicalSubMissionReferenceValidator < ActiveModel::EachValidator
   def validate_each(object, attribute, value)
     if cycle_created?(object)
       object.errors[attribute] << (options[:message] || "is not formatted properly") 
@@ -12,7 +12,7 @@ private
   
   def cycle_detected?(record, cycle_node, visited_set)
     record.sub_embeddings.each do |sub_embedding|
-      sub_record = sub_embedding.sub_skill
+      sub_record = sub_embedding.sub_mission
       if (sub_record.title == cycle_node) then return true end
       if !visited_set.include?(sub_record.title)
         visited_set << sub_record.title

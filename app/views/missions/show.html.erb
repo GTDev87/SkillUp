@@ -11,10 +11,23 @@
 </p>
 
 <p>
-  <b>Abilites:</b><br />
-  <% @mission.mission_skills.each do |mission_skill| %>
-    <%= mission_skill.skill.title %><br />
-    Points: <%= mission_skill.points %><br />
+  <b>Sub Missions:</b><br />
+  <% @mission.sub_embeddings.each do |sub_embedding| %>
+    <%= sub_embedding.sub_mission.title %>: <%= sub_embedding.count %><br />
+  <% end %>
+</p>
+
+<p>
+  <b>Ability Points:</b><br />
+  <% @mission.total_ability_points.sort_by {|k,v| -v}.each do |title, points| %>
+    <%= title %>: <%= points %><br />
+  <% end %>
+</p>
+
+<p>
+  <b>Skill Points on Mission:</b><br />
+  <% @mission.skill_points.sort_by {|k,v| -v}.each do |title, points| %>
+    <%= title %>: <%= points %><br />
   <% end %>
 </p>
 

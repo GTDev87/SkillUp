@@ -1,5 +1,4 @@
-class UniqueReferenceValidator < ActiveModel::EachValidator
-  
+class UniqueSubSkillReferenceValidator < ActiveModel::EachValidator
   def validate_each(object, attribute, value)
     if !all_unique?(value)
       object.errors[attribute] << (options[:message] || "is not formatted properly") 

@@ -1,9 +1,5 @@
+- Need to fix javascript autocomplete duplicate code
+- Also need to fix duplicate code in lib/validators
+- Upate tests for aggregation of points under describe with a before(:each)
+
 - Need a ton of acceptance tests
-
-Skill hierarchy
-Skills will contain lower level skills and multipliers dependent on the involvement of the lower level skills
-
-Tasks will have lower level tasks and multipliers likewise also each task will contain a list of related skills and points to be assignened
-
-When a number is given to a task, it will display the true points assigned from the user and the final value of points given after all the levels of attributes are added up
-

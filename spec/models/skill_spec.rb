@@ -40,7 +40,7 @@ describe Skill do
         skill_a.save
       
         skill_b.sub_embeddings.build(weight: 1)
-        skill_b.sub_embeddings.first.sub_skill = skill_a      #skill_b.sub_embeddings << build(:skill_embedding, sub_skill: skill_a, weight: 1)
+        skill_b.sub_embeddings.first.sub_skill = skill_a
         
         skill_b.save.should == false
         Skill.find(skill_a._id).sub_embeddings.size.should == 1
@@ -59,7 +59,7 @@ describe Skill do
     end
     
     describe "unique subskill detection" do
-      it "should not create/save if skill has cyclical reference with itself" do
+      it "should not create/save if skill already exists" do
         skill_a = Skill.create!(title: "Skill A")
         
         sub_skill_a = Skill.create!(title: "Sub Skill A")
@@ -232,9 +232,9 @@ describe Skill do
           "0" => { _id: saved_skill.sub_embeddings.first._id, _destroy: '1' } }
       saved_skill.save!
       
-      saved_skill = Skill.find_by(title: "Skill A")
+      emptied_skill = Skill.find_by(title: "Skill A")
     
-      saved_skill.sub_embeddings.size.should == 0
+      emptied_skill.sub_embeddings.size.should == 0
     end
   end
   

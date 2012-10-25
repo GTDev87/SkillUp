@@ -19,6 +19,6 @@ class MissionSkill
   end
 
   def skill_title=(title)
-    self.skill = Skill.find_or_create_by(title: title) if title.present?
+    self.skill = Skill.find_by(title: title) if title.present?
   end
 end

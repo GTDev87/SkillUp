@@ -17,7 +17,7 @@ class Skill
   
   has_many :sub_embeddings, class_name: "SkillEmbedding", inverse_of: :super_skill, autosave: true
   accepts_nested_attributes_for :sub_embeddings, allow_destroy: true
-  validates :sub_embeddings, cyclical_reference: true, unique_reference: true
+  validates :sub_embeddings, cyclical_sub_skill_reference: true, unique_sub_skill_reference: true
   attr_accessible :sub_embeddings_attributes
   
   def ability_points

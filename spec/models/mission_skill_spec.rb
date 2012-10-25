@@ -88,6 +88,7 @@ describe MissionSkill do
     end
     
     it "should be able to mass assign skill_title" do
+      create(:skill, title: "Skill Title")
       mission_skill = MissionSkill.new(points: 10, skill_title: "Skill Title")
       create(:mission).mission_skills << mission_skill
       
@@ -120,18 +121,10 @@ describe MissionSkill do
         Skill.count.should == 1
         Skill.first.title == "Existing Title"
       end
-    
-      it "should create skill if does not exist" do
-        mission_skill = MissionSkill.new(points: 10)
-        
-        mission_skill.skill_title = "Created Title"
-        
-        Skill.count.should == 1
-        Skill.first.title == "Created Title"
-      end
       
       it "should save skill to mission_skill when created" do
         mission = create(:mission)
+        create(:skill, title: "Created Title")
         mission_skill = MissionSkill.new(points: 10)
         
         mission.mission_skills << mission_skill

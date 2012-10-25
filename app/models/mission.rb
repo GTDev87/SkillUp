@@ -14,15 +14,27 @@ class Mission
   has_many :mission_skills, inverse_of: :mission, autosave: true
   accepts_nested_attributes_for :mission_skills, allow_destroy: true
   attr_accessible :mission_skills_attributes
+  validates :mission_skills, unique_mission_skill_reference: true
   
-  #UNTESTED RANGE
-  #has_many :super_embeddings, class_name: "MissionEmbedding", inverse_of: :sub_mission
+  has_many :super_embeddings, class_name: "MissionEmbedding", inverse_of: :sub_mission  
   
-  #has_many :sub_embeddings, class_name: "MissionEmbedding", inverse_of: :super_mission, autosave: true
-  #accepts_nested_attributes_for :sub_embeddings, allow_destroy: true
-  #validates :sub_embeddings, :cyclical_reference => true
-  #attr_accessible :sub_embeddings_attributes
-  #UNTESTED DONE
+  has_many :sub_embeddings, class_name: "MissionEmbedding", inverse_of: :super_mission, autosave: true
+  accepts_nested_attributes_for :sub_embeddings, allow_destroy: true
+  attr_accessible :sub_embeddings_attributes
+  validates :sub_embeddings, cyclical_sub_mission_reference: true, unique_sub_mission_reference: true
+  
+  def total_ability_points
+    HashOperations.add_hashes(ability_points, sub_mission_points_only)
+  end
+  
+  def sub_mission_points_only
+    sub_embeddings.inject(Hash.new(0)) do |agg_sub_missions, sub_embedding|
+      multiplier = sub_embedding.count
+      sub_mission_title = sub_embedding.sub_mission.title
+      ability_points_multiplied = HashOperations.multiply_hash_by_value(Mission.find_by(title: sub_mission_title).total_ability_points, multiplier)
+      HashOperations.add_hashes(agg_sub_missions, ability_points_multiplied)
+    end
+  end
   
   def ability_points
     skill_points.inject({}) do |agg_hash, (title, points_multiplier)|

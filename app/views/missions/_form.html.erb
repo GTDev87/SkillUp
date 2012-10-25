@@ -26,6 +26,13 @@
     <% end %>
     <%= link_to_add_fields "Add Skill", f, :mission_skills %>
   </div>
+  <div class="field">
+    <h2>Sub Missions</h2>
+    <%= f.fields_for :sub_embeddings do |sub_embedding_builder| %>
+      <%= render 'sub_embedding_fields', f: sub_embedding_builder %>
+    <% end %>
+    <%= link_to_add_fields "Add Sub Mission", f, :sub_embeddings %>
+  </div>
   <div class="actions">
     <%= f.submit %>
   </div>
