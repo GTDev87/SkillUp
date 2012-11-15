@@ -78,8 +78,8 @@ describe MissionSkill do
     end
   end
   
-  describe "mass assignment" do
-    it "should be able to mass assign points" do
+  describe "fields" do
+    it "should be able to assign points" do
       mission_skill = MissionSkill.new(points: 10)
       mission_skill.skill = create(:skill, title: "Skill Title")
       create(:mission).mission_skills << mission_skill
@@ -87,7 +87,7 @@ describe MissionSkill do
       Mission.first.mission_skills.first.points.should == 10
     end
     
-    it "should be able to mass assign skill_title" do
+    it "should be able to assign skill_title" do
       create(:skill, title: "Skill Title")
       mission_skill = MissionSkill.new(points: 10, skill_title: "Skill Title")
       create(:mission).mission_skills << mission_skill

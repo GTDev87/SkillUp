@@ -25,11 +25,16 @@ FactoryGirl.define do
   factory :user do
     sequence(:username) { |n| "username#{n}" }
     sequence(:email) { |n| "foo#{n}@example.com" }
+    admin false
     password "password"
     password_confirmation "password"
   end
   
   factory :skill_embedding do
     weight 10
+  end
+  
+  factory :mission_embedding do
+    count 10
   end
 end

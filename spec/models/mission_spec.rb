@@ -167,107 +167,113 @@ describe Mission do
   end
   
   describe "nested attributes" do
-    it "should fill out mission_skill through mission_skill nested attribute" do
-      mission = Mission.new(title: "A Title")
+    describe MissionSkill do
+      it "should fill out mission_skill through mission_skill nested attribute" do
+        mission = Mission.new(title: "A Title")
     
-      create(:skill, title: "Skill A")
-      create(:skill, title: "Skill B")
+        create(:skill, title: "Skill A")
+        create(:skill, title: "Skill B")
       
-      mission.mission_skills_attributes = { 
-        "0" => { 
-          skill_title: "Skill A",
-          points: 10 },
-        "1" => { 
-          skill_title: "Skill B",
-          points: 9 } }
+        mission.mission_skills_attributes = { 
+          "0" => { 
+            skill_title: "Skill A",
+            points: 10 },
+          "1" => { 
+            skill_title: "Skill B",
+            points: 9 } }
       
-      mission.save!
-      saved_mission = Mission.first
+        mission.save!
+        saved_mission = Mission.first
       
-      saved_mission.mission_skills.size.should == 2
-      saved_mission.mission_skills[0].skill.title.should == "Skill A"
-      saved_mission.mission_skills[0].points.should == 10
-      saved_mission.mission_skills[1].skill.title.should == "Skill B"
-      saved_mission.mission_skills[1].points.should == 9
+        saved_mission.mission_skills.size.should == 2
+        saved_mission.mission_skills[0].skill.title.should == "Skill A"
+        saved_mission.mission_skills[0].points.should == 10
+        saved_mission.mission_skills[1].skill.title.should == "Skill B"
+        saved_mission.mission_skills[1].points.should == 9
+      end
+      
+      it "should delete using nested attributes" do
+        mission = Mission.new(title: "A Title")
+    
+        create(:skill, title: "Skill A")
+      
+        mission.mission_skills_attributes = { 
+          "0" => { 
+            skill_title: "Skill A",
+            points: 10 } }
+        mission.save!
+      
+        saved_mission = Mission.first
+        saved_mission.mission_skills.size.should == 1
+      
+        saved_mission.mission_skills_attributes = { 
+            "0" => { _id: saved_mission.mission_skills.first._id, _destroy: '1' } }
+        saved_mission.save!
+      
+        emptied_mission = Mission.first
+    
+        emptied_mission.mission_skills.size.should == 0
+        MissionSkill.count.should == 0
+      end
     end
     
-    it "should delete using nested attributes" do
-      mission = Mission.new(title: "A Title")
+    describe MissionEmbedding do
+      it "should fill out sub_embedding through sub_embedding nested attribute" do
+        mission = Mission.new(title: "A Title")
+        Mission.create(title: "Mission A")
+        Mission.create(title: "Mission B")
     
-      create(:skill, title: "Skill A")
+        mission.sub_embeddings_attributes = { 
+          "0" => { 
+            sub_mission_title: "Mission A",
+            count: 10 },
+          "1" => { 
+            sub_mission_title: "Mission B",
+            count: 9 } }
       
-      mission.mission_skills_attributes = { 
-        "0" => { 
-          skill_title: "Skill A",
-          points: 10 } }
-      mission.save!
+        mission.save!
+        saved_mission = Mission.find_by(title: "A Title")
       
-      saved_mission = Mission.first
-      saved_mission.mission_skills.size.should == 1
-      
-      saved_mission.mission_skills_attributes = { 
-          "0" => { _id: saved_mission.mission_skills.first._id, _destroy: '1' } }
-      saved_mission.save!
-      
-      emptied_mission = Mission.first
+        saved_mission.sub_embeddings.size.should == 2
+        saved_mission.sub_embeddings[0].sub_mission.title.should == "Mission A"
+        saved_mission.sub_embeddings[0].count.should == 10
+        saved_mission.sub_embeddings[1].sub_mission.title.should == "Mission B"
+        saved_mission.sub_embeddings[1].count.should == 9
+      end
     
-      emptied_mission.mission_skills.size.should == 0
-    end
+      it "should delete using nested attributes" do
+        mission = Mission.new(title: "A Title")
+        Mission.create(title: "Mission A")
     
-    it "should fill out sub_embedding through sub_embedding nested attribute" do
-      mission = Mission.new(title: "A Title")
-      Mission.create(title: "Mission A")
-      Mission.create(title: "Mission B")
+        mission.sub_embeddings_attributes = { 
+          "0" => { 
+            sub_mission_title: "Mission A",
+            count: 10 } }
+        mission.save!
+       
+        saved_mission = Mission.find_by(title: "A Title")
+        saved_mission.sub_embeddings.size.should == 1
+      
+        saved_mission.sub_embeddings_attributes = { 
+            "0" => { _id: saved_mission.sub_embeddings.first._id, _destroy: '1' } }
+        saved_mission.save!
+      
+        emptied_mission = Mission.find_by(title: "Mission A")
     
-      mission.sub_embeddings_attributes = { 
-        "0" => { 
-          sub_mission_title: "Mission A",
-          count: 10 },
-        "1" => { 
-          sub_mission_title: "Mission B",
-          count: 9 } }
-      
-      mission.save!
-      saved_mission = Mission.find_by(title: "A Title")
-      
-      saved_mission.sub_embeddings.size.should == 2
-      saved_mission.sub_embeddings[0].sub_mission.title.should == "Mission A"
-      saved_mission.sub_embeddings[0].count.should == 10
-      saved_mission.sub_embeddings[1].sub_mission.title.should == "Mission B"
-      saved_mission.sub_embeddings[1].count.should == 9
-    end
-    
-    it "should delete using nested attributes" do
-      mission = Mission.new(title: "A Title")
-      Mission.create(title: "Mission A")
-    
-      mission.sub_embeddings_attributes = { 
-        "0" => { 
-          sub_mission_title: "Mission A",
-          count: 10 } }
-      mission.save!
-      
-      saved_mission = Mission.find_by(title: "A Title")
-      saved_mission.sub_embeddings.size.should == 1
-      
-      saved_mission.sub_embeddings_attributes = { 
-          "0" => { _id: saved_mission.sub_embeddings.first._id, _destroy: '1' } }
-      saved_mission.save!
-      
-      emptied_mission = Mission.find_by(title: "Mission A")
-    
-      emptied_mission.sub_embeddings.size.should == 0
+        emptied_mission.sub_embeddings.size.should == 0
+        MissionEmbedding.count.should == 0
+      end
     end
   end
   
-  describe "mass assignment" do
-    it "should be able to mass assign title" do
+  describe "fields" do
+    it "should be able to assign title" do
       Mission.create(title: "Mission Title")
       
       Mission.first.title.should == "Mission Title"
     end
     
-    it "should be able to mass assign title" do
+    it "should be able to assign title" do
       Mission.create(title: "Mission Title", description: "Mission Description")
       
       Mission.first.description.should == "Mission Description"

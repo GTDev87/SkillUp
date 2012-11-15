@@ -1,14 +1,14 @@
 class UserMission
   include Mongoid::Document
  
+  #attr_accessible :mission_title
+  
   #EMBEDDED IN USER
   embedded_in :user, inverse_of: :user_missions
   validates_presence_of :user
   
   belongs_to :mission, inverse_of: nil
   validates_presence_of :mission
-  
-  attr_accessible :mission_title
   
   def mission_title
     mission.try(:title)

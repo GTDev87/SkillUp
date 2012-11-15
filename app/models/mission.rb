@@ -1,26 +1,24 @@
 class Mission
   include Mongoid::Document
 
-  attr_accessible :title
+  #attr_accessible :title, :description, :mission_skills_attributes, :sub_embeddings_attributes
+  
   field :title, type: String
   validates_presence_of :title
   
   field :lowercase_title
   before_create :lower_title_case
   
-  attr_accessible :description
   field :description, type: String
   
   has_many :mission_skills, inverse_of: :mission, autosave: true
   accepts_nested_attributes_for :mission_skills, allow_destroy: true
-  attr_accessible :mission_skills_attributes
   validates :mission_skills, unique_mission_skill_reference: true
   
   has_many :super_embeddings, class_name: "MissionEmbedding", inverse_of: :sub_mission  
   
   has_many :sub_embeddings, class_name: "MissionEmbedding", inverse_of: :super_mission, autosave: true
   accepts_nested_attributes_for :sub_embeddings, allow_destroy: true
-  attr_accessible :sub_embeddings_attributes
   validates :sub_embeddings, cyclical_sub_mission_reference: true, unique_sub_mission_reference: true
   
   def total_ability_points

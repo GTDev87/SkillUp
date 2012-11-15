@@ -68,8 +68,8 @@ describe MissionEmbedding do
     end
   end
   
-  describe "mass assignment" do
-    it "should be able to mass assign count" do
+  describe "fields" do
+    it "should be able to assign count" do
       mission_embedding = MissionEmbedding.new(count: 12)
       
       mission_embedding.super_mission = create(:mission)
@@ -79,7 +79,7 @@ describe MissionEmbedding do
       MissionEmbedding.first.count.should == 12
     end
     
-    it "should be able to mass assign sub mission title" do
+    it "should be able to assign sub mission title" do
       create(:mission, title: "Sub Mission Title")
       mission_embedding = MissionEmbedding.new(count: 12, sub_mission_title: "Sub Mission Title")
       

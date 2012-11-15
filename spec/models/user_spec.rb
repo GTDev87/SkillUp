@@ -232,20 +232,20 @@ describe User do
     end
   end
   
-  describe "mass assignment" do
-    it "should be able to mass assign email" do
+  describe "fields" do
+    it "should be able to assign email" do
       User.create(username: "username", email: "user@example.com", password: "password", password_confirmation: "password")
     
       User.first.email.should == "user@example.com"
     end
     
-    it "should be able to mass assign username" do
+    it "should be able to assign username" do
       User.create(username: "username", email: "user@example.com", password: "password", password_confirmation: "password")
       
       User.first.username.should == "username"
     end
     
-    it "should be able to mass assign password and password confirmation" do
+    it "should be able to assign password and password confirmation" do
       User.create(username: "username", email: "user@example.com", password: "password", password_confirmation: "password")
       
       User.first.password_digest.should_not == nil
@@ -283,7 +283,7 @@ describe User do
   end
   
   describe "nested attributes" do
-    describe "user_skills" do
+    describe UserSkill do
       it "should create a user_skills when it is given through nested attributes" do
         user = User.new(username: "username", email: "user@example.com", password: "password", password_confirmation: "password")
         
@@ -321,7 +321,7 @@ describe User do
       end
     end
       
-    describe "user_missions" do
+    describe UserMission do
       it "should create a user_mission when it is given through nested attributes" do
         user = User.new(username: "username", email: "user@example.com", password: "password", password_confirmation: "password")
         

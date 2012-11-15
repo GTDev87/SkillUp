@@ -1,7 +1,8 @@
 class MissionEmbedding
   include Mongoid::Document
 
-  attr_accessible :count
+  #attr_accessible :count, :sub_mission_title
+  
   field :count, type: Integer
   validates_presence_of :count
   
@@ -10,8 +11,6 @@ class MissionEmbedding
   
   belongs_to :super_mission, class_name: "Mission", inverse_of: :sub_embeddings
   validates_presence_of :super_mission
-  
-  attr_accessible :sub_mission_title
   
   def sub_mission_title
     sub_mission.try(:title)

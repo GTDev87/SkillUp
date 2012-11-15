@@ -1,5 +1,17 @@
 - Need to fix javascript autocomplete duplicate code
 - Also need to fix duplicate code in lib/validators
 - Upate tests for aggregation of points under describe with a before(:each)
+- Rename sub_embeddings to sub_mission_embeddings
+- Rename sub_embeddings to sub_skill_embeddings
+
+- need tests for authentication
 
 - Need a ton of acceptance tests
+
+- Rethink Points System (thoughts:
+  - For Skill 1-10 points system
+  - Do some kind of average to record what level user might be
+  - Record aggregate skill points
+  - Make missions into skills...kong is mission and "kong skill" is skill at konging
+  - keep missions at star points levels to inicate what should be done at skill level
+  

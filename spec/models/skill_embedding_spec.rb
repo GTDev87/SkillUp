@@ -63,8 +63,8 @@ describe SkillEmbedding do
     end
   end
   
-  describe "mass assignment" do
-    it "should be able to mass assign points" do
+  describe "fields" do
+    it "should be able to assign points" do
       skill_embedding = SkillEmbedding.new(weight: 10)
       skill_embedding.sub_skill = create(:skill)
       skill_embedding.super_skill = create(:skill)
@@ -73,7 +73,7 @@ describe SkillEmbedding do
       skill_embedding.weight.should == 10
     end
     
-    it "should be able to mass assign sub_skill_title" do
+    it "should be able to assign sub_skill_title" do
       create(:skill, title: "Sub Skill Title") 
       skill_embedding = SkillEmbedding.new(weight: 10, sub_skill_title: "Sub Skill Title")
       skill_embedding.super_skill = create(:skill)

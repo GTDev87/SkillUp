@@ -162,20 +162,20 @@ describe Skill do
     end
   end
   
-  describe "mass assignment" do
-    it "should be able to mass assign title" do
+  describe "fields" do
+    it "should be able to assign title" do
       Skill.create!(title: "Skill Title", description: "A description")
       
       Skill.first.title.should == "Skill Title"
     end
     
-    it "should be able to mass assign description" do
+    it "should be able to assign description" do
       Skill.create!(title: "Skill Title", description: "A description")
       
       Skill.first.description.should == "A description"
     end
     
-    it "should be able to mass assign sub_embeddings" do
+    it "should be able to assign sub_embeddings" do
       Skill.create!(title: "Skill A")
       Skill.create!(
       title: "Skill Title", 
@@ -192,49 +192,52 @@ describe Skill do
   end
   
   describe "nested attributes" do
-    it "should fill out sub_embedding through sub_embedding nested attribute" do
-      skill = Skill.new(title: "A Title")
-      Skill.create(title: "Skill A")
-      Skill.create(title: "Skill B")
+    describe SkillEmbedding do
+      it "should fill out sub_embedding through sub_embedding nested attribute" do
+        skill = Skill.new(title: "A Title")
+        Skill.create(title: "Skill A")
+        Skill.create(title: "Skill B")
     
-      skill.sub_embeddings_attributes = { 
-        "0" => { 
-          sub_skill_title: "Skill A",
-          weight: 10 },
-        "1" => { 
-          sub_skill_title: "Skill B",
-          weight: 9 } }
+        skill.sub_embeddings_attributes = { 
+          "0" => { 
+            sub_skill_title: "Skill A",
+            weight: 10 },
+          "1" => { 
+            sub_skill_title: "Skill B",
+            weight: 9 } }
       
-      skill.save!
-      saved_skill = Skill.find_by(title: "A Title")
+        skill.save!
+        saved_skill = Skill.find_by(title: "A Title")
       
-      saved_skill.sub_embeddings.size.should == 2
-      saved_skill.sub_embeddings[0].sub_skill.title.should == "Skill A"
-      saved_skill.sub_embeddings[0].weight.should == 10
-      saved_skill.sub_embeddings[1].sub_skill.title.should == "Skill B"
-      saved_skill.sub_embeddings[1].weight.should == 9
-    end
+        saved_skill.sub_embeddings.size.should == 2
+        saved_skill.sub_embeddings[0].sub_skill.title.should == "Skill A"
+        saved_skill.sub_embeddings[0].weight.should == 10
+        saved_skill.sub_embeddings[1].sub_skill.title.should == "Skill B"
+        saved_skill.sub_embeddings[1].weight.should == 9
+      end
     
-    it "should delete using nested attributes" do
-      skill = Skill.new(title: "A Title")
-      Skill.create(title: "Skill A")
+      it "should delete using nested attributes" do
+        skill = Skill.new(title: "A Title")
+        Skill.create(title: "Skill A")
     
-      skill.sub_embeddings_attributes = { 
-        "0" => { 
-          sub_skill_title: "Skill A",
-          weight: 10 } }
-      skill.save!
+        skill.sub_embeddings_attributes = { 
+          "0" => { 
+            sub_skill_title: "Skill A",
+            weight: 10 } }
+        skill.save!
       
-      saved_skill = Skill.find_by(title: "A Title")
-      saved_skill.sub_embeddings.size.should == 1
+        saved_skill = Skill.find_by(title: "A Title")
+        saved_skill.sub_embeddings.size.should == 1
       
-      saved_skill.sub_embeddings_attributes = { 
-          "0" => { _id: saved_skill.sub_embeddings.first._id, _destroy: '1' } }
-      saved_skill.save!
+        saved_skill.sub_embeddings_attributes = { 
+            "0" => { _id: saved_skill.sub_embeddings.first._id, _destroy: '1' } }
+        saved_skill.save!
       
-      emptied_skill = Skill.find_by(title: "Skill A")
+        emptied_skill = Skill.find_by(title: "Skill A")
     
-      emptied_skill.sub_embeddings.size.should == 0
+        emptied_skill.sub_embeddings.size.should == 0
+        SkillEmbedding.count.should == 0
+      end
     end
   end
   

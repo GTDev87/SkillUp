@@ -8,6 +8,12 @@ gem 'rails', '3.2.8'
 gem 'mongoid'
 gem 'sqlite3'
 
+gem 'strong_parameters', github: 'rails/strong_parameters'
+
+gem 'jquery-rails'
+
+# To use ActiveModel has_secure_password
+gem 'bcrypt-ruby'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -23,6 +29,8 @@ end
 
 
 group :development, :test do
+  gem 'spork'
+  gem 'guard-spork'
   gem 'rb-inotify'
   gem 'rspec-rails'
   gem 'mongoid-rspec'
@@ -30,17 +38,11 @@ group :development, :test do
   gem 'capybara'
   gem 'guard-rspec'
   gem 'launchy'
-  gem 'steak'
   gem 'jasminerice'
   # To use ruby debugger
   gem 'debugger'
   # run rails s --debugger
 end
-
-gem 'jquery-rails'
-
-# To use ActiveModel has_secure_password
-gem 'bcrypt-ruby'
 
 # To use Jbuilder templates for JSON
 # gem 'jbuilder'

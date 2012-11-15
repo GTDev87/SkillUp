@@ -63,6 +63,7 @@ class UserMissionsController < ApplicationController
         format.html { redirect_to @user_mission, notice: 'User mission was successfully updated.' }
         format.json { head :no_content }
       else
+        debugger
         format.html { render action: "edit" }
         format.json { render json: @user_mission.errors, status: :unprocessable_entity }
       end

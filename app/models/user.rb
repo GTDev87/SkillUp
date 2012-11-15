@@ -2,27 +2,25 @@ class User
   include Mongoid::Document
   include ActiveModel::SecurePassword
   
+  #attr_accessible :username, :email, :password, :password_confirmation, :user_skills_attributes, :user_missions_attributes
+  
+  field :admin, type: Boolean
+  
   field :username
-  attr_accessible :username
   validates_presence_of :username
   validates_uniqueness_of :username
   
   field :email
-  attr_accessible :email
   validates_presence_of :email
   validates_uniqueness_of :email
   
   field :password_digest
-  attr_accessible :password
-  attr_accessible :password_confirmation
   has_secure_password
   
   embeds_many :user_skills
-  attr_accessible :user_skills_attributes
   accepts_nested_attributes_for :user_skills, allow_destroy: true
   
   embeds_many :user_missions
-  attr_accessible :user_missions_attributes
   accepts_nested_attributes_for :user_missions, allow_destroy: true
   
   def total_ability_points

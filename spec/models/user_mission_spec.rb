@@ -18,8 +18,8 @@ describe UserMission do
     end
   end
   
-  describe "mass assignment" do
-    it "should be able to mass assignm mission_title" do
+  describe "fields" do
+    it "should be able to assign mission_title" do
       user_mission = UserMission.new(mission_title: "Mission Title")
       create(:user).user_missions << user_mission
     

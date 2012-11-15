@@ -29,8 +29,8 @@ describe UserSkill do
     end
   end
   
-  describe "mass assignment" do
-    it "should be able to mass assign level" do
+  describe "fields" do
+    it "should be able to assign level" do
       user_skill = UserSkill.new(points: 10)
       user_skill.skill = create(:skill, title: "Skill Title")
       create(:user).user_skills << user_skill
@@ -38,7 +38,7 @@ describe UserSkill do
       User.first.user_skills.first.points.should == 10
     end
     
-    it "should be able to mass assign skill_title" do
+    it "should be able to assign skill_title" do
       user_skill = UserSkill.new(points: 10, skill_title: "Skill Title")
       create(:user).user_skills << user_skill
       
