@@ -1,7 +1,5 @@
 class Mission
   include Mongoid::Document
-
-  #attr_accessible :title, :description, :mission_skills_attributes, :sub_embeddings_attributes
   
   field :title, type: String
   validates_presence_of :title

@@ -1,8 +1,6 @@
 class Skill
   include Mongoid::Document 
 
-  #attr_accessible :title, :description, :sub_embeddings_attributes
-  
   field :title, type: String
   validates_presence_of :title
   

@@ -7,4 +7,10 @@ module ApplicationHelper
     end
     link_to(name, '#', class: "add_fields", data: {id: id, fields: fields.gsub("\n", "")})
   end
+  
+  def labeled_form_for(object, options = {}, &block)
+    options[:builder] = LabeledFormBuilder
+    options[:html] = { :class => "form-horizontal" }
+    form_for(object, options, &block)
+  end
 end

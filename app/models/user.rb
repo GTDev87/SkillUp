@@ -2,8 +2,6 @@ class User
   include Mongoid::Document
   include ActiveModel::SecurePassword
   
-  #attr_accessible :username, :email, :password, :password_confirmation, :user_skills_attributes, :user_missions_attributes
-  
   field :admin, type: Boolean
   
   field :username

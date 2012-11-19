@@ -1,8 +1,6 @@
 class UserSkill
   include Mongoid::Document
 
-  #attr_accessible :points, :skill_title
-  
   #EMBEDDED IN USER
   embedded_in :user, inverse_of: :user_skills
   validates_presence_of :user

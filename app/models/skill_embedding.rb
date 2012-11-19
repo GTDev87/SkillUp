@@ -1,8 +1,6 @@
 class SkillEmbedding
   include Mongoid::Document
-
-  #attr_accessible :weight, :sub_skill_title
-  
+ 
   field :weight, type: Integer
   validates_presence_of :weight
   

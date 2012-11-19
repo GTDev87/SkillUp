@@ -1,7 +1,5 @@
 class MissionSkill
   include Mongoid::Document
-
-  #attr_accessible :points, :skill_title
   
   #Many to many REFERENCED IN MISSION AND SKILL
   belongs_to :mission, inverse_of: :mission_skills

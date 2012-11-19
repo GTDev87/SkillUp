@@ -1,8 +1,6 @@
 class MissionEmbedding
   include Mongoid::Document
 
-  #attr_accessible :count, :sub_mission_title
-  
   field :count, type: Integer
   validates_presence_of :count
   

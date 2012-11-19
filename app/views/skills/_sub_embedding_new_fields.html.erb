@@ -1,7 +1,6 @@
 <fieldset>
-  <%= f.label :sub_skill_title %><br />
   <%= f.text_field :sub_skill_title, {:class => 'autocomplete_field', data: {autocomplete_source: skills_path } } %><br />
-  <%= f.label :weight %>: <%= f.text_field :weight %><br />
+  <%= f.text_field :weight %>
   <%= f.hidden_field :_destroy %>
   <%= link_to "remove", '#', class: "remove_fields" %>
 </fieldset>

@@ -1,7 +1,6 @@
 <fieldset>
-  <%= f.label :sub_mission_title %><br />
-  <%= f.text_field :sub_mission_title, {:class => 'autocomplete_field', data: {autocomplete_source: missions_path } } %><br />
-  <%= f.label :count %>: <%= f.text_field :count %><br />
+  <%= f.text_field :sub_mission_title, {:class => 'autocomplete_field', data: {autocomplete_source: missions_path } } %>
+  <%= f.text_field :count %>
   <%= f.hidden_field :_destroy %>
   <%= link_to "remove", '#', class: "remove_fields" %>
 </fieldset>

@@ -1,32 +1,14 @@
-<%= form_for(@skill) do |f| %>
-  <% if @skill.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@skill.errors.count, "error") %> prohibited this skill from being saved:</h2>
+<%= labeled_form_for @skill, :html => { :class => 'form-horizontal' } do |f| %>
 
-      <ul>
-      <% @skill.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <%= f.text_field :title%>
+  <%= f.text_area :description%>
 
-  <div class="field">
-    <%= f.label :title %><br />
-    <%= f.text_field :title %>
-  </div>
-  <div class="field">
-    <%= f.label :description %><br />
-    <%= f.text_area :description %>
-  </div>
-  <div class="field">
-    <h2>Sub Skills size: <%= @skill.sub_embeddings.size %></h2>
+  <div class="control-group">
+    <h2>Sub Skills</h2>
     <%= f.fields_for :sub_embeddings do |sub_embedding_builder| %>
       <%= render 'sub_embedding_fields', f: sub_embedding_builder %>
     <% end %>
     <%= link_to_add_fields "Add Sub Skill", f, :sub_embeddings %>  
   </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+  <%= f.submit %>
 <% end %>
