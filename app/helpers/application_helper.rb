@@ -13,4 +13,10 @@ module ApplicationHelper
     options[:html] = { :class => "form-horizontal" }
     form_for(object, options, &block)
   end
+  
+  #def labeled_form_tag(object, options = {}, &block)
+  #  options[:builder] = LabeledFormBuilder
+  #  options[:html] = { :class => "form-horizontal" }
+  #  form_tag(object, options, &block)
+  #end
 end

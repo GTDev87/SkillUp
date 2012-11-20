@@ -11,14 +11,14 @@ describe UsersController do
     it "should not show 'not authorized' when user authorized" do
       user = create(:user, username: "username", password: "secret", password_confirmation: "secret")
 
-      page.driver.post sessions_path, email: user.email, password: 'secret'
+      page.driver.post sessions_path, { sessions: { email: user.email, password: "secret" } }
       visit edit_user_path(user.id)
       page.should_not have_content("Not authorized")
     end
   
     it "should authorized user to change own fields" do
       user = create(:user, username: "username", password: "secret", password_confirmation: "secret")
-      post sessions_path, email: user.email, password: "secret"
+      post sessions_path, sessions: {email: user.email, password: "secret"}
     
       put user_path(user.id), :user => { username: "newusername" }
       
@@ -28,7 +28,7 @@ describe UsersController do
   
     it "should not_authorized user to change admin" do
       user = create(:user, username: "username", password: "secret", password_confirmation: "secret")
-      post sessions_path, email: user.email, password: "secret"
+      post sessions_path, sessions: {email: user.email, password: "secret"}
     
       put user_path(user.id), :user => { admin: "1" }
       
@@ -39,7 +39,7 @@ describe UsersController do
     it "should not authorized guest to change users fields" do
       user = create(:user, username: "username", password: "secret", password_confirmation: "secret")
     
-      put user_path(user.id), :user => { username: "newusername" }
+      put user_path(user.id), user: { username: "newusername" }
       
       saved_user = User.last
       saved_user.username.should eq("username")
@@ -48,7 +48,7 @@ describe UsersController do
     it "should not authorized user to change otherusers fields" do
       user = create(:user, username: "username", password: "secret", password_confirmation: "secret")
       other_user = create(:user, username: "otherusername", password: "secret", password_confirmation: "secret")
-      post sessions_path, email: user.email, password: "secret"
+      post sessions_path, sessions: {email: user.email, password: "secret"}
       
       put user_path(user.id), :user => { username: "newusername" }
        

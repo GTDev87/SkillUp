@@ -2,7 +2,7 @@ class LabeledFormBuilder < ActionView::Helpers::FormBuilder
   
   delegate :content_tag, :tag, to: :@template
   
-  %w[text_field text_area password_field collection_select].each do |method_name|
+  [:text_field, :text_area, :password_field].each do |method_name|
     define_method(method_name.to_s) do |name, *args|
       content_tag :div, class: "control-group" do
         output_form = field_label(name, *args)
@@ -13,6 +13,19 @@ class LabeledFormBuilder < ActionView::Helpers::FormBuilder
       end
     end
   end
+  
+  #[:text_field_tag].each do |method_name|
+  #  define_method(method_name.to_s) do |name, *args|
+  #    debugger
+  #    content_tag :div, class: "control-group" do
+  #      output_form = field_label_tag(name, *args)
+  #      fields = content_tag :div, class: "controls" do
+  #        super(name, *merge_option_into_args({class: method_name.to_s}, *args)) 
+  #      end
+  #      output_form << fields
+  #    end
+  #  end
+  #end
   
   def error_messages
     if object.errors.full_messages.any?
@@ -44,6 +57,11 @@ private
     options = args.extract_options!
     label(name, options[:label], class: "control-label")
   end
+  
+  #def field_label_tag(name, *args)
+  #  options = args.extract_options!
+  #  label_tag(name, options[:label], class: "control-label")
+  #end
   
   def objectify_options(options)
     super.except(:label)

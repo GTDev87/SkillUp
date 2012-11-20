@@ -5,8 +5,8 @@ describe "adding mission" do
     visit login_path
     user = create(:user, admin: false, password: "secret", password_confirmation: "secret")
 
-    fill_in 'email', with: user.email
-    fill_in 'password', with: 'secret'
+    fill_in 'sessions_email', with: user.email
+    fill_in 'sessions_password', with: 'secret'
     click_button "Log In"
     
     click_link 'Add Task'

@@ -5,8 +5,8 @@ describe "authorization" do
     visit login_path
     user = create(:user, admin: false, password: "secret", password_confirmation: "secret")
 
-    fill_in 'email', with: user.email
-    fill_in 'password', with: 'wrong'
+    fill_in 'sessions_email', with: user.email
+    fill_in 'sessions_password', with: 'wrong'
     click_button("Log In")
     
     page.should have_content("Email or password is invalid")
@@ -16,8 +16,8 @@ describe "authorization" do
     visit login_path
     user = create(:user, admin: false, password: "secret", password_confirmation: "secret")
 
-    fill_in 'email', with: user.email
-    fill_in 'password', with: 'secret'
+    fill_in 'sessions_email', with: user.email
+    fill_in 'sessions_password', with: 'secret'
     click_button("Log In")
     
     page.should have_content("Logged in!")
