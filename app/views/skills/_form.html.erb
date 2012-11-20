@@ -1,14 +1,13 @@
-<%= labeled_form_for @skill, :html => { :class => 'form-horizontal' } do |f| %>
+<%= labeled_form_for @skill do |f| %>
 
   <%= f.text_field :title%>
   <%= f.text_area :description%>
 
-  <div class="control-group">
-    <h2>Sub Skills</h2>
-    <%= f.fields_for :sub_embeddings do |sub_embedding_builder| %>
-      <%= render 'sub_embedding_fields', f: sub_embedding_builder %>
-    <% end %>
-    <%= link_to_add_fields "Add Sub Skill", f, :sub_embeddings %>  
-  </div>
+  <h2>Sub Skills</h2>
+  <%= f.fields_for :sub_embeddings do |sub_embedding_builder| %>
+    <%= render 'sub_embedding_fields', f: sub_embedding_builder %>
+  <% end %>
+  <%= link_to_add_fields "Add Sub Skill", f, :sub_embeddings %>  
+
   <%= f.submit %>
 <% end %>

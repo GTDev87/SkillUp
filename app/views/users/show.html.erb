@@ -5,15 +5,11 @@
 
 <%= labeled_form_for @user do |f| %>
   <h2>Tasks</h2>
-  <dl class="dl-horizontal">
-    <%= f.fields_for :user_missions do |user_mission_builder| %>
-      <%= render 'user_mission_fields', f: user_mission_builder %>
-    <% end %>
-  </dl>
+  <%= f.fields_for :user_missions do |user_mission_builder| %>
+    <%= render 'user_mission_fields', f: user_mission_builder %>
+  <% end %>
   <%= link_to_add_fields "Add Task", f, :user_missions %>
-  <div class="action">
-    <%= f.submit"Save Tasks" %>
-  </div>
+  <%= f.submit "Save Tasks" %>
 <% end %>
 
 <h2>Calculated Ability Points</h2>
@@ -27,9 +23,7 @@
     <%= render 'user_skill_fields', f: user_skill_builder %>
   <% end %>
   <%= link_to_add_fields "Add Skill", f, :user_skills %>
-  <div class="action">
-    <%= f.submit"Save Skills" %>
-  </div>
+  <%= f.submit"Save Skills" %>
 <% end %>
 
 <div class="form-actions">
