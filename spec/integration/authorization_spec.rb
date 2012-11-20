@@ -22,4 +22,6 @@ describe "authorization" do
     
     page.should have_content("Logged in!")
   end
+  
+  
 end

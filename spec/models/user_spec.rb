@@ -14,6 +14,12 @@ describe User do
       lambda {user.save!}.should raise_error
     end
     
+    it "should require that User have username" do
+      user = User.new(password: "", password_confirmation: "")
+    
+      lambda {user.save!}.should raise_error
+    end
+    
     it "should require username uniqueness" do
       User.create(username: "username",email: "user@example.com", password: "password", password_confirmation: "password")
       user = User.new(username: "username",email: "otherUser@example.com", password: "password", password_confirmation: "password")

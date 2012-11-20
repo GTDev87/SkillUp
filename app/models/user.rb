@@ -13,6 +13,7 @@ class User
   validates_uniqueness_of :email
   
   field :password_digest
+  validates_presence_of :password, :on => :create
   has_secure_password
   
   embeds_many :user_skills
