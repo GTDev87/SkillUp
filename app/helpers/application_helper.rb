@@ -14,9 +14,10 @@ module ApplicationHelper
     form_for(object, options, &block)
   end
   
-  #def labeled_form_tag(object, options = {}, &block)
-  #  options[:builder] = LabeledFormBuilder
-  #  options[:html] = { :class => "form-horizontal" }
-  #  form_tag(object, options, &block)
-  #end
+  def present(object, klass = nil)
+    klass ||= "#{object.class}Presenter".constantize
+    presenter = klass.new(object, self)
+    yield presenter if block_given?
+    presenter
+  end
 end

@@ -1,39 +1,44 @@
-<%- model_class = User -%>
-<div class="page-header">
-  <h1><%=t '.title', :default => @user.username %></h1>
-</div>
-
-<%= labeled_form_for @user do |f| %>
-  <h2>Tasks</h2>
-  <%= f.fields_for :user_missions do |user_mission_builder| %>
-    <%= render 'user_mission_fields', f: user_mission_builder %>
+<% present @user do |user_presenter|%>
+  <%- model_class = User -%>
+  <div class="page-header">
+    <h1><%=t '.title', :default => user_presenter.username %></h1>
+  </div>
+  <%= labeled_form_for @user do |f| %>
+    <h2>Tasks</h2>
+    <%= f.fields_for :user_missions do |user_mission_builder| %>
+      <%= render 'user_mission_fields', f: user_mission_builder %>
+    <% end %>
+    <%= link_to_add_fields "Add Task", f, :user_missions %>
+    <%= f.submit "Save Tasks" %>
   <% end %>
-  <%= link_to_add_fields "Add Task", f, :user_missions %>
-  <%= f.submit "Save Tasks" %>
-<% end %>
 
-<h2>Calculated Ability Points</h2>
-<% @user.total_ability_points.sort_by {|k,v| -v}.each do |title, points| %>
-  <%= title %>: <%= points %><br />
-<% end %>
-
-<%= labeled_form_for @user do |f| %>
-  <h2>Added Skills</h2>
-  <%= f.fields_for :user_skills do |user_skill_builder|%>
-    <%= render 'user_skill_fields', f: user_skill_builder %>
+  <h2>Calculated Ability Points</h2>
+  <% @user.total_ability_points.sort_by {|k,v| -v}.each do |title, points| %>
+    <%= title %>: <%= points %><br />
   <% end %>
-  <%= link_to_add_fields "Add Skill", f, :user_skills %>
-  <%= f.submit"Save Skills" %>
-<% end %>
 
-<div class="form-actions">
-  <%= link_to t('.back', :default => t("helpers.links.back")),
-              users_path, :class => 'btn'  %>
-  <%= link_to t('.edit', :default => t("helpers.links.edit")),
-              edit_user_path(@user), :class => 'btn' %>
-  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-              user_path(@user),
-              :method => 'delete',
-              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-              :class => 'btn btn-danger' %>
-</div>
+<% 
+=begin %>
+  <%= labeled_form_for @user do |f| %>
+    <h2>Added Skills</h2>
+    <%= f.fields_for :user_skills do |user_skill_builder|%>
+      <%= render 'user_skill_fields', f: user_skill_builder %>
+    <% end %>
+    <%= link_to_add_fields "Add Skill", f, :user_skills %>
+    <%= f.submit"Save Skills" %>
+  <% end %>
+<% 
+=end %>
+  
+  
+
+  <div class="form-actions">
+    <%= link_to t('.back', :default => t("helpers.links.back")),
+                users_path, :class => 'btn'  %>
+    <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                user_path(@user),
+                :method => 'delete',
+                :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                :class => 'btn btn-danger' %>
+  </div>
+<% end %>

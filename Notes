@@ -10,10 +10,13 @@
 
 - Need a ton of acceptance tests
 
-- Rethink Points System (thoughts:
-  - For Skill 1-10 points system
-  - Do some kind of average to record what level user might be
+- Rethink Points System (thoughts):
+  - For Skill 1-10 star that correspond to points
+  - Do average over time (month) to determine user rating for self
   - Record aggregate skill points
-  - Make missions into skills...kong is mission and "kong skill" is skill at konging
-  - keep missions at star points levels to inicate what should be done at skill level
-  
+  - Keep missions at star levels to indicate difficulty between points range
+  - Calculate skills at all levels by:
+    - calculating all associations until lowest level.
+    - then only keep lowest level and calculate points backwards
+    - maybe only keep higher skills as suggestions and suggested potential
+    

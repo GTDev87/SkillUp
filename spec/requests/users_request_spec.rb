@@ -3,7 +3,6 @@ require 'spec_helper'
 describe UsersController do
   describe "editing password" do
     it "should should not update password if blank" do
-      visit login_path
       user = create(:user, admin: false, password: "secret", password_confirmation: "secret")
 
       old_password_digest = user.password_digest
@@ -16,7 +15,6 @@ describe UsersController do
     end
   
     it "should not update user if confirmation does not exist" do
-      visit login_path
       user = create(:user, admin: false, password: "secret", password_confirmation: "secret")
 
       old_password_digest = user.password_digest
@@ -29,7 +27,6 @@ describe UsersController do
     end
   
     it "should not update user if confirmation only has data" do
-      visit login_path
       user = create(:user, admin: false, password: "secret", password_confirmation: "secret")
 
       old_password_digest = user.password_digest
@@ -42,7 +39,6 @@ describe UsersController do
     end
   
     it "should update password user if confirmation is same" do
-      visit login_path
       user = create(:user, admin: false, password: "secret", password_confirmation: "secret")
   
       old_password_digest = user.password_digest
@@ -56,20 +52,6 @@ describe UsersController do
   end
   
   describe "authentication" do
-    it "should show 'not authorized' when user not authorized" do
-      user = create(:user)
-      visit edit_user_path(user.id)
-      page.should have_content("Not authorized.")
-    end
-  
-    it "should not show 'not authorized' when user authorized" do
-      user = create(:user, username: "username", password: "secret", password_confirmation: "secret")
-
-      page.driver.post sessions_path, sessions: { email: user.email, password: "secret" }
-      visit edit_user_path(user.id)
-      page.should_not have_content("Not authorized")
-    end
-  
     it "should authorized user to change own fields" do
       user = create(:user, username: "username", password: "secret", password_confirmation: "secret")
       post sessions_path, sessions: {email: user.email, password: "secret"}
