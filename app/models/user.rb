@@ -4,6 +4,7 @@ class User
   
   field :admin, type: Boolean
   
+  #login
   field :username
   validates_presence_of :username
   validates_uniqueness_of :username
@@ -16,6 +17,16 @@ class User
   validates_presence_of :password, :on => :create
   has_secure_password
   
+  #Profile NEEDS TEST
+  field :first_name
+  field :last_name
+  field :date_of_birth
+  field :address
+  field :bio
+
+  mount_uploader :avatar, AvatarUploader
+  
+  #Points
   embeds_many :user_skills
   accepts_nested_attributes_for :user_skills, allow_destroy: true
   

@@ -8,12 +8,19 @@ gem 'rails', '3.2.8'
 gem 'mongoid'
 gem 'sqlite3'
 
+
 gem 'strong_parameters', github: 'rails/strong_parameters'
 
 gem 'jquery-rails'
 
 # To use ActiveModel has_secure_password
 gem 'bcrypt-ruby'
+
+# Image Uploading
+gem "carrierwave-mongoid", :git => "git://github.com/jnicklas/carrierwave-mongoid.git", :branch => "mongoid-3.0"
+
+# Image Processing
+gem "mini_magick"
 
 # Gems used only for assets and not required
 # in production environments by default.

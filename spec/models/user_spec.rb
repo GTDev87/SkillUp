@@ -257,6 +257,36 @@ describe User do
       User.first.password_digest.should_not == nil
     end
     
+    it "should be able to assign first_name" do
+      User.create(first_name: "John", username: "username", email: "user@example.com", password: "password", password_confirmation: "password")
+    
+      User.first.first_name.should == "John"
+    end
+    
+    it "should be able to assign email" do
+      User.create(last_name: "Doe", username: "username", email: "user@example.com", password: "password", password_confirmation: "password")
+    
+      User.first.last_name.should == "Doe"
+    end
+    
+    it "should be able to assign date_of_birth" do
+      User.create(date_of_birth: "06/29/1988", username: "username", email: "user@example.com", password: "password", password_confirmation: "password")
+    
+      User.first.date_of_birth.should == "06/29/1988"
+    end
+    
+    it "should be able to assign address" do
+      User.create(address: "123 Evergreen Terrace", username: "username", email: "user@example.com", password: "password", password_confirmation: "password")
+    
+      User.first.address.should == "123 Evergreen Terrace"
+    end
+    
+    it "should be able to assign email" do
+      User.create(bio: "I'm Effing Great", username: "username", email: "user@example.com", password: "password", password_confirmation: "password")
+    
+      User.first.bio.should == "I'm Effing Great"
+    end
+    
     it "should assign user_skills_attributes" do
       User.create!(
         username: "username", 

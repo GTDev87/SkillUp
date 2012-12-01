@@ -13,10 +13,34 @@ class Permission
       allow :users, [:edit, :update, :show] do |resource_user|
         resource_user.id == user.id 
       end
-      allow_param(:user, [:username, :email, :password, :password_confirmation, {user_missions_attributes: [:id, :_destroy, :mission_title]}, {user_skills_attributes: [:id, :_destroy, :skill_title]}])
+      #Needs Test
+      allow_param(:user, [
+        :username, 
+        :email, 
+        :password, 
+        :password_confirmation, 
+        :first_name, 
+        :last_name, 
+        :date_of_birth, 
+        :address, 
+        :bio,
+        :avatar,
+        {
+          user_missions_attributes: [
+            :id, 
+            :_destroy, 
+            :mission_title]}, 
+        {
+          user_skills_attributes: [
+            :id, 
+            :_destroy, 
+            :skill_title]}])
+            
       allow_all if user.admin?
     end
   end
+  
+  
   
   #@allowed_actions contains either true or a block
   #the block is evaluated in allow? and set in allow

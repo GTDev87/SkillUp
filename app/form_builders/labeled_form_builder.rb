@@ -2,7 +2,7 @@ class LabeledFormBuilder < ActionView::Helpers::FormBuilder
   
   delegate :content_tag, :tag, to: :@template
   
-  [:text_field, :text_area, :password_field].each do |method_name|
+  [:text_field, :text_area, :password_field, :date_select].each do |method_name|
     define_method(method_name.to_s) do |name, *args|
       content_tag :div, class: "control-group" do
         output_form = field_label(name, *args)

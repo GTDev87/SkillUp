@@ -3,4 +3,13 @@
   <h1><%=t '.title', :default => t('helpers.titles.new', :model => model_class.model_name.human,
                                  :default => "Sign Up") %></h1>
 </div>
-<%= render :partial => 'form' %>
+<%= labeled_form_for @user do |f| %>
+  
+  <%= f.error_messages %>
+  <%= f.text_field :username %>
+  <%= f.text_field :email %>
+  <%= f.password_field :password %>
+  <%= f.password_field :password_confirmation %>
+  
+  <%= f.submit %>
+<% end %>
