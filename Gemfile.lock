@@ -184,6 +184,7 @@ GEM
       ffi (>= 0.5.0)
     rdoc (3.12)
       json (~> 1.4)
+    redcarpet (2.2.2)
     rspec (2.12.0)
       rspec-core (~> 2.12.0)
       rspec-expectations (~> 2.12.0)
@@ -256,6 +257,7 @@ DEPENDENCIES
   mongoid-rspec
   rails (= 3.2.8)
   rb-inotify
+  redcarpet
   rspec-rails
   sass-rails (~> 3.2.3)
   spork

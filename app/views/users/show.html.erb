@@ -1,15 +1,18 @@
 <% present @user do |user_presenter|%>
-  <%- model_class = User -%>
-  <div class="page-header">
-    <h1><%=t '.title', :default => user_presenter.username %></h1>
+  <div id="profile">
+    <%= user_presenter.avatar %>
+    <h1><%= user_presenter.username %></h1>
+    <dl>
+      <dt>Name:</dt>
+      <dd><%= user_presenter.full_name %></dd>
+      <dt>Age:</dt>
+      <dd><%= user_presenter.age %></dd>
+      <dt>Location:</dt>
+      <dd><%= user_presenter.address %></dd>
+      <dt>About Me:</dt>
+      <dd><%= user_presenter.bio%></dd>
+    </dl>
   </div>
-
-  Date of birth:
-  <%= @user.date_of_birth.strftime("%m/%d/%Y") if @user.date_of_birth%>
-  </br>
-  
-  <%= image_tag @user.avatar.url(:thumb) if @user.avatar? %>
-
 
   <%= labeled_form_for @user do |f| %>
     <h2>Tasks</h2>

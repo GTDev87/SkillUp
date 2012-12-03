@@ -14,6 +14,7 @@ class LabeledFormBuilder < ActionView::Helpers::FormBuilder
     end
   end
 
+  #Need test
   def thumb_image_field(name, *args)
     content_tag :div, class: "control-group" do
       output_form = field_label(name, *args)
