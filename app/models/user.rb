@@ -1,6 +1,7 @@
 class User
   include Mongoid::Document
   include ActiveModel::SecurePassword
+  include Mongoid::MultiParameterAttributes
   
   field :admin, type: Boolean
   
@@ -17,10 +18,9 @@ class User
   validates_presence_of :password, :on => :create
   has_secure_password
   
-  #Profile NEEDS TEST
   field :first_name
   field :last_name
-  field :date_of_birth
+  field :date_of_birth, :type => Date
   field :address
   field :bio
 

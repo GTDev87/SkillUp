@@ -18,8 +18,7 @@
   </p>
   <%= f.text_field :first_name %>
   <%= f.text_field :last_name %>
-  <%#= f.date_select :date_of_birth %>
-  <%#= f.date_select :date_of_birth, :start_year => Date.today.year - 90, :end_year => Date.today.year - 12, :order => [:month, :day, :year]%>
+  <%= f.date_select :date_of_birth, :start_year => Date.today.year - 90, :end_year => Date.today.year - 12, :order => [:month, :day, :year]%>
   <%= f.text_field :address %>
   <%= f.text_area :bio, label: "About Me" %>
   

@@ -3,7 +3,14 @@
   <div class="page-header">
     <h1><%=t '.title', :default => user_presenter.username %></h1>
   </div>
+
+  Date of birth:
+  <%= @user.date_of_birth.strftime("%m/%d/%Y") if @user.date_of_birth%>
+</br>
+  
   <%= image_tag @user.avatar.url(:thumb) if @user.avatar? %>
+
+
   <%= labeled_form_for @user do |f| %>
     <h2>Tasks</h2>
     <%= f.fields_for :user_missions do |user_mission_builder| %>

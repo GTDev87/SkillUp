@@ -270,9 +270,9 @@ describe User do
     end
     
     it "should be able to assign date_of_birth" do
-      User.create(date_of_birth: "06/29/1988", username: "username", email: "user@example.com", password: "password", password_confirmation: "password")
-    
-      User.first.date_of_birth.should == "06/29/1988"
+      User.create(date_of_birth: "1988-06-29", username: "username", email: "user@example.com", password: "password", password_confirmation: "password")
+
+      User.first.date_of_birth.should == Date.new(1988,6,29)
     end
     
     it "should be able to assign address" do
