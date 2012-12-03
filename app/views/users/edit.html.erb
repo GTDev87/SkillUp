@@ -13,9 +13,7 @@
   <%= f.password_field :password %>
   <%= f.password_field :password_confirmation %>
   
-  <p>
-    <%= f.file_field :avatar %>
-  </p>
+  <%= f.thumb_image_field :avatar %>
   <%= f.text_field :first_name %>
   <%= f.text_field :last_name %>
   <%= f.date_select :date_of_birth, :start_year => Date.today.year - 90, :end_year => Date.today.year - 12, :order => [:month, :day, :year]%>

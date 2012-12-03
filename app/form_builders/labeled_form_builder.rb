@@ -13,19 +13,20 @@ class LabeledFormBuilder < ActionView::Helpers::FormBuilder
       end
     end
   end
+
+  def thumb_image_field(name, *args)
+    content_tag :div, class: "control-group" do
+      output_form = field_label(name, *args)
+      content_tag :div, class: "controls" do
+        if object.respond_to?(name)
+          output_form << @template.image_tag(object.send(name).url(:thumb))
+        end
+        output_form << @template.file_field(name, *merge_option_into_args({class: "file_field"}, *args)) 
+      end
+      output_form
+    end
+  end
   
-  #[:text_field_tag].each do |method_name|
-  #  define_method(method_name.to_s) do |name, *args|
-  #    debugger
-  #    content_tag :div, class: "control-group" do
-  #      output_form = field_label_tag(name, *args)
-  #      fields = content_tag :div, class: "controls" do
-  #        super(name, *merge_option_into_args({class: method_name.to_s}, *args)) 
-  #      end
-  #      output_form << fields
-  #    end
-  #  end
-  #end
   
   def error_messages
     if object.errors.full_messages.any?

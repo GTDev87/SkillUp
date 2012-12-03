@@ -6,7 +6,7 @@
 
   Date of birth:
   <%= @user.date_of_birth.strftime("%m/%d/%Y") if @user.date_of_birth%>
-</br>
+  </br>
   
   <%= image_tag @user.avatar.url(:thumb) if @user.avatar? %>
 
