@@ -2,6 +2,7 @@ class UserPresenter < BasePresenter
   presents :user
   delegate :username, to: :user
   
+  #NEEDS TESTS
   def avatar
   	handle_none user.avatar? do
       image_tag(avatar_name, class: "avatar")

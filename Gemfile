@@ -38,6 +38,9 @@ group :assets do
   gem "therubyracer"
   gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS
   gem 'bootstrap-sass'
+
+  #adding jquery ui
+  gem 'jquery-ui-rails'
 end
 
 

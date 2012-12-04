@@ -19,3 +19,6 @@
 
 # Ignore my redcar files
 /.redcar
+
+#remove Gemfile.lock
+.Gemfile.lock

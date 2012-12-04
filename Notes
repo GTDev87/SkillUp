@@ -1,7 +1,11 @@
-- Need to fix javascript autocomplete duplicate code
+- Need to fix javascript autocomplete duplicate code autocomplete_field_1 and 2
+
 - Also need to fix duplicate code in lib/validators
+
 - Upate tests for aggregation of points under describe with a before(:each)
+
 - Rename sub_embeddings to sub_mission_embeddings
+
 - Rename sub_embeddings to sub_skill_embeddings
 
 - need tests for authentication
