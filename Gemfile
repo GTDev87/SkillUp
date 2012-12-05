@@ -6,9 +6,8 @@ gem 'rails', '3.2.8'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'mongoid'
-gem 'sqlite3'
 
-
+#new way of handling attr_accessible
 gem 'strong_parameters', github: 'rails/strong_parameters'
 
 gem 'jquery-rails'
@@ -35,8 +34,6 @@ group :assets do
   # gem 'therubyracer', :platforms => :ruby
 
   gem 'uglifier', '>= 1.0.3'
-  gem "therubyracer"
-  gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS
   gem 'bootstrap-sass'
 
   #adding jquery ui
@@ -68,4 +65,3 @@ end
 
 # Deploy with Capistrano
 # gem 'capistrano'
-

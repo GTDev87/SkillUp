@@ -21,4 +21,4 @@
 /.redcar
 
 #remove Gemfile.lock
-.Gemfile.lock
+Gemfile.lock

@@ -10,7 +10,9 @@ class UserPresenter < BasePresenter
   end
 
   def full_name
-    user.first_name + " " + user.last_name
+    handle_none user.first_name? do
+      user.first_name + " " + user.last_name
+    end
   end
 
 
