@@ -4,9 +4,13 @@
 
 #defining slider
 jQuery ->
-  slider_data = $('#slider').data('slider')
-  slider_val = if slider_data["value_id"] then slider_data["value_id"] else "value"
-  slider_data.slide = (event, ui) ->
-    $("#"+slider_val).val("$" + ui.value)
-  $('#slider').slider(slider_data)
+  $('#related_slider').slider({
+    value: 1,
+    min: 1,
+    max: 10,
+    step: 1,
+    slide: ( event, ui ) ->
+      $( "#amount" ).val( "Level " + ui.value )
+  })
+  $( "#amount" ).val( "Level " + $( "#related_slider" ).slider( "value" ) );
   

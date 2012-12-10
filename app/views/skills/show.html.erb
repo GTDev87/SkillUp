@@ -12,11 +12,14 @@
 
 <p>
   <b>Related Missions</b>
-  <%= content_tag "div", id: "slider", data: {slider: {min: 1, max: 10, value_id: "amount"} } do%>
-    <%= content_tag "div", id: "amount" do%>
-    <%end%>
-  <%end%>
+  <%= content_tag :label, for: "amount" do %>
+  <% end %>
+  <%= content_tag :input, type: "text", id: "amount" do %>
+  <% end %>
 </p>
+<%= content_tag :div, id: "related_slider" do %>
+<% end %>
+
 
 <p>
   <b>Direct Sub Skills:</b><br />
