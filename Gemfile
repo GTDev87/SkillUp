@@ -44,7 +44,6 @@ end
 group :development, :test do
   gem 'spork'
   gem 'guard-spork'
-  gem 'rb-inotify'
   gem 'rspec-rails'
   gem 'mongoid-rspec'
   gem 'factory_girl_rails'

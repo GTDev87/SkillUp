@@ -1,2 +1,16 @@
+Currently using ruby1.9.3-turbo
+  - rvm install 1.9.3-turbo
+  - rvm use --default 1.9.3-turbo
 Dependency on image_magick:
-  sudo apt-get install imagemagick libmagick++-dev
+  Linux:
+    sudo apt-get install imagemagick libmagick++-dev
+  Mac:
+
+Nokogiri
+   check steps on nokogiri site
+   Mac: 
+     brew install libxml2 libxslt
+     brew link libxml2 libxslt
+
+
+
