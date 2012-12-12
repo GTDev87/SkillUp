@@ -362,6 +362,12 @@ describe Mission do
           "Leap Frogging" => @leap_frog_points }
       end
     end
+
+    describe "associated skills" do
+      it "should aggregate all the names of skills associated with mission" do
+        @leap_frog.associated_skills == ["Jumping", "Squatting", "Leap Frogging"].to_set
+      end
+    end
   end
   
   describe "skill points" do
@@ -434,6 +440,25 @@ describe Mission do
         "Sub Skill A" => sub_skill_a_expected_points, 
         "Sub Skill B" => sub_skill_b_expected_points, 
         "Sub Skill C" => sub_skill_c_expected_points }
+    end
+  end
+
+  describe "Skill Levels" do
+    it "should return the levels associated with the ability points for the mission" do
+      #currently [1, 5, 10, 20, 50, 150, 500, 2000, 10000, 50000]
+      mission = Mission.new(title: "A Title")
+      
+      skill_a = Skill.create!(title: "Skill A")
+      skill_b = Skill.create!(title: "Skill B")
+      
+      mission_skill_a = mission.mission_skills.build(points: 5)
+      mission_skill_a.skill = skill_a
+      mission_skill_b = mission.mission_skills.build(points: 75)
+      mission_skill_b.skill = skill_b
+      
+      mission.save!
+      
+      mission.skill_levels.should == { "Skill A" => 2, "Skill B" => 5 }
     end
   end
 end

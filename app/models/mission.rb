@@ -38,6 +38,14 @@ class Mission
       HashOperations.add_hashes(agg_hash, ability_points_multiplied)
     end
   end
+
+  def skill_levels
+    HashOperations.hmap(total_ability_points) { |name, points| Skill.points_to_level(points) }
+  end
+
+  def associated_skills
+    total_ability_points.map { |name, points| name }.to_set
+  end
   
   def skill_points
     mission_skills.inject(Hash.new(0)) do |agg_skills, mission_skill| 

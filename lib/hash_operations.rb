@@ -11,4 +11,8 @@ class HashOperations
       value_1 + value_2
     end
   end
+
+  def self.hmap(hash, &block)
+    Hash[hash.map{|k,v| [k, block.call(k, v)] }]
+  end
 end

@@ -17,6 +17,14 @@ class Skill
   accepts_nested_attributes_for :sub_embeddings, allow_destroy: true
   validates :sub_embeddings, cyclical_sub_skill_reference: true, unique_sub_skill_reference: true
   
+  def self.points_to_level(points)
+    self.default_level_maxs.each_with_index.map { |max, i| points >= max ? i + 1: nil }.compact.unshift(0).last
+  end
+
+  def self.default_level_maxs
+    [1, 5, 10, 20, 50, 150, 500, 2000, 10000, 50000]
+  end
+
   def ability_points
     sub_embeddings.inject({ self.title => 1 }) do |aggregate_hash, embedding|
       modified_embedding = HashOperations.multiply_hash_by_value(embedding.sub_skill.ability_points, embedding.weight)

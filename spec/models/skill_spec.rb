@@ -6,6 +6,44 @@ describe Skill do
     
     lambda {skill.save!}.should_not raise_error
   end
+
+  describe "default level" do
+    it "should convert points to level" do
+      #level maxes [1, 5, 10, 20, 50, 150, 500, 2000, 10000, 50000]
+      #Skill.points_to_level(0).should == 0
+      #Skill.points_to_level(0.1).should == 0
+
+      Skill.points_to_level(1).should == 1
+      Skill.points_to_level(3).should == 1
+
+      Skill.points_to_level(5).should == 2
+      Skill.points_to_level(7).should == 2
+
+      Skill.points_to_level(10).should == 3
+      Skill.points_to_level(17).should == 3
+
+      Skill.points_to_level(20).should == 4
+      Skill.points_to_level(42).should == 4
+
+      Skill.points_to_level(50).should == 5
+      Skill.points_to_level(69).should == 5
+
+      Skill.points_to_level(150).should == 6
+      Skill.points_to_level(333).should == 6
+
+      Skill.points_to_level(500).should == 7
+      Skill.points_to_level(666).should == 7
+
+      Skill.points_to_level(2000).should == 8
+      Skill.points_to_level(9001).should == 8
+
+      Skill.points_to_level(10000).should == 9
+      Skill.points_to_level(12345).should == 9
+
+      Skill.points_to_level(50000).should == 10
+      Skill.points_to_level(99999).should == 10
+    end
+  end
   
   it "should lower title's case after creation" do
     skill = Skill.create(title: "lOwErCaSe TiTlE", description: "A description")

@@ -25,6 +25,13 @@
 </p>
 
 <p>
+  <b>Skill Levels</b><br />
+  <% @mission.skill_levels.sort_by {|k,v| -v}.each do |title, level| %>
+    <%= title %>: Level <%= level %><br />
+  <% end %>
+</p>
+
+<p>
   <b>Skill Points on Mission:</b><br />
   <% @mission.skill_points.sort_by {|k,v| -v}.each do |title, points| %>
     <%= title %>: <%= points %><br />
