@@ -150,7 +150,7 @@ describe Mission do
       
         mission.save!
       
-        Mission.first.mission_skills.first._id == mission_skill._id
+        Mission.first.mission_skills.first._id.should == mission_skill._id
       end
     
       it "should be referenced by Mission SKill" do
@@ -161,7 +161,7 @@ describe Mission do
       
         mission.save!
       
-        MissionSkill.find(mission_skill._id).mission.title == "Mission title"
+        MissionSkill.find(mission_skill._id).mission.title.should == "Mission title"
       end
     end
   end
@@ -363,9 +363,9 @@ describe Mission do
       end
     end
 
-    describe "associated skills" do
+    describe "associated skill names" do
       it "should aggregate all the names of skills associated with mission" do
-        @leap_frog.associated_skills == ["Jumping", "Squatting", "Leap Frogging"].to_set
+        @leap_frog.associated_skill_names.should == ["Jumping", "Squatting", "Leap Frogging"].to_set
       end
     end
   end

@@ -43,7 +43,7 @@ class Mission
     HashOperations.hmap(total_ability_points) { |name, points| Skill.points_to_level(points) }
   end
 
-  def associated_skills
+  def associated_skill_names
     total_ability_points.map { |name, points| name }.to_set
   end
   

@@ -10,8 +10,8 @@ describe Skill do
   describe "default level" do
     it "should convert points to level" do
       #level maxes [1, 5, 10, 20, 50, 150, 500, 2000, 10000, 50000]
-      #Skill.points_to_level(0).should == 0
-      #Skill.points_to_level(0.1).should == 0
+      Skill.points_to_level(0).should == 0
+      Skill.points_to_level(0.1).should == 0
 
       Skill.points_to_level(1).should == 1
       Skill.points_to_level(3).should == 1
@@ -182,7 +182,7 @@ describe Skill do
         mission_skill.save!
         skill.save!
       
-        Skill.first.mission_skills.first._id == mission_skill._id
+        Skill.first.mission_skills.first._id.should == mission_skill._id
       end
     
       it "should be referenced by Mission SKill" do
@@ -195,7 +195,7 @@ describe Skill do
         mission_skill.save!
         skill.save!
       
-        MissionSkill.find(mission_skill._id).skill.title == "Skill title"
+        MissionSkill.find(mission_skill._id).skill.title.should == "Skill title"
       end
     end
   end
@@ -344,6 +344,72 @@ describe Skill do
       skill.ability_points["Sub Skill A"].should == 1
       skill.ability_points["Sub Skill B"].should == 2
       skill.ability_points["Sub Skill C"].should == 5
+    end
+  end
+
+  describe "associated missions" do
+    it "should aggregate all missions where the skill is referenced" do
+      skill = Skill.create!(title: "Skill")
+      skill_a = Skill.create!(title: "Sub Skill A")
+      skill_b = Skill.create!(title: "Sub Skill B")  
+      skill_aa = Skill.create!(title: "Sub Skill AA")
+      skill_ab = Skill.create!(title: "Sub Skill AB")
+      skill_ba = Skill.create!(title: "Sub Skill BA")
+      skill_bb = Skill.create!(title: "Sub Skill BB")
+      
+      skill_embedding_a = build(:skill_embedding, sub_skill: skill_a, weight: 1)
+      skill_embedding_b = build(:skill_embedding, sub_skill: skill_b, weight: 2)
+      skill_embedding_aa = build(:skill_embedding, sub_skill: skill_aa, weight: 3)
+      skill_embedding_ab = build(:skill_embedding, sub_skill: skill_ab, weight: 4)
+      skill_embedding_ba = build(:skill_embedding, sub_skill: skill_ba, weight: 5)
+      skill_embedding_bb = build(:skill_embedding, sub_skill: skill_bb, weight: 6)
+      
+      skill.sub_embeddings.concat([skill_embedding_a,skill_embedding_b])
+      skill_a.sub_embeddings.concat([skill_embedding_aa,skill_embedding_ab])
+      skill_b.sub_embeddings.concat([skill_embedding_ba,skill_embedding_bb])
+      
+      mission = create(:mission, title: "Mission")
+      mission.mission_skills << build(:mission_skill, skill: skill)      
+      mission.save!
+
+      mission_a = create(:mission, title: "Mission A")
+      mission_a.mission_skills << build(:mission_skill, skill: skill_a)      
+      mission_a.save!
+
+      mission_b = create(:mission, title: "Mission B")
+      mission_b.mission_skills << build(:mission_skill, skill: skill_b)      
+      mission_b.save!
+
+      mission_bb = create(:mission, title: "Mission BB")
+      mission_bb.mission_skills << build(:mission_skill, skill: skill_bb)      
+      mission_bb.save!
+
+      skill_bb.associated_missions.should == ["Mission", "Mission B", "Mission BB"].to_set
+    end
+  end
+
+  describe "all ancestor skills" do
+    it "should aggregate ancestors of skill" do
+      skill = Skill.create!(title: "Skill")
+      skill_a = Skill.create!(title: "Sub Skill A")
+      skill_b = Skill.create!(title: "Sub Skill B")  
+      skill_aa = Skill.create!(title: "Sub Skill AA")
+      skill_ab = Skill.create!(title: "Sub Skill AB")
+      skill_ba = Skill.create!(title: "Sub Skill BA")
+      skill_bb = Skill.create!(title: "Sub Skill BB")
+      
+      skill_embedding_a = build(:skill_embedding, sub_skill: skill_a, weight: 1)
+      skill_embedding_b = build(:skill_embedding, sub_skill: skill_b, weight: 2)
+      skill_embedding_aa = build(:skill_embedding, sub_skill: skill_aa, weight: 3)
+      skill_embedding_ab = build(:skill_embedding, sub_skill: skill_ab, weight: 4)
+      skill_embedding_ba = build(:skill_embedding, sub_skill: skill_ba, weight: 5)
+      skill_embedding_bb = build(:skill_embedding, sub_skill: skill_bb, weight: 6)
+      
+      skill.sub_embeddings.concat([skill_embedding_a,skill_embedding_b])
+      skill_a.sub_embeddings.concat([skill_embedding_aa,skill_embedding_ab])
+      skill_b.sub_embeddings.concat([skill_embedding_ba,skill_embedding_bb])
+
+      skill_bb.all_ancestor_skills.should == [skill, skill_b, skill_bb].to_set
     end
   end
 end

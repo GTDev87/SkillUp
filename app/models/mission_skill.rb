@@ -8,7 +8,6 @@ class MissionSkill
   belongs_to :skill, inverse_of: :mission_skills
   validates_presence_of :skill
   
-  
   field :points, type: Integer
   validates_presence_of :points
 

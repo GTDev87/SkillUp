@@ -31,6 +31,14 @@ class Skill
       HashOperations.add_hashes(aggregate_hash, modified_embedding)
     end
   end
+
+  def all_ancestor_skills
+    super_embeddings.inject(Set.new([self])) { |aggregate_set, embedding | aggregate_set | embedding.super_skill.all_ancestor_skills | [embedding.super_skill].to_set }
+  end
+
+  def associated_missions
+    all_ancestor_skills.map { |skill| skill.mission_skills.map { |mission_skill| mission_skill.mission.title } }.flatten.to_set
+  end
   
   def self.search_titles(skill_title_name)
     Skill.any_of({lowercase_title: /.*#{skill_title_name.downcase}.*/ }).sort(lowercase_title: 1).entries
