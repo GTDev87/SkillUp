@@ -384,7 +384,7 @@ describe Skill do
       mission_bb.mission_skills << build(:mission_skill, skill: skill_bb)      
       mission_bb.save!
 
-      skill_bb.associated_missions.should == ["Mission", "Mission B", "Mission BB"].to_set
+      skill_bb.associated_missions.should == [mission, mission_b, mission_bb].to_set
     end
   end
 
@@ -410,6 +410,54 @@ describe Skill do
       skill_b.sub_embeddings.concat([skill_embedding_ba,skill_embedding_bb])
 
       skill_bb.all_ancestor_skills.should == [skill, skill_b, skill_bb].to_set
+    end
+  end
+
+  describe "all missions at level" do
+    it "should return all missions at specified skill level" do
+      skill = Skill.create!(title: "Skill")
+      skill_a = Skill.create!(title: "Sub Skill A")
+      skill_b = Skill.create!(title: "Sub Skill B")  
+      skill_aa = Skill.create!(title: "Sub Skill AA")
+      skill_ab = Skill.create!(title: "Sub Skill AB")
+      skill_ba = Skill.create!(title: "Sub Skill BA")
+      skill_bb = Skill.create!(title: "Sub Skill BB")
+      
+      skill_embedding_a = build(:skill_embedding, sub_skill: skill_a, weight: 1)
+      skill_embedding_b = build(:skill_embedding, sub_skill: skill_b, weight: 2)
+      skill_embedding_aa = build(:skill_embedding, sub_skill: skill_aa, weight: 3)
+      skill_embedding_ab = build(:skill_embedding, sub_skill: skill_ab, weight: 4)
+      skill_embedding_ba = build(:skill_embedding, sub_skill: skill_ba, weight: 5)
+      skill_embedding_bb = build(:skill_embedding, sub_skill: skill_bb, weight: 6)
+      
+      skill.sub_embeddings.concat([skill_embedding_a,skill_embedding_b])
+      skill_a.sub_embeddings.concat([skill_embedding_aa,skill_embedding_ab])
+      skill_b.sub_embeddings.concat([skill_embedding_ba,skill_embedding_bb])
+      
+      mission = create(:mission, title: "Mission")
+      mission.mission_skills << build(:mission_skill, skill: skill, points: 1)      
+      mission.save!
+
+      mission_a = create(:mission, title: "Mission A")
+      mission_a.mission_skills << build(:mission_skill, skill: skill_a, points: 2)      
+      mission_a.save!
+
+      mission_b = create(:mission, title: "Mission B")
+      mission_b.mission_skills << build(:mission_skill, skill: skill_b, points: 4)      
+      mission_b.save!
+
+      mission_bb = create(:mission, title: "Mission BB")
+      mission_bb.mission_skills << build(:mission_skill, skill: skill_bb, points: 8)      
+      mission_bb.save!
+
+      mission.total_ability_points["Sub Skill BB"].should == 12
+      mission_b.total_ability_points["Sub Skill BB"].should == 24
+      mission_bb.total_ability_points["Sub Skill BB"].should == 8
+
+      #level maxes [1, 5, 10, 20, 50, 150, 500, 2000, 10000, 50000]
+      skill_bb.all_missions_at_level(2) == [mission_bb].to_set
+      skill_bb.all_missions_at_level(3) == [mission].to_set
+      skill_bb.all_missions_at_level(4) == [mission_b].to_set
     end
   end
 end

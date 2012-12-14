@@ -17,6 +17,8 @@ class Skill
   accepts_nested_attributes_for :sub_embeddings, allow_destroy: true
   validates :sub_embeddings, cyclical_sub_skill_reference: true, unique_sub_skill_reference: true
   
+  #Many of these methods desparately need preprocessing
+
   def self.points_to_level(points)
     self.default_level_maxs.each_with_index.map { |max, i| points >= max ? i + 1: nil }.compact.unshift(0).last
   end
@@ -37,7 +39,11 @@ class Skill
   end
 
   def associated_missions
-    all_ancestor_skills.map { |skill| skill.mission_skills.map { |mission_skill| mission_skill.mission.title } }.flatten.to_set
+    all_ancestor_skills.map { |skill| skill.mission_skills.map { |mission_skill| mission_skill.mission } }.flatten.to_set
+  end
+
+  def all_missions_at_level(level)
+    associated_missions.find_all { |mission| self.class.points_to_level(mission.total_ability_points[title]) == level }.to_set
   end
   
   def self.search_titles(skill_title_name)

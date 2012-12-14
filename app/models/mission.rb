@@ -19,6 +19,8 @@ class Mission
   accepts_nested_attributes_for :sub_embeddings, allow_destroy: true
   validates :sub_embeddings, cyclical_sub_mission_reference: true, unique_sub_mission_reference: true
   
+  #Many of these methods desparately need preprocessing
+
   def total_ability_points
     HashOperations.add_hashes(ability_points, sub_mission_points_only)
   end
