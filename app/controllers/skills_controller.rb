@@ -19,9 +19,15 @@ class SkillsController < ApplicationController
   def show
     @skill = Skill.find(params[:id])
 
+    @level_dependent_missions = @skill.all_missions_at_level(1).to_a
+    if params[:level_mission]
+      @level_dependent_missions = @skill.all_missions_at_level(params[:level_mission].to_i).to_a
+    end
+    
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @skill }
+      format.js
     end
   end
 

@@ -10,16 +10,19 @@
   <%= @skill.description %>
 </p>
 
+<%= content_tag "div", id: "skills", data: {url: skill_url(@skill.id) } do %> <% end %>
+
 <p>
   <b>Related Missions</b>
-  <%= content_tag :label, for: "amount" do %>
-  <% end %>
-  <%= content_tag :input, type: "text", id: "amount" do %>
-  <% end %>
-</p>
-<%= content_tag :div, id: "related_slider" do %>
-<% end %>
+  <div id="related_slider"> </div>
 
+  <label for="amount"> </label>
+  <input type="text", id="amount"></input>
+
+  <ul id="level_dependent_missions_list">
+    <%= render @level_dependent_missions %>
+  </ul>
+</p>
 
 <p>
   <b>Direct Sub Skills:</b><br />

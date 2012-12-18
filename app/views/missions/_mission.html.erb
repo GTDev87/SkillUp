@@ -1,0 +1,10 @@
+<li>
+  <p><%= mission.title %></p>
+  <p>
+    <% mission.total_ability_points.each do |ability_name, points| %>
+    <li>
+      <%= ability_name %> : <%= points %>
+    </li>
+    <% end %>
+  </p>
+</li>
