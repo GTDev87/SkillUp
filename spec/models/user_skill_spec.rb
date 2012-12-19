@@ -39,6 +39,7 @@ describe UserSkill do
     end
     
     it "should be able to assign skill_title" do
+      create(:skill, title: "Skill Title")
       user_skill = UserSkill.new(points: 10, skill_title: "Skill Title")
       create(:user).user_skills << user_skill
       
@@ -71,26 +72,13 @@ describe UserSkill do
         Skill.count.should == 1
         Skill.first.title == "Existing Title"
       end
-    
-      it "should create skill if does not exist" do
-        user_skill = UserSkill.new(points: 10)
-        
-        user_skill.skill_title = "Created Title"
-        
-        Skill.count.should == 1
-        Skill.first.title == "Created Title"
-      end
       
-      it "should save skill to mission_ability when created" do
+      it "should fail when skill does not exist" do
         user = create(:user)
         user_skill = UserSkill.new(points: 10)
         
         user.user_skills << user_skill
-        user_skill.skill_title = "Created Title"
-        
-        user.save!
-        
-        User.first.user_skills.first.skill.title.should == "Created Title"
+        lambda {user_skill.skill_title = "Created Title"}.should raise_error
       end
     end
   end

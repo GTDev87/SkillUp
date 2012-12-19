@@ -308,6 +308,7 @@ describe User do
     end
     
     it "should assign user_skills_attributes" do
+      create(:skill, title: "Skill A")
       User.create!(
         username: "username", 
         email: "user@example.com", 
@@ -371,6 +372,9 @@ describe User do
       it "should create a user_skills when it is given through nested attributes" do
         user = User.new(username: "username", email: "user@example.com", password: "password", password_confirmation: "password")
         
+        create(:skill, title: "Skill A")
+        create(:skill, title: "Skill B")
+        
         user.user_skills_attributes = { 
           "0" => { skill_title: "Skill A", points: 10 },
           "1" => { skill_title: "Skill B", points: 11 } }
@@ -387,7 +391,9 @@ describe User do
     
       it "should delete using nested attributes" do
         user = User.new(username: "username", email: "user@example.com", password: "password", password_confirmation: "password")
-      
+       
+        create(:skill, title: "Skill A")
+        
         user.user_skills_attributes = { 
             "0" => { skill_title: "Skill A", points: 10 } }
         user.save!
