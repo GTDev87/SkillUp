@@ -2,10 +2,10 @@ class UserMission
   include Mongoid::Document
  
   #EMBEDDED IN USER
-  embedded_in :user, inverse_of: :user_missions
+  belongs_to :user, inverse_of: :user_missions
   validates_presence_of :user
   
-  belongs_to :mission, inverse_of: nil
+  belongs_to :mission, inverse_of: :user_missions
   validates_presence_of :mission
   
   def mission_title

@@ -8,10 +8,16 @@ class Skill
   before_create :lower_title_case
   
   field :description, type: String
+
+  #needs test
+  has_many :user_skills, inverse_of: :skill, autosave: true
   
   has_many :mission_skills, inverse_of: :skill
 
   has_many :super_embeddings, class_name: "SkillEmbedding", inverse_of: :sub_skill
+
+  #needs test
+  has_many :user_skill_ratings, inverse_of: :skill
   
   has_many :sub_embeddings, class_name: "SkillEmbedding", inverse_of: :super_skill, autosave: true
   accepts_nested_attributes_for :sub_embeddings, allow_destroy: true

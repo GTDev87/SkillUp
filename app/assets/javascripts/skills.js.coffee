@@ -15,14 +15,16 @@ jQuery ->
       #this is setting the ammount field
       $( "#amount" ).val( "Level " + level + " Skills" )
 
+      #ajax request for new mission data
       $.ajax({
         type: "GET",
         data: { level_mission: level },
-        url: $('#products').data('url'),
+        url: $('#skills').data('url'),
         dataType: 'script'
       })
 
   })
+
   #this is setting the ammount field
   $( "#amount" ).val( "Level " + $( "#related_slider" ).slider( "value" ) + " Skills");
   

@@ -8,6 +8,9 @@ class Mission
   before_create :lower_title_case
   
   field :description, type: String
+
+  #needs test
+  has_many :user_missions, inverse_of: :mission, autosave: true
   
   has_many :mission_skills, inverse_of: :mission, autosave: true
   accepts_nested_attributes_for :mission_skills, allow_destroy: true

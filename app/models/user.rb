@@ -27,12 +27,16 @@ class User
   mount_uploader :avatar, AvatarUploader
   
   #Points
-  embeds_many :user_skills
+  has_many :user_skills, autosave: true
   accepts_nested_attributes_for :user_skills, allow_destroy: true
   
-  embeds_many :user_missions
+  has_many :user_missions, autosave: true
   accepts_nested_attributes_for :user_missions, allow_destroy: true
   
+  #needs testing
+  has_many :user_connections, autosave: true
+  accepts_nested_attributes_for :user_connections, allow_destroy: true
+
   def total_ability_points
     HashOperations.add_hashes(mission_only_points, ability_only_points)
   end

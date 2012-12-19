@@ -2,13 +2,13 @@ class UserSkill
   include Mongoid::Document
 
   #EMBEDDED IN USER
-  embedded_in :user, inverse_of: :user_skills
+  belongs_to :user, inverse_of: :user_skills
   validates_presence_of :user
   
   field :points, type: Integer
   validates_presence_of :points
   
-  belongs_to :skill, inverse_of: nil
+  belongs_to :skill, inverse_of: :user_skills
   validates_presence_of :skill
   
   def skill_title
