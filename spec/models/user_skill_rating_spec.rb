@@ -19,6 +19,28 @@ describe UserSkillRating do
     
       user_skill_rating.rating.should == 10
     end
+
+    it "should be able to assign skill_title" do
+      create(:skill, title: "Skill Title")
+      user_skill_rating = UserSkillRating.new(rating: 10, skill_title: "Skill Title")
+      user = create(:user)
+      user_skill_rating.ratee = create(:user)
+      user.user_skill_ratings << user_skill_rating
+      
+      User.find(user.id).user_skill_ratings.first.skill.title.should == "Skill Title"
+      User.find(user.id).user_skill_ratings.first.skill_title.should == "Skill Title"
+    end
+
+    it "should be able to assign ratee username" do
+      create(:user, username: "User A")
+      user_skill_rating = UserSkillRating.new(rating: 10, ratee_username: "User A")
+      user = create(:user)
+      user_skill_rating.skill = create(:skill)
+      user.user_skill_ratings << user_skill_rating
+      
+      User.find(user.id).user_skill_ratings.first.ratee.username.should == "User A"
+      User.find(user.id).user_skill_ratings.first.ratee_username.should == "User A"
+    end
   end
 
   describe "relations" do
@@ -73,4 +95,6 @@ describe UserSkillRating do
       lambda {user_skill_rating.save!}.should raise_error
     end
   end
+
+  # could use virtual attribute tests i suppose
 end

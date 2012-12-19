@@ -12,4 +12,21 @@ class UserSkillRating
 
   belongs_to :skill, inverse_of: :user_skill_ratings, autosave: true
   validates_presence_of :skill
+
+  #all the virtual methods need testing
+  def skill_title
+    skill.try(:title)
+  end
+
+  def skill_title=(title)
+    self.skill = Skill.find_by(title: title) if title.present?
+  end
+
+  def ratee_username
+    ratee.try(:username)
+  end
+
+  def ratee_username=(username)
+    self.ratee = User.find_by(username: username) if username.present?
+  end
 end
