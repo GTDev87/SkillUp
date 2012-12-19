@@ -1,10 +1,9 @@
 class UserConnection
   include Mongoid::Document
 
-  #class need testing
   belongs_to :user, inverse_of: :user_connections
   validates_presence_of :user
 
-  has_many :user_skill_ratings, inverse_of: :skill, autosave: true
-  accepts_nested_attributes_for :user_skill_ratings, allow_destroy: true
+  belongs_to :connection, class_name: "User", inverse_of: :inverse_user_connections, :class_name => "User"
+  validates_presence_of :connection
 end

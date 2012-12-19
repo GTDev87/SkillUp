@@ -16,7 +16,6 @@ class Skill
 
   has_many :super_embeddings, class_name: "SkillEmbedding", inverse_of: :sub_skill
 
-  #needs test
   has_many :user_skill_ratings, inverse_of: :skill
   
   has_many :sub_embeddings, class_name: "SkillEmbedding", inverse_of: :super_skill, autosave: true

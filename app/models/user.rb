@@ -33,9 +33,15 @@ class User
   has_many :user_missions, autosave: true
   accepts_nested_attributes_for :user_missions, allow_destroy: true
   
-  #needs testing
   has_many :user_connections, autosave: true
   accepts_nested_attributes_for :user_connections, allow_destroy: true
+
+  has_many :inverse_user_connections, class_name: "UserConnection", inverse_of: :connection
+
+  has_many :user_skill_ratings, inverse_of: :rater, autosave: true
+  accepts_nested_attributes_for :user_skill_ratings, allow_destroy: true
+
+  has_many :inverse_user_skill_ratings, class_name: "UserSkillRating", inverse_of: :ratee, autosave: true
 
   def total_ability_points
     HashOperations.add_hashes(mission_only_points, ability_only_points)

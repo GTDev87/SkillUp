@@ -22,6 +22,13 @@ FactoryGirl.define do
     points 10
   end
 
+  factory :user_connection do
+  end
+
+  factory :user_skill_rating do
+    rating 5
+  end
+
   factory :user do
     sequence(:username) { |n| "username#{n}" }
     sequence(:email) { |n| "foo#{n}@example.com" }

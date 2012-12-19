@@ -59,6 +59,26 @@ describe User do
       
       User.first.user_missions.size.should == 2
     end
+
+    it "should give multiple connections to a user" do
+      user = User.create(username: "username", email: "user@example.com", password: "password", password_confirmation: "password")
+      
+      user.user_connections << build(:user_connection, connection: create(:user))
+      user.user_connections << build(:user_connection, connection: create(:user))
+
+      User.find(user.id).user_connections.size.should == 2
+    end
+
+    it "should give multiple ratings to a user" do
+      user = User.create(username: "username", email: "user@example.com", password: "password", password_confirmation: "password")
+      
+      user.user_skill_ratings << build(:user_skill_rating, ratee: create(:user), skill: create(:skill))
+      user.user_skill_ratings << build(:user_skill_rating, ratee: create(:user), skill: create(:skill))
+      
+      user.save!
+
+      User.find(user.id).user_skill_ratings.size.should == 2
+    end
   end
   
   describe "password authentication" do
@@ -316,6 +336,34 @@ describe User do
       User.first.user_missions.size.should == 1
       User.first.user_missions.first.mission.title.should == "Mission A"
     end
+
+    it "should assign user_connections_attributes" do
+      User.create!(
+        username: "username", 
+        email: "user@example.com", 
+        password: "password", 
+        password_confirmation: "password",
+        user_connections_attributes: {
+          "0" => { 
+            connection: create(:user) } } )
+      
+      UserConnection.count.should == 1
+    end
+
+    it "should assign user_skill_ratting_attributes" do
+      User.create!(
+        username: "username", 
+        email: "user@example.com", 
+        password: "password", 
+        password_confirmation: "password",
+        user_skill_ratings_attributes: {
+          "0" => { 
+            ratee: create(:user),
+            skill: create(:skill),
+            rating: 10 } } )
+      
+      UserSkillRating.count.should == 1
+    end
   end
   
   describe "nested attributes" do
@@ -390,6 +438,78 @@ describe User do
         emptied_user = User.first
       
         emptied_user.user_missions.size.should == 0
+      end
+    end
+
+    describe UserConnection do
+      it "should create a user_connection when it is given through nested attributes" do
+        user = User.new(username: "username", email: "user@example.com", password: "password", password_confirmation: "password")
+        
+        user.user_connections_attributes = { 
+            "0" => { connection: create(:user, username: "User A") },
+            "1" => { connection: create(:user, username: "User B") } }
+        user.save!
+      
+        saved_user = User.find(user.id)
+          
+        saved_user.user_connections.size.should == 2
+        saved_user.user_connections[0].connection.username.should == "User A"
+        saved_user.user_connections[1].connection.username.should == "User B"
+      end
+    
+      it "should delete using nested attributes" do
+        user = User.new(username: "username", email: "user@example.com", password: "password", password_confirmation: "password")
+      
+        user.user_connections_attributes = { 
+            "0" => { connection: create(:user, username: "User A") } }
+        user.save!
+      
+        saved_user = User.find(user.id)
+        saved_user.user_connections.size.should == 1
+      
+        saved_user.user_connections_attributes = { 
+            "0" => { _id: saved_user.user_connections.first._id, _destroy: '1' } }
+        saved_user.save!
+      
+        emptied_user = User.find(user.id)
+      
+        emptied_user.user_connections.size.should == 0
+      end
+    end
+
+    describe UserSkillRating do
+      it "should create a user_skill_rating when it is given through nested attributes" do
+        user = User.new(username: "username", email: "user@example.com", password: "password", password_confirmation: "password")
+        
+        user.user_skill_ratings_attributes = { 
+            "0" => { ratee: create(:user, username: "User A"), skill: create(:skill), rating: 5 },
+            "1" => { ratee: create(:user, username: "User B"), skill: create(:skill), rating: 5 } }
+        user.save!
+      
+        saved_user = User.find(user.id)
+          
+        saved_user.user_skill_ratings.size.should == 2
+        saved_user.user_skill_ratings[0].ratee.username.should == "User A"
+        saved_user.user_skill_ratings[1].ratee.username.should == "User B"
+      end
+    
+      it "should delete using nested attributes" do
+        user = User.new(username: "username", email: "user@example.com", password: "password", password_confirmation: "password")
+      
+        user.user_skill_ratings_attributes = { 
+            "0" => { ratee: create(:user, username: "User A"), skill: create(:skill), rating: 3 } }
+        user.save!
+      
+        saved_user = User.find(user.id)
+        saved_user.user_skill_ratings.size.should == 1
+      
+        saved_user.user_skill_ratings_attributes = { 
+            "0" => { _id: saved_user.user_skill_ratings.first._id, _destroy: '1' } }
+        saved_user.save!
+      
+        emptied_user = User.find(user.id)
+      
+        emptied_user.user_skill_ratings.size.should == 0
       end
     end
   end
