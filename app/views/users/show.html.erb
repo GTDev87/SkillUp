@@ -23,6 +23,15 @@
     <%= f.submit "Save Tasks" %>
   <% end %>
 
+  <%= labeled_form_for @user do |f| %>
+    <h2>User Ratings</h2>
+    <%= f.fields_for :user_skill_ratings do |user_skill_rating_builder| %>
+      <%= render 'user_skill_rating_fields', f: user_skill_rating_builder %>
+    <% end %>
+    <%= link_to_add_fields "Add User Skill Rating", f, :user_skill_ratings %>
+    <%= f.submit "Save User Skill Rating" %>
+  <% end %>
+
   <h2>Calculated Ability Points</h2>
   <% @user.total_ability_points.sort_by {|k,v| -v}.each do |title, points| %>
     <%= title %>: <%= points %><br />

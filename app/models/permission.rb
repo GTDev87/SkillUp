@@ -13,7 +13,7 @@ class Permission
       allow :users, [:edit, :update, :show] do |resource_user|
         resource_user.id == user.id 
       end
-      #Needs Test
+
       allow_param(:user, [
         :username, 
         :email, 
@@ -29,12 +29,18 @@ class Permission
           user_missions_attributes: [
             :id, 
             :_destroy, 
-            :mission_title]}, 
+            :mission_title] },
+        {
+          user_skill_ratings_attributes: [
+            :id,
+            :_destroy,
+            :ratee_username,
+            :skill_title] }, 
         {
           user_skills_attributes: [
             :id, 
             :_destroy, 
-            :skill_title]}])
+            :skill_title] } ] )
             
       allow_all if user.admin?
     end
