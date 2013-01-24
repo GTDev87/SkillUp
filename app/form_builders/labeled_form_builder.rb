@@ -17,7 +17,6 @@ class LabeledFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   #Need test
-  #TODO FIX THIS SHIT!!!!!
   def thumb_image_field(name, *args)
     
     content_tag :div, class: "control-group" do
