@@ -3,7 +3,9 @@ class LabeledFormBuilder < ActionView::Helpers::FormBuilder
   delegate :content_tag, :tag, to: :@template
   
   [:text_field, :text_area, :password_field, :date_select].each do |method_name|
+    
     define_method(method_name.to_s) do |name, *args|
+      
       content_tag :div, class: "control-group" do
         output_form = field_label(name, *args)
         fields = content_tag :div, class: "controls" do
@@ -15,16 +17,19 @@ class LabeledFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   #Need test
+  #TODO FIX THIS SHIT!!!!!
   def thumb_image_field(name, *args)
+    
     content_tag :div, class: "control-group" do
       output_form = field_label(name, *args)
-      content_tag :div, class: "controls" do
+      avatar_fields = content_tag :div, class: "controls" do
+        field = file_field(name, *merge_option_into_args({class: "file_field"}, *args))
         if object.respond_to?(name)
-          output_form << @template.image_tag(object.send(name).url(:thumb))
+          field << @template.image_tag(object.send(name).url(:thumb))
         end
-        output_form << @template.file_field(name, *merge_option_into_args({class: "file_field"}, *args)) 
+        field
       end
-      output_form
+      output_form << avatar_fields
     end
   end
   

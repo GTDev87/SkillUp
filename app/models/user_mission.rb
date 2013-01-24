@@ -1,7 +1,6 @@
 class UserMission
   include Mongoid::Document
  
-  #EMBEDDED IN USER
   belongs_to :user, inverse_of: :user_missions
   validates_presence_of :user
   
