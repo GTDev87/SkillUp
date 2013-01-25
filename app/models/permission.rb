@@ -35,6 +35,7 @@ class Permission
             :id,
             :_destroy,
             :ratee_username,
+            :rating,
             :skill_title] }, 
         {
           user_skills_attributes: [

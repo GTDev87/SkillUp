@@ -41,7 +41,7 @@ class User
   has_many :user_skill_ratings, inverse_of: :rater, autosave: true
   accepts_nested_attributes_for :user_skill_ratings, allow_destroy: true
 
-  has_many :inverse_user_skill_ratings, class_name: "UserSkillRating", inverse_of: :ratee, autosave: true
+  has_many :inverse_user_skill_ratings, class_name: "UserSkillRating", inverse_of: :ratee
 
   def total_ability_points
     HashOperations.add_hashes(mission_only_points, ability_only_points)
