@@ -25,25 +25,3 @@ ul.ui-autocomplete {
   }
 }
 
-.rating_ballot {
-  input.rating_button { display: none; }
-  
-  label.rating {
-    cursor: pointer;
-    display: block;
-    height: 24px;
-    width: 24px;
-    float: left;
-
-    span { display: none; }
-    background-image: url(../images/star_rating_empty.png);
-    &.bright { background-image: url(../images/star_rating_full.png); }
-    &.glow { background-image: url(../images/star_rating_full.png); }
-  }
-}
-
-//super hacky
-.read_only_ballot {
-  @extend .rating_ballot;
-  label.rating { background-image: url(../images/star_rating_full.png); }
-}
