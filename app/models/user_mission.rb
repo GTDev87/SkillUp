@@ -1,5 +1,6 @@
 class UserMission
   include Mongoid::Document
+  include Mongoid::Timestamps
  
   belongs_to :user, inverse_of: :user_missions
   validates_presence_of :user

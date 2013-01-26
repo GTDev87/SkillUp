@@ -2,6 +2,7 @@ class User
   include Mongoid::Document
   include ActiveModel::SecurePassword
   include Mongoid::MultiParameterAttributes
+  include Mongoid::Timestamps
   
   field :admin, type: Boolean
   

@@ -1,5 +1,6 @@
 class Skill
-  include Mongoid::Document 
+  include Mongoid::Document
+  include Mongoid::Timestamps
 
   field :title, type: String
   validates_presence_of :title

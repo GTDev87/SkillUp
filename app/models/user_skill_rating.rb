@@ -1,5 +1,6 @@
 class UserSkillRating
   include Mongoid::Document
+  include Mongoid::Timestamps
   
   field :rating, type: Integer
   validates_presence_of :rating
