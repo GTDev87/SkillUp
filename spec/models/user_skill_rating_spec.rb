@@ -94,6 +94,16 @@ describe UserSkillRating do
     
       lambda {user_skill_rating.save!}.should raise_error
     end
+
+    it "should not have the same rater as ratee" do
+      user_skill_rating = UserSkillRating.new
+      self_absorbed_user = create(:user)
+      self_absorbed_user.user_skill_ratings << user_skill_rating
+      user_skill_rating.ratee = self_absorbed_user
+      user_skill_rating.skill = create(:skill)
+    
+      lambda {user_skill_rating.save!}.should raise_error
+    end
   end
 
   # could use virtual attribute tests i suppose

@@ -1,6 +1,7 @@
 // Place all the styles related to the users controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
 ul.ui-autocomplete {
   position: absolute;
   list-style: none;
@@ -22,4 +23,21 @@ ul.ui-autocomplete {
       background-color: #FFFCB2;
     }
   }
-} 
+}
+
+.rating_ballot {
+  input.rating_button { display: none; }
+
+  label.rating {
+    cursor: pointer;
+    display: block;
+    height: 24px;
+    width: 24px;
+    float: left;
+
+    span { display: none; }
+    background-image: url(../images/star_rating_empty.png);
+    &.bright { background-image: url(../images/star_rating_full.png); }
+    &.glow { background-image: url(../images/star_rating_full.png); } 
+  }
+}

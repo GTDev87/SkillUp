@@ -64,7 +64,7 @@ describe Permission do
     it { should     allow_param(:user, :email) }
     it { should     allow_param(:user, {user_skills_attributes: [:id, :_destroy, :skill_title] } ) }
     it { should     allow_param(:user, {user_missions_attributes: [:id, :_destroy, :mission_title] } ) }
-    it { should     allow_param(:user, {user_skill_ratings_attributes: [:id, :_destroy, :ratee_username, :skill_title] } ) }
+    it { should     allow_param(:user, {user_skill_ratings_attributes: [:id, :_destroy, :ratee_username, :rating, :skill_title] } ) }
 
     it { should allow(:sessions, :new) }
     it { should allow(:sessions, :create) }
