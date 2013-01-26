@@ -1,16 +1,11 @@
 <fieldset>
+  <% present f.object do |user_skill_rating_presenter|%>
+    <%= user_skill_rating_presenter.ratee.username %>
+    <%= user_skill_rating_presenter.skill.title %>
+    <%= user_skill_rating_presenter.rating %>
+  <% end %>
+  
   <%= f.hidden_field :_id, :value => f.object._id %>
-  <%= f.object.ratee.username %>
-  <%= f.object.skill.title %>
-
-
-
-  <%= f.object.rating %>
-  
-  
-
-
-
   <%= f.hidden_field :_destroy %>
   <%= link_to "remove", '#', class: "remove_fields" %>
 </fieldset>

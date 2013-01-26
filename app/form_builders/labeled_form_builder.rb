@@ -18,7 +18,6 @@ class LabeledFormBuilder < ActionView::Helpers::FormBuilder
 
   #Need test
   def thumb_image_field(name, *args)
-    
     content_tag :div, class: "control-group" do
       output_form = field_label(name, *args)
       avatar_fields = content_tag :div, class: "controls" do
@@ -29,6 +28,26 @@ class LabeledFormBuilder < ActionView::Helpers::FormBuilder
         field
       end
       output_form << avatar_fields
+    end
+  end
+
+  #also need test
+  def star_ratings(name, stars, *args)
+    content_tag :div, class: "control-group" do
+      output_form = field_label(name, *args)
+      rating_fields = content_tag :div, class: "controls" do
+        content_tag :div, class: "rating_ballot" do
+          fields = ActiveSupport::SafeBuffer.new
+          (1..stars).each do |star|
+          
+            fields << label("rating_#{star}", content_tag(:span, "#{star}"), *merge_option_into_args({class: "rating", id: "#{star}"}, *args))
+          
+            fields << radio_button(:rating, star, *merge_option_into_args({class: "rating_button"}, *args))
+          end
+          fields
+        end
+      end
+      output_form << rating_fields
     end
   end
   
