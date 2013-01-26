@@ -24,6 +24,9 @@ gem "mini_magick"
 # Handle Markdown
 gem 'redcarpet'
 
+# Pagination
+gem 'kaminari'
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
