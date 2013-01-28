@@ -10,12 +10,9 @@ SkillUp::Application.routes.draw do
   
   match "/upload/grid/*path" => "gridfs#serve"
   
-  resources :mission_skills
   resources :missions
   resources :sessions
   resources :skills
-  resources :user_skills
-  resources :user_missions
   resources :users
   
   # The priority is based upon order of creation:
