@@ -3,7 +3,7 @@ $red: #C00000;
 $black: #000000;
 
 
-.remove_fields{
+.remove_field{
   color: $red;
   &:hover {
     color: $red;
@@ -11,7 +11,7 @@ $black: #000000;
   }
 }
 
-.add_fields{
+.add_field{
   color: $green;
   &:hover {
     color: $green;

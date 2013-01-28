@@ -1,11 +1,13 @@
 module ApplicationHelper
-  def link_to_add_fields(name, f, association)
+  def link_to_add_field(name, f, association)
     new_object = f.object.send(association).klass.new
     id = new_object.object_id
-    fields = f.fields_for(association, new_object, child_index: id) do |builder|
-      render(association.to_s.singularize + "_new_fields", f: builder)
+    field = f.fields_for(association, new_object, child_index: id) do |builder|
+      #NAME OF ASSOCIATION "model_new_fields"
+      #should be model/_
+      render(association.to_s.pluralize + "/new_field", f: builder)
     end
-    link_to(name, '#', class: "add_fields", data: {id: id, fields: fields.gsub("\n", "")})
+    link_to(name, '#', class: "add_field", data: {id: id, field: field.gsub("\n", "")})
   end
   
   def labeled_form_for(object, options = {}, &block)

@@ -4,16 +4,17 @@
   <%= f.text_area :description%>
 
   <h2>Mission Abilities</h2>
+
   <%= f.fields_for :mission_skills do |mission_skill_builder| %>
-    <%= render 'mission_skill_fields', f: mission_skill_builder %>
+    <%= render 'mission_skills/field', f: mission_skill_builder %>
   <% end %>
-  <%= link_to_add_fields "Add Skill", f, :mission_skills %>
+  <%= link_to_add_field "Add Skill", f, :mission_skills %>
 
   <h2>Sub Missions</h2>
-  <%= f.fields_for :sub_embeddings do |sub_embedding_builder| %>
-    <%= render 'sub_embedding_fields', f: sub_embedding_builder %>
+  <%= f.fields_for :mission_embeddings do |mission_embedding_builder| %>
+    <%= render 'mission_embeddings/field', f: mission_embedding_builder %>
   <% end %>
-  <%= link_to_add_fields "Add Sub Mission", f, :sub_embeddings %>
+  <%= link_to_add_field "Add Sub Mission", f, :mission_embeddings %>
   
   <%= f.submit %>
 <% end %>

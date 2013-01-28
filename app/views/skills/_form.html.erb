@@ -4,10 +4,10 @@
   <%= f.text_area :description%>
 
   <h2>Sub Skills</h2>
-  <%= f.fields_for :sub_embeddings do |sub_embedding_builder| %>
-    <%= render 'sub_embedding_fields', f: sub_embedding_builder %>
+  <%= f.fields_for :skill_embeddings do |skill_embedding_builder| %>
+    <%= render 'skill_embeddings/field', f: skill_embedding_builder %>
   <% end %>
-  <%= link_to_add_fields "Add Sub Skill", f, :sub_embeddings %>  
+  <%= link_to_add_field "Add Sub Skill", f, :skill_embeddings %>  
 
   <%= f.submit %>
 <% end %>

@@ -9,9 +9,14 @@ class Permission
     
     if user
       allow :missions, [:new, :create]
-      allow :users, [:new, :create]
+      #gridfs needs test
+      allow :gridfs, [:serve] do |resource_user|
+
+        resource_user.id == user.id
+      end
       allow :users, [:edit, :update, :show] do |resource_user|
-        resource_user.id == user.id 
+        resource_user.id == user.id
+
       end
 
       allow_param(:user, [

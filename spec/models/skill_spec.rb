@@ -73,26 +73,26 @@ describe Skill do
         skill_a = Skill.create!(title: "Sub Skill A")
         skill_b = Skill.create!(title: "Sub Skill B")
       
-        skill_a.sub_embeddings.build(weight: 1)
-        skill_a.sub_embeddings.first.sub_skill = skill_b
+        skill_a.skill_embeddings.build(weight: 1)
+        skill_a.skill_embeddings.first.sub_skill = skill_b
         skill_a.save
       
-        skill_b.sub_embeddings.build(weight: 1)
-        skill_b.sub_embeddings.first.sub_skill = skill_a
+        skill_b.skill_embeddings.build(weight: 1)
+        skill_b.skill_embeddings.first.sub_skill = skill_a
         
         skill_b.save.should == false
-        Skill.find(skill_a._id).sub_embeddings.size.should == 1
-        Skill.find(skill_b._id).sub_embeddings.size.should == 0
+        Skill.find(skill_a._id).skill_embeddings.size.should == 1
+        Skill.find(skill_b._id).skill_embeddings.size.should == 0
       end
     
       it "should not create/save if skill has cyclical reference with itself" do
         skill_a = Skill.create!(title: "Sub Skill A")
       
-        skill_a.sub_embeddings.build(weight: 1)
-        skill_a.sub_embeddings.first.sub_skill = skill_a
+        skill_a.skill_embeddings.build(weight: 1)
+        skill_a.skill_embeddings.first.sub_skill = skill_a
         
         skill_a.save.should == false
-        Skill.find(skill_a._id).sub_embeddings.size.should == 0
+        Skill.find(skill_a._id).skill_embeddings.size.should == 0
       end
     end
     
@@ -102,13 +102,13 @@ describe Skill do
         
         sub_skill_a = Skill.create!(title: "Sub Skill A")
       
-        sub_embedding_1 = skill_a.sub_embeddings.build(weight: 1)
+        sub_embedding_1 = skill_a.skill_embeddings.build(weight: 1)
         sub_embedding_1.sub_skill = sub_skill_a
-        sub_embedding_2 = skill_a.sub_embeddings.build(weight: 1)
+        sub_embedding_2 = skill_a.skill_embeddings.build(weight: 1)
         sub_embedding_2.sub_skill = sub_skill_a
 
         skill_a.save.should == false
-        Skill.find(skill_a._id).sub_embeddings.size.should == 0
+        Skill.find(skill_a._id).skill_embeddings.size.should == 0
       end
     end
   end
@@ -121,7 +121,7 @@ describe Skill do
         sub_embedding = build(:skill_embedding, weight: 1, sub_skill: create(:skill))
         super_embedding = build(:skill_embedding, weight: 2, super_skill: create(:skill))
         
-        skill.sub_embeddings << sub_embedding
+        skill.skill_embeddings << sub_embedding
         skill.super_embeddings << super_embedding
         
         sub_embedding.save!
@@ -129,7 +129,7 @@ describe Skill do
         
         skill.save!
         
-        Skill.find(skill._id).sub_embeddings.first.weight.should == 1
+        Skill.find(skill._id).skill_embeddings.first.weight.should == 1
         Skill.find(skill._id).super_embeddings.first.weight.should == 2
       end
       
@@ -139,7 +139,7 @@ describe Skill do
         sub_embedding = build(:skill_embedding, weight: 1, sub_skill: create(:skill))
         super_embedding = build(:skill_embedding, weight: 2, super_skill: create(:skill))
         
-        skill.sub_embeddings << sub_embedding
+        skill.skill_embeddings << sub_embedding
         skill.super_embeddings << super_embedding
         
         sub_embedding.save!
@@ -213,19 +213,19 @@ describe Skill do
       Skill.first.description.should == "A description"
     end
     
-    it "should be able to assign sub_embeddings" do
+    it "should be able to assign skill_embeddings" do
       Skill.create!(title: "Skill A")
       Skill.create!(
       title: "Skill Title", 
       description: "A description",
-      sub_embeddings_attributes: {
+      skill_embeddings_attributes: {
         "0" => {
           sub_skill_title: "Skill A",
           weight: 10 } } )
       
-      Skill.find_by(title: "Skill Title").sub_embeddings.size.should == 1
-      Skill.find_by(title: "Skill Title").sub_embeddings.first.sub_skill.title.should == "Skill A"
-      Skill.find_by(title: "Skill Title").sub_embeddings.first.weight.should == 10
+      Skill.find_by(title: "Skill Title").skill_embeddings.size.should == 1
+      Skill.find_by(title: "Skill Title").skill_embeddings.first.sub_skill.title.should == "Skill A"
+      Skill.find_by(title: "Skill Title").skill_embeddings.first.weight.should == 10
     end
   end
   
@@ -236,7 +236,7 @@ describe Skill do
         Skill.create(title: "Skill A")
         Skill.create(title: "Skill B")
     
-        skill.sub_embeddings_attributes = { 
+        skill.skill_embeddings_attributes = { 
           "0" => { 
             sub_skill_title: "Skill A",
             weight: 10 },
@@ -247,33 +247,33 @@ describe Skill do
         skill.save!
         saved_skill = Skill.find_by(title: "A Title")
       
-        saved_skill.sub_embeddings.size.should == 2
-        saved_skill.sub_embeddings[0].sub_skill.title.should == "Skill A"
-        saved_skill.sub_embeddings[0].weight.should == 10
-        saved_skill.sub_embeddings[1].sub_skill.title.should == "Skill B"
-        saved_skill.sub_embeddings[1].weight.should == 9
+        saved_skill.skill_embeddings.size.should == 2
+        saved_skill.skill_embeddings[0].sub_skill.title.should == "Skill A"
+        saved_skill.skill_embeddings[0].weight.should == 10
+        saved_skill.skill_embeddings[1].sub_skill.title.should == "Skill B"
+        saved_skill.skill_embeddings[1].weight.should == 9
       end
     
       it "should delete using nested attributes" do
         skill = Skill.new(title: "A Title")
         Skill.create(title: "Skill A")
     
-        skill.sub_embeddings_attributes = { 
+        skill.skill_embeddings_attributes = { 
           "0" => { 
             sub_skill_title: "Skill A",
             weight: 10 } }
         skill.save!
       
         saved_skill = Skill.find_by(title: "A Title")
-        saved_skill.sub_embeddings.size.should == 1
+        saved_skill.skill_embeddings.size.should == 1
       
-        saved_skill.sub_embeddings_attributes = { 
-            "0" => { _id: saved_skill.sub_embeddings.first._id, _destroy: '1' } }
+        saved_skill.skill_embeddings_attributes = { 
+            "0" => { _id: saved_skill.skill_embeddings.first._id, _destroy: '1' } }
         saved_skill.save!
       
         emptied_skill = Skill.find_by(title: "Skill A")
     
-        emptied_skill.sub_embeddings.size.should == 0
+        emptied_skill.skill_embeddings.size.should == 0
         SkillEmbedding.count.should == 0
       end
     end
@@ -296,9 +296,9 @@ describe Skill do
       skill_embedding_ba = build(:skill_embedding, sub_skill: skill_ba, weight: 5)
       skill_embedding_bb = build(:skill_embedding, sub_skill: skill_bb, weight: 6)
       
-      skill.sub_embeddings.concat([skill_embedding_a,skill_embedding_b])
-      skill_a.sub_embeddings.concat([skill_embedding_aa,skill_embedding_ab])
-      skill_b.sub_embeddings.concat([skill_embedding_ba,skill_embedding_bb])
+      skill.skill_embeddings.concat([skill_embedding_a,skill_embedding_b])
+      skill_a.skill_embeddings.concat([skill_embedding_aa,skill_embedding_ab])
+      skill_b.skill_embeddings.concat([skill_embedding_ba,skill_embedding_bb])
 
       skill.ability_points["Skill"].should == 1
       skill.ability_points["Sub Skill A"].should == 1
@@ -336,9 +336,9 @@ describe Skill do
       skill_embedding_ac = build(:skill_embedding, sub_skill: skill_c, weight: 1)
       skill_embedding_bc = build(:skill_embedding, sub_skill: skill_c, weight: 2)
       
-      skill.sub_embeddings.concat([skill_embedding_a,skill_embedding_b])
-      skill_a.sub_embeddings << skill_embedding_ac
-      skill_b.sub_embeddings << skill_embedding_bc
+      skill.skill_embeddings.concat([skill_embedding_a,skill_embedding_b])
+      skill_a.skill_embeddings << skill_embedding_ac
+      skill_b.skill_embeddings << skill_embedding_bc
       
       skill.ability_points["Skill"].should == 1
       skill.ability_points["Sub Skill A"].should == 1
@@ -364,9 +364,9 @@ describe Skill do
       skill_embedding_ba = build(:skill_embedding, sub_skill: skill_ba, weight: 5)
       skill_embedding_bb = build(:skill_embedding, sub_skill: skill_bb, weight: 6)
       
-      skill.sub_embeddings.concat([skill_embedding_a,skill_embedding_b])
-      skill_a.sub_embeddings.concat([skill_embedding_aa,skill_embedding_ab])
-      skill_b.sub_embeddings.concat([skill_embedding_ba,skill_embedding_bb])
+      skill.skill_embeddings.concat([skill_embedding_a,skill_embedding_b])
+      skill_a.skill_embeddings.concat([skill_embedding_aa,skill_embedding_ab])
+      skill_b.skill_embeddings.concat([skill_embedding_ba,skill_embedding_bb])
       
       mission = create(:mission, title: "Mission")
       mission.mission_skills << build(:mission_skill, skill: skill)      
@@ -405,9 +405,9 @@ describe Skill do
       skill_embedding_ba = build(:skill_embedding, sub_skill: skill_ba, weight: 5)
       skill_embedding_bb = build(:skill_embedding, sub_skill: skill_bb, weight: 6)
       
-      skill.sub_embeddings.concat([skill_embedding_a,skill_embedding_b])
-      skill_a.sub_embeddings.concat([skill_embedding_aa,skill_embedding_ab])
-      skill_b.sub_embeddings.concat([skill_embedding_ba,skill_embedding_bb])
+      skill.skill_embeddings.concat([skill_embedding_a,skill_embedding_b])
+      skill_a.skill_embeddings.concat([skill_embedding_aa,skill_embedding_ab])
+      skill_b.skill_embeddings.concat([skill_embedding_ba,skill_embedding_bb])
 
       skill_bb.all_ancestor_skills.should == [skill, skill_b, skill_bb].to_set
     end
@@ -430,9 +430,9 @@ describe Skill do
       skill_embedding_ba = build(:skill_embedding, sub_skill: skill_ba, weight: 5)
       skill_embedding_bb = build(:skill_embedding, sub_skill: skill_bb, weight: 6)
       
-      skill.sub_embeddings.concat([skill_embedding_a,skill_embedding_b])
-      skill_a.sub_embeddings.concat([skill_embedding_aa,skill_embedding_ab])
-      skill_b.sub_embeddings.concat([skill_embedding_ba,skill_embedding_bb])
+      skill.skill_embeddings.concat([skill_embedding_a,skill_embedding_b])
+      skill_a.skill_embeddings.concat([skill_embedding_aa,skill_embedding_ab])
+      skill_b.skill_embeddings.concat([skill_embedding_ba,skill_embedding_bb])
       
       mission = create(:mission, title: "Mission")
       mission.mission_skills << build(:mission_skill, skill: skill, points: 1)      

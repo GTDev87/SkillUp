@@ -11,7 +11,7 @@ private
   end
   
   def cycle_detected?(record, cycle_node, visited_set)
-    record.sub_embeddings.each do |sub_embedding|
+    record.mission_embeddings.each do |sub_embedding|
       sub_record = sub_embedding.sub_mission
       if (sub_record.title == cycle_node) then return true end
       if !visited_set.include?(sub_record.title)

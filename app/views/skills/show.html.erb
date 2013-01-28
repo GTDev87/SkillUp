@@ -26,9 +26,9 @@
 
 <p>
   <b>Direct Sub Skills:</b><br />
-  <% @skill.sub_embeddings.each do |sub_embedding| %>
-    <%= sub_embedding.sub_skill.title %><br />
-    Weight: <%= sub_embedding.weight %><br />
+  <% @skill.skill_embeddings.each do |skill_embedding| %>
+    <%= skill_embedding.sub_skill.title %><br />
+    Weight: <%= skill_embedding.weight %><br />
   <% end %>
 </p>
 

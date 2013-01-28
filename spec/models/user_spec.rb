@@ -154,7 +154,7 @@ describe User do
       cardio = create(:skill ,title: "Cardio")
       
       running = create(:skill, title: "Running")
-      running.sub_embeddings << build(:skill_embedding, sub_skill: cardio, weight: running_cardio_sub_embedding_points)
+      running.skill_embeddings << build(:skill_embedding, sub_skill: cardio, weight: running_cardio_sub_embedding_points)
       
       running_mile = create(:mission, title: "Running Mile")
       running_mile.mission_skills << build(:mission_skill, skill: running, points: running_mile_running_skill_points)
@@ -179,7 +179,7 @@ describe User do
       cardio = create(:skill ,title: "Cardio")
       
       running = create(:skill, title: "Running")
-      running.sub_embeddings << build(:skill_embedding, sub_skill: cardio, weight: running_cardio_sub_embedding_points)
+      running.skill_embeddings << build(:skill_embedding, sub_skill: cardio, weight: running_cardio_sub_embedding_points)
       
       user.user_skills << build(:user_skill, skill: running, points: running_skill_points)
       user.user_skills << build(:user_skill, skill: cardio, points: cardio_skill_points)
@@ -209,7 +209,7 @@ describe User do
       cardio = create(:skill ,title: "Cardio")
       
       running = create(:skill, title: "Running")
-      running.sub_embeddings << build(:skill_embedding, sub_skill: cardio, weight: running_cardio_sub_embedding_points)
+      running.skill_embeddings << build(:skill_embedding, sub_skill: cardio, weight: running_cardio_sub_embedding_points)
       
       user.user_skills << build(:user_skill, skill: running, points: running_skill_points)
       user.user_skills << build(:user_skill, skill: cardio, points: cardio_skill_points)
@@ -239,7 +239,7 @@ describe User do
       cardio = create(:skill ,title: "Cardio")
       
       running = create(:skill, title: "Running")
-      running.sub_embeddings << build(:skill_embedding, sub_skill: cardio, weight: running_cardio_sub_embedding_points)
+      running.skill_embeddings << build(:skill_embedding, sub_skill: cardio, weight: running_cardio_sub_embedding_points)
       
       user.user_skills << build(:user_skill, skill: running, points: running_skill_points)
       user.user_skills << build(:user_skill, skill: cardio, points: cardio_skill_points)

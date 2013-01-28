@@ -63,7 +63,7 @@ describe MissionEmbedding do
         mission_embedding.save!
         
         Mission.find(sub_mission._id).super_embeddings.first.count.should == 10
-        Mission.find(super_mission._id).sub_embeddings.first.count.should == 10
+        Mission.find(super_mission._id).mission_embeddings.first.count.should == 10
       end
     end
   end
@@ -121,12 +121,12 @@ describe MissionEmbedding do
         create(:mission, title: "Created Title")
         mission_embedding = MissionEmbedding.new(count: 10)
         
-        mission.sub_embeddings << mission_embedding
+        mission.mission_embeddings << mission_embedding
         mission_embedding.sub_mission_title = "Created Title"
         
         mission.save!
         
-        Mission.first.sub_embeddings.first.sub_mission.title.should == "Created Title"
+        Mission.first.mission_embeddings.first.sub_mission.title.should == "Created Title"
       end
     end
   end

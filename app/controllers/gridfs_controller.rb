@@ -12,4 +12,11 @@ class GridfsController < ApplicationController
       self.response_body = ''
     end
   end
+
+private
+  ### OH MY GAWD THIS NEEDS A TESTING... SUPER HACK
+  def current_resource
+    user_id = params[:path].gsub("user/avatar/", "").gsub(/\/.*/, "")
+    @current_resource ||= User.find(user_id) if user_id
+  end
 end

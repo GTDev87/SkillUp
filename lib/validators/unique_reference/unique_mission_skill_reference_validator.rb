@@ -1,6 +1,8 @@
 class UniqueMissionSkillReferenceValidator < ActiveModel::EachValidator
   def validate_each(object, attribute, value)
+    
     if !all_unique?(value)
+      #debugger
       object.errors[attribute] << (options[:message] || "is not formatted properly") 
     end
   end

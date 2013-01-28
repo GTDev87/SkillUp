@@ -12,8 +12,8 @@
 
 <p>
   <b>Sub Missions:</b><br />
-  <% @mission.sub_embeddings.each do |sub_embedding| %>
-    <%= sub_embedding.sub_mission.title %>: <%= sub_embedding.count %><br />
+  <% @mission.mission_embeddings.each do |mission_embedding| %>
+    <%= mission_embedding.sub_mission.title %>: <%= mission_embedding.count %><br />
   <% end %>
 </p>
 

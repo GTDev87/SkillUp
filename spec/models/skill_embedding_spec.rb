@@ -58,7 +58,7 @@ describe SkillEmbedding do
         skill_embedding.save!
         
         Skill.find(sub_skill._id).super_embeddings.first.weight.should == 10
-        Skill.find(super_skill._id).sub_embeddings.first.weight.should == 10
+        Skill.find(super_skill._id).skill_embeddings.first.weight.should == 10
       end
     end
   end

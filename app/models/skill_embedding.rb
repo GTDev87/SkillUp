@@ -7,7 +7,7 @@ class SkillEmbedding
   belongs_to :sub_skill, class_name: "Skill", inverse_of: :super_embeddings
   validates_presence_of :sub_skill
   
-  belongs_to :super_skill, class_name: "Skill", inverse_of: :sub_embeddings
+  belongs_to :super_skill, class_name: "Skill", inverse_of: :skill_embeddings
   validates_presence_of :super_skill
   
   def sub_skill_title

@@ -18,12 +18,14 @@
 
     <%= labeled_form_for @user do |f| %>
       <h4>Tasks</h4>
-      <%= link_to_add_fields "Add Task", f, :user_missions %>
+      
+      <%= link_to_add_field "Add Task", f, :user_missions %>
+
       <%= f.submit "Save Tasks" %>
       <% @tasks.each do |task| %>
         
         <%= f.fields_for :user_missions, task do |user_mission_builder| %>
-          <%= render 'user_mission_fields', f: user_mission_builder %>
+          <%= render 'user_missions/field', f: user_mission_builder %>
         <% end %>
       
       <% end %>
@@ -34,12 +36,12 @@
   <div class="span3">
     <%= labeled_form_for @user do |f| %>
       <h4>User Ratings</h4>
-      <%= link_to_add_fields "Add User Skill Rating", f, :user_skill_ratings %>
+      <%= link_to_add_field "Add User Skill Rating", f, :user_skill_ratings %>
       <%= f.submit "Save User Skill Rating" %>
       <% @user_skill_ratings.each do |user_skill_rating| %>
 
         <%= f.fields_for :user_skill_ratings, user_skill_rating do |user_skill_rating_builder| %>
-          <%= render 'user_skill_rating_fields', f: user_skill_rating_builder %>
+          <%= render 'user_skill_ratings/field', f: user_skill_rating_builder %>
         <% end %>
 
       <% end %>

@@ -35,26 +35,26 @@ describe Mission do
         mission_a = Mission.create!(title: "Sub Mission A")
         mission_b = Mission.create!(title: "Sub Mission B")
       
-        mission_a.sub_embeddings.build(count: 1)
-        mission_a.sub_embeddings.first.sub_mission = mission_b
+        mission_a.mission_embeddings.build(count: 1)
+        mission_a.mission_embeddings.first.sub_mission = mission_b
         mission_a.save
       
-        mission_b.sub_embeddings.build(count: 1)
-        mission_b.sub_embeddings.first.sub_mission = mission_a
+        mission_b.mission_embeddings.build(count: 1)
+        mission_b.mission_embeddings.first.sub_mission = mission_a
         
         mission_b.save.should == false
-        Mission.find(mission_a._id).sub_embeddings.size.should == 1
-        Mission.find(mission_b._id).sub_embeddings.size.should == 0
+        Mission.find(mission_a._id).mission_embeddings.size.should == 1
+        Mission.find(mission_b._id).mission_embeddings.size.should == 0
       end
     
       it "should not create/save if skill has cyclical reference with itself" do
         mission_a = Mission.create!(title: "Sub Mission A")
       
-        mission_a.sub_embeddings.build(count: 1)
-        mission_a.sub_embeddings.first.sub_mission = mission_a
+        mission_a.mission_embeddings.build(count: 1)
+        mission_a.mission_embeddings.first.sub_mission = mission_a
         
         mission_a.save.should == false
-        Mission.find(mission_a._id).sub_embeddings.size.should == 0
+        Mission.find(mission_a._id).mission_embeddings.size.should == 0
       end
     end
     
@@ -64,13 +64,13 @@ describe Mission do
         
         sub_mission_a = Mission.create!(title: "Sub Mission A")
       
-        sub_embedding_1 = mission_a.sub_embeddings.build(count: 1)
+        sub_embedding_1 = mission_a.mission_embeddings.build(count: 1)
         sub_embedding_1.sub_mission = sub_mission_a
-        sub_embedding_2 = mission_a.sub_embeddings.build(count: 1)
+        sub_embedding_2 = mission_a.mission_embeddings.build(count: 1)
         sub_embedding_2.sub_mission = sub_mission_a
 
         mission_a.save.should == false
-        Mission.find(mission_a._id).sub_embeddings.size.should == 0
+        Mission.find(mission_a._id).mission_embeddings.size.should == 0
       end
     end
     
@@ -99,7 +99,7 @@ describe Mission do
         sub_embedding = build(:mission_embedding, count: 1, sub_mission: create(:mission))
         super_embedding = build(:mission_embedding, count: 2, super_mission: create(:mission))
         
-        mission.sub_embeddings << sub_embedding
+        mission.mission_embeddings << sub_embedding
         mission.super_embeddings << super_embedding
         
         sub_embedding.save!
@@ -107,7 +107,7 @@ describe Mission do
         
         mission.save!
         
-        Mission.find(mission._id).sub_embeddings.first.count.should == 1
+        Mission.find(mission._id).mission_embeddings.first.count.should == 1
         Mission.find(mission._id).super_embeddings.first.count.should == 2
       end
       
@@ -117,7 +117,7 @@ describe Mission do
         sub_embedding = build(:mission_embedding, count: 1, sub_mission: create(:mission))
         super_embedding = build(:mission_embedding, count: 2, super_mission: create(:mission))
         
-        mission.sub_embeddings << sub_embedding
+        mission.mission_embeddings << sub_embedding
         mission.super_embeddings << super_embedding
         
         sub_embedding.save!
@@ -223,7 +223,7 @@ describe Mission do
         Mission.create(title: "Mission A")
         Mission.create(title: "Mission B")
     
-        mission.sub_embeddings_attributes = { 
+        mission.mission_embeddings_attributes = { 
           "0" => { 
             sub_mission_title: "Mission A",
             count: 10 },
@@ -234,33 +234,33 @@ describe Mission do
         mission.save!
         saved_mission = Mission.find_by(title: "A Title")
       
-        saved_mission.sub_embeddings.size.should == 2
-        saved_mission.sub_embeddings[0].sub_mission.title.should == "Mission A"
-        saved_mission.sub_embeddings[0].count.should == 10
-        saved_mission.sub_embeddings[1].sub_mission.title.should == "Mission B"
-        saved_mission.sub_embeddings[1].count.should == 9
+        saved_mission.mission_embeddings.size.should == 2
+        saved_mission.mission_embeddings[0].sub_mission.title.should == "Mission A"
+        saved_mission.mission_embeddings[0].count.should == 10
+        saved_mission.mission_embeddings[1].sub_mission.title.should == "Mission B"
+        saved_mission.mission_embeddings[1].count.should == 9
       end
     
       it "should delete using nested attributes" do
         mission = Mission.new(title: "A Title")
         Mission.create(title: "Mission A")
     
-        mission.sub_embeddings_attributes = { 
+        mission.mission_embeddings_attributes = { 
           "0" => { 
             sub_mission_title: "Mission A",
             count: 10 } }
         mission.save!
        
         saved_mission = Mission.find_by(title: "A Title")
-        saved_mission.sub_embeddings.size.should == 1
+        saved_mission.mission_embeddings.size.should == 1
       
-        saved_mission.sub_embeddings_attributes = { 
-            "0" => { _id: saved_mission.sub_embeddings.first._id, _destroy: '1' } }
+        saved_mission.mission_embeddings_attributes = { 
+            "0" => { _id: saved_mission.mission_embeddings.first._id, _destroy: '1' } }
         saved_mission.save!
       
         emptied_mission = Mission.find_by(title: "Mission A")
     
-        emptied_mission.sub_embeddings.size.should == 0
+        emptied_mission.mission_embeddings.size.should == 0
         MissionEmbedding.count.should == 0
       end
     end
@@ -299,14 +299,14 @@ describe Mission do
       
       Mission.create!(
         title: "Mission Title",
-        sub_embeddings_attributes: {
+        mission_embeddings_attributes: {
           "0" => {
             sub_mission_title: "Sub Mission A",
             count: 10 } } )
       
-      Mission.find_by(title: "Mission Title").sub_embeddings.size.should == 1
-      Mission.find_by(title: "Mission Title").sub_embeddings.first.sub_mission.title.should == "Sub Mission A"
-      Mission.find_by(title: "Mission Title").sub_embeddings.first.count.should == 10
+      Mission.find_by(title: "Mission Title").mission_embeddings.size.should == 1
+      Mission.find_by(title: "Mission Title").mission_embeddings.first.sub_mission.title.should == "Sub Mission A"
+      Mission.find_by(title: "Mission Title").mission_embeddings.first.count.should == 10
     end
   end
   
@@ -338,9 +338,9 @@ describe Mission do
       @jump_count = 1
       @squat_count = 2
       
-      jump_embedding = @leap_frog.sub_embeddings.build(count: @jump_count)
+      jump_embedding = @leap_frog.mission_embeddings.build(count: @jump_count)
       jump_embedding.sub_mission = @jump
-      squat_embedding = @leap_frog.sub_embeddings.build(count: @squat_count)
+      squat_embedding = @leap_frog.mission_embeddings.build(count: @squat_count)
       squat_embedding.sub_mission = @squat
       
       @leap_frog.save!      
@@ -414,14 +414,14 @@ describe Mission do
       sub_embedding_bb_points = 3
       sub_embedding_bc_points = 4
       
-      sub_embedding_aa = skill_a.sub_embeddings.build(weight: sub_embedding_aa_points)
+      sub_embedding_aa = skill_a.skill_embeddings.build(weight: sub_embedding_aa_points)
       sub_embedding_aa.sub_skill = sub_skill_a
-      sub_embedding_ab = skill_a.sub_embeddings.build(weight: sub_embedding_ab_points)
+      sub_embedding_ab = skill_a.skill_embeddings.build(weight: sub_embedding_ab_points)
       sub_embedding_ab.sub_skill = sub_skill_b
       
-      sub_embedding_bb = skill_b.sub_embeddings.build(weight: sub_embedding_bb_points)
+      sub_embedding_bb = skill_b.skill_embeddings.build(weight: sub_embedding_bb_points)
       sub_embedding_bb.sub_skill = sub_skill_b
-      sub_embedding_bc = skill_b.sub_embeddings.build(weight: sub_embedding_bc_points)
+      sub_embedding_bc = skill_b.skill_embeddings.build(weight: sub_embedding_bc_points)
       sub_embedding_bc.sub_skill = sub_skill_c
   
       skill_a.save!

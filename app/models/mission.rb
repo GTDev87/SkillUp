@@ -19,9 +19,9 @@ class Mission
   
   has_many :super_embeddings, class_name: "MissionEmbedding", inverse_of: :sub_mission  
   
-  has_many :sub_embeddings, class_name: "MissionEmbedding", inverse_of: :super_mission, autosave: true
-  accepts_nested_attributes_for :sub_embeddings, allow_destroy: true
-  validates :sub_embeddings, cyclical_sub_mission_reference: true, unique_sub_mission_reference: true
+  has_many :mission_embeddings, inverse_of: :super_mission, autosave: true
+  accepts_nested_attributes_for :mission_embeddings, allow_destroy: true
+  validates :mission_embeddings, cyclical_sub_mission_reference: true, unique_sub_mission_reference: true
   
   #Many of these methods desparately need preprocessing
 
@@ -30,7 +30,7 @@ class Mission
   end
   
   def sub_mission_points_only
-    sub_embeddings.inject(Hash.new(0)) do |agg_sub_missions, sub_embedding|
+    mission_embeddings.inject(Hash.new(0)) do |agg_sub_missions, sub_embedding|
       multiplier = sub_embedding.count
       sub_mission_title = sub_embedding.sub_mission.title
       ability_points_multiplied = HashOperations.multiply_hash_by_value(Mission.find_by(title: sub_mission_title).total_ability_points, multiplier)
