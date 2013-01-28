@@ -5,7 +5,7 @@ module ApplicationHelper
     field = f.fields_for(association, new_object, child_index: id) do |builder|
       #NAME OF ASSOCIATION "model_new_fields"
       #should be model/_
-      render(association.to_s.pluralize + "/new_field", f: builder)
+      render(f.object.class.name.pluralize + "/" + association.to_s.pluralize + "/new_field", f: builder)
     end
     link_to(name, '#', class: "add_field", data: {id: id, field: field.gsub("\n", "")})
   end

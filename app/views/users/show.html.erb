@@ -25,7 +25,7 @@
       <% @tasks.each do |task| %>
         
         <%= f.fields_for :user_missions, task do |user_mission_builder| %>
-          <%= render 'user_missions/field', f: user_mission_builder %>
+          <%= render 'users/user_missions/field', f: user_mission_builder %>
         <% end %>
       
       <% end %>
@@ -41,7 +41,7 @@
       <% @user_skill_ratings.each do |user_skill_rating| %>
 
         <%= f.fields_for :user_skill_ratings, user_skill_rating do |user_skill_rating_builder| %>
-          <%= render 'user_skill_ratings/field', f: user_skill_rating_builder %>
+          <%= render 'users/user_skill_ratings/field', f: user_skill_rating_builder %>
         <% end %>
 
       <% end %>
