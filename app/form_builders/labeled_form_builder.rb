@@ -39,10 +39,15 @@ class LabeledFormBuilder < ActionView::Helpers::FormBuilder
         content_tag :div, class: "rating_ballot" do
           fields = ActiveSupport::SafeBuffer.new
           (1..stars).each do |star|
-          
-            fields << label("rating_#{star}", content_tag(:span, "#{star}"), *merge_option_into_args({class: "rating", id: "#{star}"}, *args))
-          
-            fields << radio_button(:rating, star, *merge_option_into_args({class: "rating_button"}, *args))
+
+            #this is gross
+            timestamp = Time.now.to_i
+            id_prefix = "#{name.to_s}_#{star}_#{timestamp}"
+            id = "#{object.class.name.underscore.to_s}_#{id_prefix}"
+
+            fields << label(id_prefix, content_tag(:span, "#{star}"), *merge_option_into_args({class: "rating", id: "#{star}"}, *args))
+            
+            fields << radio_button(name, star, *merge_option_into_args({class: "radio_button rating_button", id: id}, *args))
           end
           fields
         end

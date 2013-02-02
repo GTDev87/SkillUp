@@ -15,6 +15,7 @@ SkillUp::Application.routes.draw do
   resources :skills
   resources :users do
     resources :user_missions
+    resources :user_skill_ratings
   end
   
   # The priority is based upon order of creation:

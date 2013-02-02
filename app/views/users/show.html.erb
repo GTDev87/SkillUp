@@ -1,67 +1,47 @@
 <% present @user do |user_presenter|%>
-<div class="row">
-  <div class="span7">
-    <div id="profile">
-      <%= user_presenter.avatar %>
-      <h1><%= user_presenter.username %></h1>
-      <dl>
-        <dt>Name:</dt>
-        <dd><%= user_presenter.full_name %></dd>
-        <dt>Age:</dt>
-        <dd><%= user_presenter.age %></dd>
-        <dt>Location:</dt>
-        <dd><%= user_presenter.address %></dd>
-        <dt>About Me:</dt>
-        <dd><%= user_presenter.bio%></dd>
-      </dl>
+  <div class="row">
+    <div class="span7">
+      <div id="profile">
+        <%= user_presenter.avatar %>
+        <h1><%= user_presenter.username %></h1>
+        <dl>
+          <dt>Name:</dt>
+          <dd><%= user_presenter.full_name %></dd>
+          <dt>Age:</dt>
+          <dd><%= user_presenter.age %></dd>
+          <dt>Location:</dt>
+          <dd><%= user_presenter.address %></dd>
+          <dt>About Me:</dt>
+          <dd><%= user_presenter.bio%></dd>
+        </dl>
+      </div>
+
+      <%= content_tag "div", id: "user_missions" do %>
+        <%= link_to "Add Task", new_user_user_mission_path(@user), class: "new_link", remote: true %>
+        <%= content_tag "div", class: "fields" do %>
+          <%= render(@user_missions_paginator.current_elements) %>
+        <% end %>
+        <% if !@user_missions_paginator.last_page? %>
+          <%= link_to 'more tasks', user_user_missions_path(@user, {@user_missions_paginator.next_id_parameter => @user_missions_paginator.next_page_offset_id}), {remote: true, class: "more_fields"} %>
+        <% end %>
+      <% end %>
     </div>
 
-    <%= content_tag "div", id: "user_missions" do %>
-
-      <%= link_to "Add Task", new_user_user_mission_path(@user), class: "new_link", remote: true %>
-
-      <%= content_tag "div", class: "fields" do %>
-        <%= render(@user_missions_paginator.current_elements) %>
-      <% end %>
-
-      <% if !@user_missions_paginator.last_page? %>
-        <%= link_to 'more tasks', user_user_missions_path(@user, {@user_missions_paginator.next_id_parameter => @user_missions_paginator.next_page_offset_id}), {remote: true, class: "more_fields"} %>
-      <% end %>
-    <% end %>
-  </div>
-
-  <div class="span3">
-    <%= labeled_form_for @user do |f| %>
-      <h4>User Ratings</h4>
-      <%= link_to_add_field "Add User Skill Rating", f, :user_skill_ratings %>
-      <%= f.submit "Save User Skill Rating" %>
-      <% @user_skill_ratings.each do |user_skill_rating| %>
-
-        <%= f.fields_for :user_skill_ratings, user_skill_rating do |user_skill_rating_builder| %>
-          <%= render 'user_skill_ratings/field', f: user_skill_rating_builder %>
+    <div class="span3">
+      <%= content_tag "div", id: "user_skill_ratings" do %>
+        <%= link_to "Add Skill Rating", new_user_user_skill_rating_path(@user), class: "new_link", remote: true %>
+        <%= content_tag "div", class: "fields" do %>
+          <%= render(@user_skill_ratings_paginator.current_elements) %>
         <% end %>
-
-      <% end %>
-    <% end %>
-
-    <h4>Calculated Ability Points</h4>
-      <% @user.total_ability_points.sort_by {|k,v| -v}.each do |title, points| %>
-        <%= title %>: <%= points %><br />
-      <% end %>
-
-    <% 
-=begin %>
-      <%= labeled_form_for @user do |f| %>
-        <h2>Added Skills</h2>
-        <%= f.fields_for :user_skills do |user_skill_builder|%>
-          <%= render 'user_skill_fields', f: user_skill_builder %>
+        <% if !@user_skill_ratings_paginator.last_page? %>
+          <%= link_to 'more ratings', user_user_skill_ratings_path(@user, {@user_skill_ratings_paginator.next_id_parameter => @user_skill_ratings_paginator.next_page_offset_id}), {remote: true, class: "more_fields"} %>
         <% end %>
-        <%= link_to_add_fields "Add Skill", f, :user_skills %>
-        <%= f.submit"Save Skills" %>
       <% end %>
-    <% 
-=end %>
-  </div>
-</div>
 
+      <h4>Calculated Ability Points</h4>
+        <% @user.total_ability_points.sort_by {|k,v| -v}.each do |title, points| %>
+          <%= title %>: <%= points %><br />
+      <% end %>
+    </div>
+  </div>
 <% end %>

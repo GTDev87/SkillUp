@@ -1,0 +1,11 @@
+<fieldset id="new_<%= Time.now.to_i %>">
+  <%= labeled_form_for @user_skill_rating, {:url => user_user_skill_ratings_url(@user), remote: true} do |f| %>
+    <%= f.text_field :ratee_username%>
+    <%= f.text_field :skill_title%>
+    <%= f.star_ratings :rating, 10 %>
+    <%= f.hidden_field :_destroy %>
+	<%= link_to "remove", '#', class: "remove_field" %>
+	<%= hidden_field_tag :time, Time.now.to_i %>
+	<%= f.submit %>
+  <% end %>
+</fieldset>

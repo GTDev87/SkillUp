@@ -17,7 +17,7 @@ class UsersController < ApplicationController
     #duplicated in user_missions_controller... maybe should consider refactoring or ajax on page load
     @user_missions_paginator = my_paginate(@user.user_missions.desc(:created_at), :user_mission_next_element_id)
     
-    @user_skill_ratings = @user.user_skill_ratings.desc(:created_at).page(params[:page] || 0).per(5)
+    @user_skill_ratings_paginator = my_paginate(@user.user_skill_ratings.desc(:created_at), :user_skill_rating_next_element_id)
 
     respond_to do |format|
       format.js
