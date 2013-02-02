@@ -1,0 +1,19 @@
+body {
+  font-family: arial,verdana,sans-serif;
+  font-size: 15px; }
+
+form {
+  margin: 0;
+  padding: 0; }
+
+#header {
+  background-color: #ddd;
+  padding: 5px;
+  margin-bottom: 5px; }
+
+#header-links, #header-form {
+  float: left;
+  padding: 3px; }
+
+#content {
+  padding: 5px; }

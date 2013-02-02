@@ -13,7 +13,9 @@ SkillUp::Application.routes.draw do
   resources :missions
   resources :sessions
   resources :skills
-  resources :users
+  resources :users do
+    resources :user_missions
+  end
   
   # The priority is based upon order of creation:
   # first created -> highest priority.

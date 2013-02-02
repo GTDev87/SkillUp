@@ -23,6 +23,12 @@ private
   def current_resource
     nil
   end
+
+  def my_paginate(association, next_id_param)
+    paginator = ElementPaginator.new(association, params[next_id_param])
+    paginator.next_id_parameter = next_id_param
+    paginator
+  end
   
   def authorize
     if current_permission.allow?(params[:controller], params[:action], current_resource)

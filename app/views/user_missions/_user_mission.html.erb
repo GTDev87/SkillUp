@@ -1,0 +1,4 @@
+<fieldset id="user_mission_<%= user_mission %>">
+  <%= user_mission.mission.title %>
+  <%= link_to "remove", user_user_mission_path(@user, user_mission), class: "remove_field", method: :delete, remote: true %>
+</fieldset>

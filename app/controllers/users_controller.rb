@@ -13,11 +13,14 @@ class UsersController < ApplicationController
   # GET /users/1.json
   def show
     @user = User.find(params[:id])
-
-    @tasks = @user.user_missions.desc(:created_at).page(params[:page]).per(10)
-    @user_skill_ratings = @user.user_skill_ratings.desc(:created_at).page(params[:page]).per(10)
+    
+    #duplicated in user_missions_controller... maybe should consider refactoring or ajax on page load
+    @user_missions_paginator = my_paginate(@user.user_missions.desc(:created_at), :user_mission_next_element_id)
+    
+    @user_skill_ratings = @user.user_skill_ratings.desc(:created_at).page(params[:page] || 0).per(5)
 
     respond_to do |format|
+      format.js
       format.html # show.html.erb
       format.json { render json: @user }
     end
@@ -61,12 +64,13 @@ class UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
     
-    if params[:user][:password].blank? && params[:user][:password_confirmation].blank?
+    if params[:user].present? && params[:user][:password].blank? && params[:user][:password_confirmation].blank?
       params[:user].delete(:password)
       params[:user].delete(:password_confirmation)
     end
     respond_to do |format|
       if @user.update_attributes(params[:user])
+        format.js
         format.html { redirect_to @user, notice: 'User was successfully updated.' }
         format.json { head :no_content }
       else

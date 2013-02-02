@@ -16,20 +16,17 @@
       </dl>
     </div>
 
-    <%= labeled_form_for @user do |f| %>
-      <h4>Tasks</h4>
-      
-      <%= link_to_add_field "Add Task", f, :user_missions %>
+    <%= content_tag "div", id: "user_missions" do %>
 
-      <%= f.submit "Save Tasks" %>
-      <% @tasks.each do |task| %>
-        
-        <%= f.fields_for :user_missions, task do |user_mission_builder| %>
-          <%= render 'users/user_missions/field', f: user_mission_builder %>
-        <% end %>
-      
+      <%= link_to "Add Task", new_user_user_mission_path(@user), id: "new_link", remote: true %>
+
+      <%= content_tag "div", id: "user_mission_fields" do %>
+        <%= render(@user_missions_paginator.current_elements) %>
       <% end %>
 
+      <% if !@user_missions_paginator.last_page? %>
+        <%= link_to 'more tasks', user_user_missions_path(@user, {@user_missions_paginator.next_id_parameter => @user_missions_paginator.next_page_offset_id}), {remote: true, class: "more_fields"} %>
+      <% end %>
     <% end %>
   </div>
 
@@ -41,7 +38,7 @@
       <% @user_skill_ratings.each do |user_skill_rating| %>
 
         <%= f.fields_for :user_skill_ratings, user_skill_rating do |user_skill_rating_builder| %>
-          <%= render 'users/user_skill_ratings/field', f: user_skill_rating_builder %>
+          <%= render 'user_skill_ratings/field', f: user_skill_rating_builder %>
         <% end %>
 
       <% end %>

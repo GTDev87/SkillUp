@@ -1,0 +1,6 @@
+$('#user_mission_fields').append("<%= j render(@user_missions_paginator.current_elements) %>");
+<% if !@user_missions_paginator.last_page? %>
+  $('.more_fields').replaceWith("<%= j link_to 'more tasks', user_user_missions_path(@user, {@user_missions_paginator.next_id_parameter => @user_missions_paginator.next_page_offset_id, command: "user_missions_more"}), {remote: true, class: "more_fields"} %>");
+<% else %>
+  $('.more_fields').remove();
+<% end %>

@@ -5,7 +5,7 @@
 
   <h2>Sub Skills</h2>
   <%= f.fields_for :skill_embeddings do |skill_embedding_builder| %>
-    <%= render 'skills/skill_embeddings/field', f: skill_embedding_builder %>
+    <%= render 'skill_embeddings/field', f: skill_embedding_builder %>
   <% end %>
   <%= link_to_add_field "Add Sub Skill", f, :skill_embeddings %>  
 
