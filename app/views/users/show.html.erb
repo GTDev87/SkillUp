@@ -18,9 +18,9 @@
 
     <%= content_tag "div", id: "user_missions" do %>
 
-      <%= link_to "Add Task", new_user_user_mission_path(@user), id: "new_link", remote: true %>
+      <%= link_to "Add Task", new_user_user_mission_path(@user), class: "new_link", remote: true %>
 
-      <%= content_tag "div", id: "user_mission_fields" do %>
+      <%= content_tag "div", class: "fields" do %>
         <%= render(@user_missions_paginator.current_elements) %>
       <% end %>
 

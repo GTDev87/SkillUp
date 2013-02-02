@@ -1,2 +1,2 @@
-$('#user_mission_new_<%= params[:time] %>').remove();
-$('#user_mission_fields').prepend("<%= j render(@user_mission) %>");
+$('#user_missions #new_<%= params[:time] %>').remove();
+$('#user_missions .fields').prepend("<%= j render(@user_mission) %>");
