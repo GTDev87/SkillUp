@@ -5,7 +5,7 @@ class UserSkillRatingPresenter < BasePresenter
 
   def rating
 
-    content_tag :div, class: "read_only_ballot" do
+    content_tag :span, class: "read_only_ballot" do
       fields = ActiveSupport::SafeBuffer.new
       
       (1..user_skill_rating.rating).each do |star|

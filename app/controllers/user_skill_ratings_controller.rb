@@ -7,7 +7,6 @@ class UserSkillRatingsController < ApplicationController
   end
 
   def create
-  	
     @user_skill_rating = @user.user_skill_ratings.create(params[:user_skill_rating])
     respond_to do |format|
       format.html { redirect_to user_user_skill_rating_url(@user, @user_skill_rating) }

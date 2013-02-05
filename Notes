@@ -27,3 +27,5 @@
 - refactor ratings for other users code needs a good refactoring
 
 - the labeled form builder and presenters need A TON of tests
+
+- want to refactor ajax code SERIOUSLY
