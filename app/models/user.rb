@@ -22,7 +22,9 @@ class User
   field :first_name
   field :last_name
   field :date_of_birth, :type => Date
+
   field :address
+  
   field :bio
 
   mount_uploader :avatar, AvatarUploader
