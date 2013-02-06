@@ -3,6 +3,7 @@ class User
   include ActiveModel::SecurePassword
   include Mongoid::MultiParameterAttributes
   include Mongoid::Timestamps
+  include Geocoder::Model::Mongoid
   
   field :admin, type: Boolean
   
@@ -23,8 +24,15 @@ class User
   field :last_name
   field :date_of_birth, :type => Date
 
+  #test geocoding may want to be in a different process
+  field :coordinates, :type => Array
   field :address
-  
+  geocoded_by :address
+  reverse_geocoded_by :coordinates, address: :address
+  after_validation :geocode
+  after_validation :reverse_geocode
+
+
   field :bio
 
   mount_uploader :avatar, AvatarUploader

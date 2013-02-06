@@ -2,7 +2,7 @@ class UserSkillRatingPresenter < BasePresenter
   presents :user_skill_rating
   
   delegate :ratee, to: :user_skill_rating
-
+  #class needs testing
   def skill
     skill = user_skill_rating.skill
     link_to skill.title, skill_path(skill)

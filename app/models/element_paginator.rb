@@ -1,4 +1,5 @@
 class ElementPaginator
+  #entire class needs tests
   def initialize(object, offset_id)
     @object = object
     @element_offset = (offset_id.nil? && 0) || @object.entries.index{ |entry| entry.id.to_s == offset_id } 
