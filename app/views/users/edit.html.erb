@@ -4,7 +4,7 @@
                                    :default => "Edit #{model_class.model_name.human}") %></h1>
 </div>
 
-<%= labeled_form_for @user do |f| %>
+<%= labeled_form_for @user, { class: "edit_user" } do |f| %>
   
   <%= f.error_messages %>
   

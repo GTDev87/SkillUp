@@ -22,9 +22,13 @@ class LabeledFormBuilder < ActionView::Helpers::FormBuilder
       output_form = field_label(name, *args)
       avatar_fields = content_tag :div, class: "controls" do
         field = file_field(name, *merge_option_into_args({class: "file_field"}, *args))
-        if object.respond_to?(name)
-          field << @template.image_tag(object.send(name).url(:thumb))
+        avatar_display = content_tag :span, class: "avatar" do
+          thumb_url = object.send(name).url(:thumb)
+          if object.respond_to?(name) && !thumb_url.nil?
+            @template.image_tag(thumb_url, {id: "avatar_image"})
+          end
         end
+        field << avatar_display
         field
       end
       output_form << avatar_fields

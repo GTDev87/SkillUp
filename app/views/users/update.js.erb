@@ -1,0 +1,5 @@
+<% if !@user.update_attributes(params[:user]) %>
+  alert("Failed to upload painting: <%= j @user.errors.full_messages.join(', ').html_safe %>");
+<% else %>
+  $("#avatar_image").replaceWith("<%= j image_tag(@user.avatar.url(:thumb), {id: 'avatar_image'}) %>");
+<% end %>

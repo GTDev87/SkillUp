@@ -14,4 +14,5 @@
 //= require jquery_ujs
 //= require jquery-ui
 //= require bootstrap
+//= require jquery-fileupload/basic
 //= require_tree .

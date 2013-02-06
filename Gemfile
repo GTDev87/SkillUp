@@ -40,6 +40,9 @@ group :assets do
 
   #adding jquery ui
   gem 'jquery-ui-rails'
+
+  #file uploading
+  gem 'jquery-fileupload-rails'
 end
 
 
