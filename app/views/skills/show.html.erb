@@ -27,8 +27,9 @@
 <p>
   <b>Direct Sub Skills:</b><br />
   <% @skill.skill_embeddings.each do |skill_embedding| %>
-    <%= skill_embedding.sub_skill.title %><br />
-    Weight: <%= skill_embedding.weight %><br />
+    <% present skill_embedding do |skill_embedding_presenter| %>
+      <%= skill_embedding_presenter.link %>: <%= skill_embedding_presenter.weight %><br />
+    <% end %>
   <% end %>
 </p>
 

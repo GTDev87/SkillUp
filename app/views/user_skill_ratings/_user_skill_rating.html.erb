@@ -1,7 +1,7 @@
 <fieldset id="<%= user_skill_rating %>">
   <% present user_skill_rating do |user_skill_rating_presenter|%>
     <%= user_skill_rating_presenter.ratee.username %>
-    <%= user_skill_rating_presenter.skill.title %>
+    <%= user_skill_rating_presenter.skill %>
     <%= user_skill_rating_presenter.rating %>
   <% end %>
   

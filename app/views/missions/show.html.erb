@@ -13,7 +13,9 @@
 <p>
   <b>Sub Missions:</b><br />
   <% @mission.mission_embeddings.each do |mission_embedding| %>
-    <%= mission_embedding.sub_mission.title %>: <%= mission_embedding.count %><br />
+    <% present mission_embedding do |mission_embedding_presenter| %>
+      <%= mission_embedding_presenter.link %>: <%= mission_embedding_presenter.count %><br />
+    <% end %>
   <% end %>
 </p>
 
@@ -33,8 +35,10 @@
 
 <p>
   <b>Skill Points on Mission:</b><br />
-  <% @mission.skill_points.sort_by {|k,v| -v}.each do |title, points| %>
-    <%= title %>: <%= points %><br />
+  <% @mission.mission_skills.each do |mission_skill| %>
+    <% present mission_skill do |mission_skill_presenter| %>
+      <%= mission_skill_presenter.link %>: <%= mission_skill_presenter.points %><br />
+    <% end %>
   <% end %>
 </p>
 

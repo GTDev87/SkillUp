@@ -1,4 +1,7 @@
 <fieldset id="<%= user_mission %>">
-  <%= user_mission.mission.title %>
+  <% present user_mission do |user_mission_presenter|%>
+    <%= user_mission_presenter.mission %>
+  <% end %>
+  
   <%= link_to "remove", user_user_mission_path(@user, user_mission), class: "remove_field", method: :delete, remote: true %>
 </fieldset>

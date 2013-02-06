@@ -1,10 +1,14 @@
 class UserSkillRatingPresenter < BasePresenter
   presents :user_skill_rating
   
-  delegate :ratee, :skill, to: :user_skill_rating
+  delegate :ratee, to: :user_skill_rating
+
+  def skill
+    skill = user_skill_rating.skill
+    link_to skill.title, skill_path(skill)
+  end
 
   def rating
-
     content_tag :span, class: "read_only_ballot" do
       fields = ActiveSupport::SafeBuffer.new
       
