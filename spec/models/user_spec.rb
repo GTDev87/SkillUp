@@ -295,11 +295,12 @@ describe User do
       User.first.date_of_birth.should == Date.new(1988,6,29)
     end
     
-    it "should be able to assign address" do
-      User.create(address: "123 Evergreen Terrace", username: "username", email: "user@example.com", password: "password", password_confirmation: "password")
-    
-      User.first.address.should == "123 Evergreen Terrace"
-    end
+    #address does external api call
+    #it "should be able to assign address" do
+    #  User.create(address: "123 Evergreen Terrace", username: "username", email: "user@example.com", password: "password", password_confirmation: "password")
+    #
+    #  User.first.address.should == "123 Evergreen Terrace"
+    #end
     
     it "should be able to assign email" do
       User.create(bio: "I'm Effing Great", username: "username", email: "user@example.com", password: "password", password_confirmation: "password")

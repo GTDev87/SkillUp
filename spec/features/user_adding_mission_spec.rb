@@ -10,14 +10,15 @@ describe "adding mission" do
     click_button "Log In"
     
     click_link 'Add Task'
-    find(:css, "input[id^='user_user_missions_attributes_'][id$='_mission_title']").set("Test Title")
+    fill_in 'user_mission_mission_title', with: "Test Title"
+    #find(:css, "input[id^='user_user_missions_attributes_'][id$='_mission_title']").set("Test Title")
     click_button "Save Tasks"
     
     user.reload
     
+    page.should have_content("Test Title")
+
     user.user_missions.size.should == 1
     Mission.first.title.should == "Test Title"
-    
-    page.should have_content("Test Title")
   end
 end
