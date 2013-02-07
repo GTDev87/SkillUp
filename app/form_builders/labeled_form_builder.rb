@@ -26,6 +26,8 @@ class LabeledFormBuilder < ActionView::Helpers::FormBuilder
           thumb_url = object.send(name).url(:thumb)
           if object.respond_to?(name) && !thumb_url.nil?
             @template.image_tag(thumb_url, {id: "avatar_image"})
+          else 
+            @template.image_tag("/images/default_avatar.jpg", {id: "avatar_image"})
           end
         end
         field << avatar_display

@@ -2,6 +2,8 @@ class Permission
   
   def initialize(user)
     allow :users, [:new, :create]
+    allow_param(:user, [:username, :email, :password, :password_confirmation])
+
     allow :missions, [:index, :show]
     allow :skills, [:index, :show]
     allow :sessions, [:new, :create, :destroy]
@@ -9,44 +11,34 @@ class Permission
     
     if user
       allow :missions, [:new, :create]
+
       #gridfs needs test
       allow :gridfs, [:serve] do |resource_user|
-
         resource_user.id == user.id
       end
+      
+      #TESTS!!!!
+      allow :user_missions, [:new, :index, :create, :destroy] do |resource_user|
+        resource_user.id == user.id
+      end
+      allow_param(:user_mission, [:id, :_destroy, :mission_title])
+      
+      #TESTS!!!!
+      allow :user_skill_ratings, [:new, :index, :create, :destroy] do |resource_user|
+        resource_user.id == user.id
+      end
+      allow_param(:user_skill_rating, [:id, :_destroy, :ratee_username, :rating, :skill_title])      
+
       allow :users, [:edit, :update, :show] do |resource_user|
         resource_user.id == user.id
-
       end
-
       allow_param(:user, [
-        :username, 
-        :email, 
-        :password, 
-        :password_confirmation, 
         :first_name, 
         :last_name, 
         :date_of_birth, 
         :address, 
         :bio,
-        :avatar,
-        {
-          user_missions_attributes: [
-            :id, 
-            :_destroy, 
-            :mission_title] },
-        {
-          user_skill_ratings_attributes: [
-            :id,
-            :_destroy,
-            :ratee_username,
-            :rating,
-            :skill_title] }, 
-        {
-          user_skills_attributes: [
-            :id, 
-            :_destroy, 
-            :skill_title] } ] )
+        :avatar])
             
       allow_all if user.admin?
     end

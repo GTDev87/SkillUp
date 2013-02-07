@@ -3,5 +3,5 @@
     <%= user_mission_presenter.mission %>
   <% end %>
   
-  <%= link_to "remove", user_user_mission_path(@user, user_mission), class: "remove_field", method: :delete, remote: true %>
+  <%= link_to "remove", user_user_mission_path(@user, user_mission), class: "ajax_remove_field", method: :delete, remote: true %>
 </fieldset>

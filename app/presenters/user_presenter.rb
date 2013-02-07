@@ -4,8 +4,10 @@ class UserPresenter < BasePresenter
   
   #NEEDS TESTS
   def avatar
-  	handle_none user.avatar? do
+  	if user.avatar?
       image_tag(avatar_name, class: "avatar")
+    else 
+      image_tag("/images/default_avatar.jpg", class: "avatar")
     end
   end
 

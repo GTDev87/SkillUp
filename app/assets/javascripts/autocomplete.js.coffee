@@ -2,7 +2,7 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 jQuery ->
-  $('fieldset').live 'click', ->
+  $(document).on 'click', 'fieldset', ->
     $('.autocomplete_field1').autocomplete
       source: $('.autocomplete_field1').data('autocomplete-source')
     $('.autocomplete_field2').autocomplete

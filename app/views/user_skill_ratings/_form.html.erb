@@ -4,7 +4,7 @@
     <%= f.text_field :skill_title%>
     <%= f.star_ratings :rating, 10 %>
     <%= f.hidden_field :_destroy %>
-	<%= link_to "remove", '#', class: "remove_field" %>
+	<%= link_to "remove", '#', class: "ajax_remove_field" %>
 	<%= hidden_field_tag :time, Time.now.to_i %>
   <% end %>
 </fieldset>

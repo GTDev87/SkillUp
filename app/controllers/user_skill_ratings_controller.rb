@@ -23,10 +23,15 @@ class UserSkillRatingsController < ApplicationController
     @user_skill_rating.destroy
   end
 
+  def current_resource
+    get_user
+  end
+
 private
 
   def get_user
     @user = User.find(params[:user_id]) if params[:user_id]
     redirect_to root_path unless defined?(@user)
+    @user
   end
 end
