@@ -11,6 +11,7 @@ class Permission
     
     if user
       allow :missions, [:new, :create]
+      allow :skill, [:new, :create]
 
       #gridfs needs test
       allow :gridfs, [:serve] do |resource_user|
@@ -32,14 +33,18 @@ class Permission
       allow :users, [:edit, :update, :show] do |resource_user|
         resource_user.id == user.id
       end
-      allow_param(:user, [
-        :first_name, 
-        :last_name, 
-        :date_of_birth, 
-        :address, 
-        :bio,
-        :avatar])
-            
+      allow_param(:user, [:first_name, :last_name, :date_of_birth, :address, :bio, :avatar])
+      
+      #TESTS!!!
+      #allow :mission, [:edit, :update] do |resource_user|
+      #  resource_user..try(:id) == user.id
+      #end
+
+      #TESTS!!!
+      #allow :skill, [:edit, :update] do |resource_user|
+      #  resource_user.try(:id) == user.id
+      #end
+
       allow_all if user.admin?
     end
   end

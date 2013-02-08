@@ -22,6 +22,8 @@ class Skill
   has_many :skill_embeddings, inverse_of: :super_skill, autosave: true
   accepts_nested_attributes_for :skill_embeddings, allow_destroy: true
   validates :skill_embeddings, cyclical_sub_skill_reference: true, unique_sub_skill_reference: true
+
+  has_many :user_skill_moderations, inverse_of: :skill, autosave: true
   
   #Many of these methods desparately need preprocessing
 

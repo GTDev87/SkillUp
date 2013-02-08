@@ -23,6 +23,8 @@ class Mission
   accepts_nested_attributes_for :mission_embeddings, allow_destroy: true
   validates :mission_embeddings, cyclical_sub_mission_reference: true, unique_sub_mission_reference: true
   
+  has_many :user_mission_moderations, inverse_of: :mission, autosave: true
+
   #Many of these methods desparately need preprocessing
 
   def total_ability_points

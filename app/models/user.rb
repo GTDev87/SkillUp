@@ -32,7 +32,6 @@ class User
   after_validation :geocode
   after_validation :reverse_geocode
 
-
   field :bio
 
   mount_uploader :avatar, AvatarUploader
@@ -43,15 +42,23 @@ class User
   
   has_many :user_missions, autosave: true
   accepts_nested_attributes_for :user_missions, allow_destroy: true
+
+  #Moderator Status Needs Test
+  has_many :user_mission_moderations, autosave: true
+  accepts_nested_attributes_for :user_mission_moderations, allow_destroy: true
+  #===========================
+  has_many :user_skill_moderations, autosave: true
+  accepts_nested_attributes_for :user_skill_moderations, allow_destroy: true
+  ############################
   
+  #connections
   has_many :user_connections, autosave: true
   accepts_nested_attributes_for :user_connections, allow_destroy: true
-
   has_many :inverse_user_connections, class_name: "UserConnection", inverse_of: :connection
 
+  #user ratings
   has_many :user_skill_ratings, inverse_of: :rater, autosave: true
   accepts_nested_attributes_for :user_skill_ratings, allow_destroy: true
-
   has_many :inverse_user_skill_ratings, class_name: "UserSkillRating", inverse_of: :ratee
 
   def total_ability_points
