@@ -1,8 +1,6 @@
 require File.expand_path('../boot', __FILE__)
 
-require "action_controller/railtie"
-require "action_mailer/railtie"
-require "sprockets/railtie"
+require 'rails/all'
 
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
@@ -63,9 +61,8 @@ module SkillUp
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
-    
     config.generators do |g|
-      g.test_framework :mini_test, :spec => true, :fixture => false
+      g.fixture_replacement :factory_girl
     end
   end
 end

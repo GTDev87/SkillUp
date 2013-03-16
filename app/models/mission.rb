@@ -1,30 +1,24 @@
-class Mission
-  include Mongoid::Document
-  include Mongoid::Timestamps
+class Mission < ActiveRecord::Base
   
-  field :title, type: String
   validates_presence_of :title
-  
-  field :lowercase_title
-  before_create :lower_title_case
-  
-  field :description, type: String
+  #field :description, type: String
 
-  #needs test
-  has_many :user_missions, inverse_of: :mission, autosave: true
-  
-  has_many :mission_skills, inverse_of: :mission, autosave: true
+  has_many :user_missions, dependent: :destroy, inverse_of: :mission
+
+  has_many :mission_skills, dependent: :destroy, inverse_of: :mission
   accepts_nested_attributes_for :mission_skills, allow_destroy: true
   validates :mission_skills, unique_mission_skill_reference: true
-  
-  has_many :super_embeddings, class_name: "MissionEmbedding", inverse_of: :sub_mission  
-  
-  has_many :mission_embeddings, inverse_of: :super_mission, autosave: true
+  has_many :skills, through: :mission_skills
+
+  has_many :super_embeddings, class_name: "MissionEmbedding", foreign_key: "sub_mission_id", dependent: :destroy, inverse_of: :sub_mission
+  has_many :super_mission, through: :super_embeddings, source: :mission
+
+  has_many :mission_embeddings, dependent: :destroy, inverse_of: :super_mission, foreign_key: "super_mission_id"
   accepts_nested_attributes_for :mission_embeddings, allow_destroy: true
   validates :mission_embeddings, cyclical_sub_mission_reference: true, unique_sub_mission_reference: true
-  
-  has_many :user_mission_moderations, inverse_of: :mission, autosave: true
+  has_many :sub_missions, through: :mission_embeddings
 
+  has_many :user_mission_moderations, dependent: :destroy, inverse_of: :mission
   #Many of these methods desparately need preprocessing
 
   def total_ability_points
@@ -35,14 +29,14 @@ class Mission
     mission_embeddings.inject(Hash.new(0)) do |agg_sub_missions, sub_embedding|
       multiplier = sub_embedding.count
       sub_mission_title = sub_embedding.sub_mission.title
-      ability_points_multiplied = HashOperations.multiply_hash_by_value(Mission.find_by(title: sub_mission_title).total_ability_points, multiplier)
+      ability_points_multiplied = HashOperations.multiply_hash_by_value(Mission.find_by_title(sub_mission_title).total_ability_points, multiplier)
       HashOperations.add_hashes(agg_sub_missions, ability_points_multiplied)
     end
   end
   
   def ability_points
     skill_points.inject({}) do |agg_hash, (title, points_multiplier)|
-      ability_points_multiplied = HashOperations.multiply_hash_by_value(Skill.find_by(title: title).ability_points, points_multiplier)
+      ability_points_multiplied = HashOperations.multiply_hash_by_value(Skill.find_by_title(title).ability_points, points_multiplier)
       HashOperations.add_hashes(agg_hash, ability_points_multiplied)
     end
   end
@@ -63,7 +57,7 @@ class Mission
   end
   
   def self.search_titles(mission_title_name)
-    Mission.any_of({lowercase_title: /.*#{mission_title_name.downcase}.*/ }).sort(lowercase_title: 1).entries  
+    Mission.find(:all, :conditions => [ "title ILIKE ?", "%#{mission_title_name.downcase}%"])
   end
   
 private

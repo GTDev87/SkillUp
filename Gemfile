@@ -1,11 +1,11 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.8'
+gem 'rails', '3.2.11'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'mongoid'
+gem 'pg'
 
 #new way of handling attr_accessible
 gem 'strong_parameters', github: 'rails/strong_parameters'
@@ -16,7 +16,7 @@ gem 'jquery-rails'
 gem 'bcrypt-ruby'
 
 # Image Uploading
-gem "carrierwave-mongoid", :git => "git://github.com/jnicklas/carrierwave-mongoid.git", :branch => "mongoid-3.0"
+gem "carrierwave"
 
 # Image Processing
 gem "mini_magick"
@@ -42,16 +42,22 @@ group :assets do
   #adding jquery ui
   gem 'jquery-ui-rails'
 
+  #angular js
+  #gem 'angularjs-rails'
+  #gem 'angularjs-rails-resource'
+
+  #emberjs
+  gem 'ember-rails', git: 'git://github.com/emberjs/ember-rails.git' # so we get the pre version
+  
   #file uploading
   gem 'jquery-fileupload-rails'
 end
 
 
-group :development, :test do
+group :test do
   gem 'spork'
   gem 'guard-spork'
   gem 'rspec-rails'
-  gem 'mongoid-rspec'
   gem 'factory_girl_rails'
   gem 'capybara'
   gem 'guard-rspec'
@@ -60,6 +66,7 @@ group :development, :test do
   # To use ruby debugger
   gem 'debugger'
   # run rails s --debugger
+  gem 'database_cleaner'
 end
 
 # To use Jbuilder templates for JSON

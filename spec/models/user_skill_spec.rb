@@ -78,7 +78,9 @@ describe UserSkill do
         user_skill = UserSkill.new(points: 10)
         
         user.user_skills << user_skill
-        lambda {user_skill.skill_title = "Created Title"}.should raise_error
+        
+        user_skill.skill_title = "Created Title"
+        user_skill.skill_title.should be_nil
       end
     end
   end

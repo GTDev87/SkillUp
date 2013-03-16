@@ -1,9 +1,7 @@
-class MissionEmbedding
-  include Mongoid::Document
+class MissionEmbedding < ActiveRecord::Base
 
-  field :count, type: Integer
   validates_presence_of :count
-  
+
   belongs_to :sub_mission, class_name: "Mission", inverse_of: :super_embeddings
   validates_presence_of :sub_mission
   
@@ -15,6 +13,6 @@ class MissionEmbedding
   end
 
   def sub_mission_title=(title)
-    self.sub_mission = Mission.find_by(title: title) if title.present?
+    self.sub_mission = Mission.find_by_title(title) if title.present?
   end
 end

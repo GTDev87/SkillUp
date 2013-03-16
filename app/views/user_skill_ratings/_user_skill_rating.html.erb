@@ -1,9 +1,9 @@
-<fieldset id="<%= user_skill_rating %>">
+<fieldset id="<%= user_skill_rating.id %>">
   <% present user_skill_rating do |user_skill_rating_presenter|%>
     <%= user_skill_rating_presenter.ratee.username %>
     <%= user_skill_rating_presenter.skill %>
     <%= user_skill_rating_presenter.rating %>
   <% end %>
   
-  <%= link_to "remove", user_user_skill_rating_path(@user, user_skill_rating), class: "ajax_remove_field", method: :delete, remote: true %>
+  <%= link_to "remove", user_user_skill_rating_path(@user, user_skill_rating), method: :delete, remote: true %>
 </fieldset>

@@ -3,4 +3,11 @@
   <h1><%=t '.title', :default => t('helpers.titles.new', :model => model_class.model_name.human,
                                  :default => "Sign Up") %></h1>
 </div>
-<%= render :partial => 'form' %>
+
+<%= labeled_form_for @mission do |f| %>
+
+  <%= f.text_field :title%>
+  <%= f.text_area :description%>
+  
+  <%= f.submit %>
+<% end %>

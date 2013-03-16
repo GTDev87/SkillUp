@@ -1,5 +1,5 @@
 <fieldset>
-  <%= f.hidden_field :_id, :value => f.object._id %>
+  <%= f.hidden_field :id, :value => f.object.id %>
   <%= f.object.skill.title %><br />
   <%= f.label :points %>: <%= f.object.points %><br />
   <%= f.hidden_field :_destroy %>

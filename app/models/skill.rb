@@ -1,29 +1,37 @@
-class Skill
-  include Mongoid::Document
-  include Mongoid::Timestamps
+class Skill < ActiveRecord::Base
 
-  field :title, type: String
   validates_presence_of :title
   
-  field :lowercase_title
-  before_create :lower_title_case
-  
-  field :description, type: String
+  #field :description, type: String
+
+
 
   #needs test
-  has_many :user_skills, inverse_of: :skill, autosave: true
+  has_many :user_skills, dependent: :destroy, inverse_of: :skill
   
-  has_many :mission_skills, inverse_of: :skill
+  has_many :mission_skills, dependent: :destroy, inverse_of: :skill
 
-  has_many :super_embeddings, class_name: "SkillEmbedding", inverse_of: :sub_skill
+  has_many :super_embeddings, class_name: "SkillEmbedding", foreign_key: "sub_skill_id", dependent: :destroy, inverse_of: :sub_skill
+  has_many :super_skill, through: :super_embeddings, source: :skill
 
-  has_many :user_skill_ratings, inverse_of: :skill
+  has_many :user_skill_ratings, dependent: :destroy, inverse_of: :skill
   
-  has_many :skill_embeddings, inverse_of: :super_skill, autosave: true
+  has_many :skill_embeddings, dependent: :destroy, inverse_of: :super_skill, foreign_key: "super_skill_id"
   accepts_nested_attributes_for :skill_embeddings, allow_destroy: true
   validates :skill_embeddings, cyclical_sub_skill_reference: true, unique_sub_skill_reference: true
+  has_many :sub_skills, through: :skill_embeddings
 
-  has_many :user_skill_moderations, inverse_of: :skill, autosave: true
+
+     #needs test
+  #has_many :friendships
+  #has_many :friends, :through => :friendships
+  #has_many :inverse_friendships, :class_name => "Friendship", :foreign_key => "friend_id"
+  #has_many :inverse_friends, :through => :inverse_friendships, :source => :user
+  #models/friendship.rb
+  #belongs_to :user
+  #belongs_to :friend, :class_name => "User
+
+  has_many :user_skill_moderations, autosave: true
   
   #Many of these methods desparately need preprocessing
 
@@ -55,7 +63,7 @@ class Skill
   end
   
   def self.search_titles(skill_title_name)
-    Skill.any_of({lowercase_title: /.*#{skill_title_name.downcase}.*/ }).sort(lowercase_title: 1).entries
+    Skill.find(:all, :conditions => [ "title ILIKE ?", "%#{skill_title_name.downcase}%"])
   end
   
 private

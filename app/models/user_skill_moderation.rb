@@ -1,5 +1,4 @@
-class UserSkillModeration
-  include Mongoid::Document
+class UserSkillModeration < ActiveRecord::Base
   
   belongs_to :user, inverse_of: :user_skill_moderations
   validates_presence_of :user

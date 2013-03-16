@@ -49,8 +49,8 @@ describe MissionEmbedding do
         mission_embedding.super_mission = super_mission
         mission_embedding.save!
         
-        MissionEmbedding.find(mission_embedding._id).sub_mission.title.should == "Sub Mission Title"
-        MissionEmbedding.find(mission_embedding._id).super_mission.title.should == "Super Mission Title"
+        MissionEmbedding.find(mission_embedding.id).sub_mission.title.should == "Sub Mission Title"
+        MissionEmbedding.find(mission_embedding.id).super_mission.title.should == "Super Mission Title"
       end
       
       it "should be referenced by Mission" do
@@ -62,8 +62,8 @@ describe MissionEmbedding do
         mission_embedding.super_mission = super_mission
         mission_embedding.save!
         
-        Mission.find(sub_mission._id).super_embeddings.first.count.should == 10
-        Mission.find(super_mission._id).mission_embeddings.first.count.should == 10
+        Mission.find(sub_mission.id).super_embeddings.first.count.should == 10
+        Mission.find(super_mission.id).mission_embeddings.first.count.should == 10
       end
     end
   end

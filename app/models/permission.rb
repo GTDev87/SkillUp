@@ -1,6 +1,8 @@
 class Permission
   
   def initialize(user)
+
+    allow :skill_up, [:index]
     allow :users, [:new, :create]
     allow_param(:user, [:username, :email, :password, :password_confirmation])
 
@@ -12,11 +14,6 @@ class Permission
     if user
       allow :missions, [:new, :create]
       allow :skill, [:new, :create]
-
-      #gridfs needs test
-      allow :gridfs, [:serve] do |resource_user|
-        resource_user.id == user.id
-      end
       
       #TESTS!!!!
       allow :user_missions, [:new, :index, :create, :destroy] do |resource_user|
@@ -33,7 +30,7 @@ class Permission
       allow :users, [:edit, :update, :show] do |resource_user|
         resource_user.id == user.id
       end
-      allow_param(:user, [:first_name, :last_name, :date_of_birth, :address, :bio, :avatar])
+      allow_param(:user, [:first_name, :last_name, :date_of_birth, :address, :bio, :avatar ] )
       
       #TESTS!!!
       #allow :mission, [:edit, :update] do |resource_user|

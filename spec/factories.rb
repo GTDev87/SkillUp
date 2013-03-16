@@ -22,7 +22,7 @@ FactoryGirl.define do
     points 10
   end
 
-  factory :user_connection do
+  factory :user_friendship do
   end
 
   factory :user_skill_rating do

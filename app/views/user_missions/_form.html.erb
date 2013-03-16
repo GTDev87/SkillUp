@@ -1,8 +1,0 @@
-<fieldset id="new_<%= Time.now.to_i %>">
-  <%= labeled_form_for @user_mission, {:url => user_user_missions_url(@user), remote: true} do |f| %>
-    <%= f.text_field :mission_title, {:class => 'autocomplete_field2', data: {autocomplete_source: missions_path } } %>
-	<%= f.hidden_field :_destroy %>
-	<%= link_to "remove", '#', class: "ajax_remove_field" %>
-	<%= hidden_field_tag :time, Time.now.to_i %>
-  <% end %>
-</fieldset>

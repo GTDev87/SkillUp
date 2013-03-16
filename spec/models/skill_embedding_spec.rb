@@ -44,8 +44,8 @@ describe SkillEmbedding do
         skill_embedding.super_skill = super_skill
         skill_embedding.save!
         
-        SkillEmbedding.find(skill_embedding._id).sub_skill.title.should == "Sub Skill Title"
-        SkillEmbedding.find(skill_embedding._id).super_skill.title.should == "Super Skill Title"
+        SkillEmbedding.find(skill_embedding.id).sub_skill.title.should == "Sub Skill Title"
+        SkillEmbedding.find(skill_embedding.id).super_skill.title.should == "Super Skill Title"
       end
       
       it "should be referenced by Skill" do
@@ -56,9 +56,9 @@ describe SkillEmbedding do
         super_skill = create(:skill, title: "Super Skill Title")
         skill_embedding.super_skill = super_skill
         skill_embedding.save!
-        
-        Skill.find(sub_skill._id).super_embeddings.first.weight.should == 10
-        Skill.find(super_skill._id).skill_embeddings.first.weight.should == 10
+
+        Skill.find(sub_skill.id).super_embeddings.first.weight.should == 10
+        Skill.find(super_skill.id).skill_embeddings.first.weight.should == 10
       end
     end
   end
@@ -108,7 +108,7 @@ describe SkillEmbedding do
         skill_embedding.sub_skill_title = "Sub Skill Title"
         
         Skill.count.should == 1
-        Skill.find_by(title: "Sub Skill Title").title == "Sub Skill Title"
+        Skill.find_by_title("Sub Skill Title").title == "Sub Skill Title"
       end
       
       it "should save skill to mission_skill when created" do

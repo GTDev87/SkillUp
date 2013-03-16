@@ -15,4 +15,15 @@
 //= require jquery-ui
 //= require bootstrap
 //= require jquery-fileupload/basic
-//= require_tree .
+
+//= require_tree ./widgets
+
+//= require handlebars
+//= require ember
+//= require ember-data
+//= require_self
+
+//= require skill_up
+SkillUp = Ember.Application.create();
+
+

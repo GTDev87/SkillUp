@@ -1,7 +1,5 @@
-class SkillEmbedding
-  include Mongoid::Document
+class SkillEmbedding < ActiveRecord::Base
  
-  field :weight, type: Integer
   validates_presence_of :weight
   
   belongs_to :sub_skill, class_name: "Skill", inverse_of: :super_embeddings
@@ -15,6 +13,6 @@ class SkillEmbedding
   end
 
   def sub_skill_title=(title)
-    self.sub_skill = Skill.find_by(title: title) if title.present?
+    self.sub_skill = Skill.find_by_title(title) if title.present?
   end
 end

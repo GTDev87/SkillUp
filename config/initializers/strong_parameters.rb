@@ -1,1 +1,1 @@
-Mongoid::Document.send(:include, ActiveModel::ForbiddenAttributesProtection)
+ActiveRecord::Base.send(:include, ActiveModel::ForbiddenAttributesProtection)

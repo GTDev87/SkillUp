@@ -1,5 +1,4 @@
-class MissionSkill
-  include Mongoid::Document
+class MissionSkill < ActiveRecord::Base
   
   #Many to many REFERENCED IN MISSION AND SKILL
   belongs_to :mission, inverse_of: :mission_skills
@@ -8,7 +7,6 @@ class MissionSkill
   belongs_to :skill, inverse_of: :mission_skills
   validates_presence_of :skill
   
-  field :points, type: Integer
   validates_presence_of :points
 
   def skill_title
@@ -16,6 +14,6 @@ class MissionSkill
   end
 
   def skill_title=(title)
-    self.skill = Skill.find_by(title: title) if title.present?
+    self.skill = Skill.find_by_title(title) if title.present?
   end
 end

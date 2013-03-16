@@ -6,12 +6,6 @@ describe Mission do
     
     lambda {mission.save!}.should_not raise_error
   end
-  
-  it "should lower title's case after creation" do
-    mission = Mission.create(title: "lOwErCaSe TiTlE", description: "A description")
-    
-    mission.lowercase_title.should == "lowercase title"
-  end
 
   it "should search title by lowercase_title" do
     Mission.create(title: "case")
@@ -20,7 +14,7 @@ describe Mission do
     Mission.create(title: "UPPER CASE")
     Mission.create(title: "other word")
     
-    Mission.search_titles("case").map{ |mission| mission.title }.should == ["case", "cases", "InCaSe", "UPPER CASE"]
+    Mission.search_titles("case").map{ |mission| mission.title }.should =~ ["case", "cases", "InCaSe", "UPPER CASE"]
   end
 
   describe "validation" do
@@ -43,18 +37,18 @@ describe Mission do
         mission_b.mission_embeddings.first.sub_mission = mission_a
         
         mission_b.save.should == false
-        Mission.find(mission_a._id).mission_embeddings.size.should == 1
-        Mission.find(mission_b._id).mission_embeddings.size.should == 0
+        Mission.find(mission_a.id).mission_embeddings.size.should == 1
+        Mission.find(mission_b.id).mission_embeddings.size.should == 0
       end
     
       it "should not create/save if skill has cyclical reference with itself" do
         mission_a = Mission.create!(title: "Sub Mission A")
-      
+        
         mission_a.mission_embeddings.build(count: 1)
         mission_a.mission_embeddings.first.sub_mission = mission_a
         
         mission_a.save.should == false
-        Mission.find(mission_a._id).mission_embeddings.size.should == 0
+        Mission.find(mission_a.id).mission_embeddings.size.should == 0
       end
     end
     
@@ -70,7 +64,7 @@ describe Mission do
         sub_embedding_2.sub_mission = sub_mission_a
 
         mission_a.save.should == false
-        Mission.find(mission_a._id).mission_embeddings.size.should == 0
+        Mission.find(mission_a.id).mission_embeddings.size.should == 0
       end
     end
     
@@ -86,7 +80,7 @@ describe Mission do
         mission_skill_2.skill = skill
 
         mission.save.should == false
-        Mission.find(mission._id).mission_skills.size.should == 0
+        Mission.find(mission.id).mission_skills.size.should == 0
       end
     end
   end
@@ -107,8 +101,8 @@ describe Mission do
         
         mission.save!
         
-        Mission.find(mission._id).mission_embeddings.first.count.should == 1
-        Mission.find(mission._id).super_embeddings.first.count.should == 2
+        Mission.find(mission.id).mission_embeddings.first.count.should == 1
+        Mission.find(mission.id).super_embeddings.first.count.should == 2
       end
       
       it "should be referenced from Mission Embedding" do
@@ -125,8 +119,8 @@ describe Mission do
         
         mission.save!
         
-        MissionEmbedding.find(sub_embedding._id).super_mission.title.should == "Mission Title"
-        MissionEmbedding.find(super_embedding._id).sub_mission.title.should == "Mission Title"
+        MissionEmbedding.find(sub_embedding.id).super_mission.title.should == "Mission Title"
+        MissionEmbedding.find(super_embedding.id).sub_mission.title.should == "Mission Title"
       end
     end
     
@@ -150,7 +144,7 @@ describe Mission do
       
         mission.save!
       
-        Mission.first.mission_skills.first._id.should == mission_skill._id
+        Mission.first.mission_skills.first.id.should == mission_skill.id
       end
     
       it "should be referenced by Mission SKill" do
@@ -161,7 +155,7 @@ describe Mission do
       
         mission.save!
       
-        MissionSkill.find(mission_skill._id).mission.title.should == "Mission title"
+        MissionSkill.find(mission_skill.id).mission.title.should == "Mission title"
       end
     end
   end
@@ -207,7 +201,7 @@ describe Mission do
         saved_mission.mission_skills.size.should == 1
       
         saved_mission.mission_skills_attributes = { 
-            "0" => { _id: saved_mission.mission_skills.first._id, _destroy: '1' } }
+            "0" => { id: saved_mission.mission_skills.first.id, _destroy: '1' } }
         saved_mission.save!
       
         emptied_mission = Mission.first
@@ -232,7 +226,7 @@ describe Mission do
             count: 9 } }
       
         mission.save!
-        saved_mission = Mission.find_by(title: "A Title")
+        saved_mission = Mission.find_by_title("A Title")
       
         saved_mission.mission_embeddings.size.should == 2
         saved_mission.mission_embeddings[0].sub_mission.title.should == "Mission A"
@@ -251,15 +245,15 @@ describe Mission do
             count: 10 } }
         mission.save!
        
-        saved_mission = Mission.find_by(title: "A Title")
+        saved_mission = Mission.find_by_title("A Title")
         saved_mission.mission_embeddings.size.should == 1
       
         saved_mission.mission_embeddings_attributes = { 
-            "0" => { _id: saved_mission.mission_embeddings.first._id, _destroy: '1' } }
+            "0" => { id: saved_mission.mission_embeddings.first.id, _destroy: '1' } }
         saved_mission.save!
       
-        emptied_mission = Mission.find_by(title: "Mission A")
-    
+        emptied_mission = Mission.find_by_title("Mission A")
+        
         emptied_mission.mission_embeddings.size.should == 0
         MissionEmbedding.count.should == 0
       end
@@ -304,9 +298,9 @@ describe Mission do
             sub_mission_title: "Sub Mission A",
             count: 10 } } )
       
-      Mission.find_by(title: "Mission Title").mission_embeddings.size.should == 1
-      Mission.find_by(title: "Mission Title").mission_embeddings.first.sub_mission.title.should == "Sub Mission A"
-      Mission.find_by(title: "Mission Title").mission_embeddings.first.count.should == 10
+      Mission.find_by_title("Mission Title").mission_embeddings.size.should == 1
+      Mission.find_by_title("Mission Title").mission_embeddings.first.sub_mission.title.should == "Sub Mission A"
+      Mission.find_by_title("Mission Title").mission_embeddings.first.count.should == 10
     end
   end
   
@@ -343,7 +337,9 @@ describe Mission do
       squat_embedding = @leap_frog.mission_embeddings.build(count: @squat_count)
       squat_embedding.sub_mission = @squat
       
-      @leap_frog.save!      
+      @leap_frog.save!
+      @jump.save!
+      @squat.save!      
     end
     
     describe "sub mission points only" do

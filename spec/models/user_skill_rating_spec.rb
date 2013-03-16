@@ -52,8 +52,11 @@ describe UserSkillRating do
       user_skill_rating.ratee = ratee
       user_skill_rating.skill = create(:skill)
     
-      rater.user_skill_ratings.first.ratee.should == ratee
-      ratee.inverse_user_skill_ratings.first.rater.should == rater
+      rater.save!
+      ratee.save!
+
+      User.find(rater.id).user_skill_ratings.first.ratee.should == ratee
+      User.find(ratee.id).inverse_user_skill_ratings.first.rater.should == rater
     end
 
     it "it should reference rater and skill properly" do
@@ -63,9 +66,12 @@ describe UserSkillRating do
       rater.user_skill_ratings << user_skill_rating
       user_skill_rating.ratee = create(:user)
       user_skill_rating.skill = skill
-    
-      rater.user_skill_ratings.first.skill.should == skill
-      skill.user_skill_ratings.first.rater.should == rater
+
+      rater.save!
+      skill.save!
+
+      User.find(rater.id).user_skill_ratings.first.skill.should == skill
+      Skill.find(skill.id).user_skill_ratings.first.rater.should == rater
     end
   end
   

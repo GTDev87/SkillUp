@@ -2,13 +2,11 @@ SkillUp::Application.routes.draw do
 
   resources :mission_embeddings
 
-  root :to => "skills#index"
+  root :to => "SkillUp#index"
   
   get 'signup', to: 'users#new', as: 'signup'
   get 'login', to: 'sessions#new', as: 'login'
   get 'logout', to: 'sessions#destroy', as: 'logout'
-  
-  match "/upload/grid/*path" => "gridfs#serve"
   
   resources :missions
   resources :sessions

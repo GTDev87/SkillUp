@@ -1,6 +1,0 @@
-$('#user_skill_ratings .fields').append("<%= j render(@user_skill_ratings_paginator.current_elements) %>");
-<% if !@user_skill_ratings_paginator.last_page? %>
-  $('#user_skill_ratings .more_fields').replaceWith("<%= j link_to 'more tasks', user_user_skill_ratings_path(@user, {@user_skill_ratings_paginator.next_id_parameter => @user_skill_ratings_paginator.next_page_offset_id}), {remote: true, class: "more_fields"} %>");
-<% else %>
-  $('#user_skill_ratings .more_fields').remove();
-<% end %>

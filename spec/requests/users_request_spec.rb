@@ -10,7 +10,7 @@ describe UsersController do
       post sessions_path, sessions: {email: user.email, password: "secret"}
       put user_path(user.id), user: { password: "", password_confirmation: "" }
     
-      updated_user = User.find_by(email: user.email)
+      updated_user = User.find_by_email(user.email)
       updated_user.password_digest.should == old_password_digest
     end
   
@@ -22,7 +22,7 @@ describe UsersController do
       post sessions_path, sessions: {email: user.email, password: "secret"}
       put user_path(user.id), user: { password: "abc", password_confirmation: "" }
     
-      updated_user = User.find_by(email: user.email)
+      updated_user = User.find_by_email(user.email)
       updated_user.password_digest.should == old_password_digest
     end
   
@@ -34,7 +34,7 @@ describe UsersController do
       post sessions_path, sessions: {email: user.email, password: "secret"}
       put user_path(user.id), user: { password: "", password_confirmation: "abc" }
     
-      updated_user = User.find_by(email: user.email)
+      updated_user = User.find_by_email(user.email)
       updated_user.password_digest.should == old_password_digest
     end
   
@@ -46,7 +46,7 @@ describe UsersController do
       post sessions_path, sessions: {email: user.email, password: "secret"}
       put user_path(user.id), user: { password: "abc", password_confirmation: "abc" }
     
-      updated_user = User.find_by(email: user.email)
+      updated_user = User.find_by_email(user.email)
       updated_user.password_digest.should_not == old_password_digest
     end
   end
@@ -88,7 +88,7 @@ describe UsersController do
       
       put user_path(user.id), user: { username: "newusername" }
        
-      saved_other_user = User.find_by(email: other_user.email)
+      saved_other_user = User.find_by_email(other_user.email)
       saved_other_user.username.should eq("otherusername")
     end
   end

@@ -1,5 +1,5 @@
 <fieldset>
-  <%= f.hidden_field :_id, :value => f.object._id %>
+  <%= f.hidden_field :id, :value => f.object.id %>
   <%= f.object.sub_mission.title %><br />
   <%= f.label :count %>: <%= f.object.count %><br />
   <%= f.hidden_field :_destroy %>

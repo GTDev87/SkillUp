@@ -1,7 +1,7 @@
-<% present @user do |user_presenter|%>
-  <div class="row">
-    <div id="user_main", class="span7">
-      <div id="user_profile">
+<div class="row">
+  <div id="user_main", class="span7">
+    <div id="user_profile">
+      <% present @user do |user_presenter|%>
         <%= user_presenter.avatar %>
         <h1><%= user_presenter.username %></h1>
         <dl>
@@ -14,47 +14,48 @@
           <dt>About Me:</dt>
           <dd><%= user_presenter.bio%></dd>
         </dl>
-      </div>
-
-      <%= content_tag "div", id: "user_missions" do %>
-        <multiform>
-          <%= link_to "Add Task", new_user_user_mission_path(@user), class: "new_link", remote: true %>
-          <br/>
-          <%= button_tag "Save Tasks", class: "multiSubmitButton btn btn-primary" %>
-
-        </multiform>
-        <%= content_tag "div", class: "fields" do %>
-          <%= render(@user_missions_paginator.current_elements) %>
-        <% end %>
-        <% if !@user_missions_paginator.last_page? %>
-          <%= link_to 'more tasks', user_user_missions_path(@user, {@user_missions_paginator.next_id_parameter => @user_missions_paginator.next_page_offset_id}), {remote: true, class: "more_fields"} %>
-        <% end %>
       <% end %>
     </div>
 
-    <div id="user_side", class="span4">
-      <%#thinking about scary/insane refactor %>
-      <%= content_tag "div", id: "user_skill_ratings" do %>
-        <multiform>
-          <%= link_to "Add Skill Rating", new_user_user_skill_rating_path(@user), class: "new_link", remote: true %>
-          <br/>
-          <%= button_tag "Save Skill Ratings", class: "multiSubmitButton btn btn-primary" %>
-        </multiform>
-        <%= content_tag "div", class: "fields" do %>
-          <%= render(@user_skill_ratings_paginator.current_elements) %>
-        <% end %>
-        <% if !@user_skill_ratings_paginator.last_page? %>
-          <%= link_to 'more ratings', user_user_skill_ratings_path(@user, {@user_skill_ratings_paginator.next_id_parameter => @user_skill_ratings_paginator.next_page_offset_id}), {remote: true, class: "more_fields"} %>
-        <% end %>
+    <%= content_tag "div", id: "user_missions" do %>
+      
+      <multiform>
+        <%= link_to "Add Task", new_user_user_mission_path(@user), class: "new_link", remote: true %>
+        <br/>
+        <%= button_tag "Save Tasks", class: "multiSubmitButton btn btn-primary" %>
+
+      </multiform>
+      <%= content_tag "div", class: "fields" do %>
+        <%= render(@user_missions_paginator.current_elements) %>
       <% end %>
-      <%= content_tag "div", id: "user_ability_points" do %>
-        <h4>Calculated Ability Points</h4>
-        <% @user.total_ability_points.sort_by {|k,v| -v}.each do |title, points| %>
-          <% present Skill.find_by(title: title) do |skill_presenter| %>
-            <%= skill_presenter.link %>: <%= points %><br />
-          <% end %>
-        <% end %>
+      <% if !@user_missions_paginator.last_page? %>
+        <%= link_to 'more tasks', user_user_missions_path(@user, {@user_missions_paginator.next_id_parameter => @user_missions_paginator.next_page_offset_id}), {remote: true, class: "more_fields"} %>
       <% end %>
-    </div>
+    <% end %>
   </div>
-<% end %>
+
+  <div id="user_side", class="span4">
+    <%#thinking about scary/insane refactor %>
+    <%= content_tag "div", id: "user_skill_ratings" do %>
+      <multiform>
+        <%= link_to "Add Skill Rating", new_user_user_skill_rating_path(@user), class: "new_link", remote: true %>
+        <br/>
+        <%= button_tag "Save Skill Ratings", class: "multiSubmitButton btn btn-primary" %>
+      </multiform>
+      <%= content_tag "div", class: "fields" do %>
+        <%= render(@user_skill_ratings_paginator.current_elements) %>
+      <% end %>
+      <% if !@user_skill_ratings_paginator.last_page? %>
+        <%= link_to 'more ratings', user_user_skill_ratings_path(@user, {@user_skill_ratings_paginator.next_id_parameter => @user_skill_ratings_paginator.next_page_offset_id}), {remote: true, class: "more_fields"} %>
+      <% end %>
+    <% end %>
+    <%= content_tag "div", id: "user_ability_points" do %>
+      <h4>Calculated Ability Points</h4>
+      <% @user.total_ability_points.sort_by {|k,v| -v}.each do |title, points| %>
+        <% present Skill.find_by(title: title) do |skill_presenter| %>
+          <%= skill_presenter.link %>: <%= points %><br />
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

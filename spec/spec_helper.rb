@@ -13,7 +13,6 @@ Spork.prefork do
   require 'rspec/rails'
   require 'rspec/autorun'
   require 'capybara/rspec'
-  require "rails/mongoid"
   
   require File.dirname(__FILE__) + "/custom_matchers"
 
@@ -22,7 +21,7 @@ Spork.prefork do
   Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
   
-  Spork.trap_class_method(Rails::Mongoid, :load_models)
+  #Spork.trap_class_method(Rails::Mongoid, :load_models)
 
   # Prevent main application to eager_load in the prefork block (do not load files in autoload_paths)
   Spork.trap_method(Rails::Application, :eager_load!)
@@ -52,12 +51,18 @@ Spork.prefork do
     # If you're not using ActiveRecord, or you'd prefer not to run each of your
     # examples within a transaction, remove the following line or assign false
     # instead of true.
-    # config.use_transactional_fixtures = false
+    config.use_transactional_fixtures = false
   
-    config.include Mongoid::Matchers
+    config.before(:suite) do
+      DatabaseCleaner.strategy = :truncation
+    end
 
     config.before(:each) do
-      Mongoid.default_session.collections.select {|c| c.name !~ /system/ }.each(&:drop)
+      DatabaseCleaner.start
+    end
+
+    config.after(:each) do
+      DatabaseCleaner.clean
     end
 
     # If true, the base class of anonymous controllers will be inferred

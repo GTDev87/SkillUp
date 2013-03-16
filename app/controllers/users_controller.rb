@@ -15,9 +15,9 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     
     #duplicated in user_missions_controller... maybe should consider refactoring or ajax on page load
-    @user_missions_paginator = my_paginate(@user.user_missions.desc(:created_at), :user_mission_next_element_id)
+    @user_missions_paginator = my_paginate(@user.user_missions, :user_mission_next_element_id)
     
-    @user_skill_ratings_paginator = my_paginate(@user.user_skill_ratings.desc(:created_at), :user_skill_rating_next_element_id)
+    @user_skill_ratings_paginator = my_paginate(@user.user_skill_ratings, :user_skill_rating_next_element_id)
 
     respond_to do |format|
       format.js
@@ -45,7 +45,7 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-    
+
     @user = User.new(params[:user])
     
     respond_to do |format|

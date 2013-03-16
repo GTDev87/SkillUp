@@ -45,12 +45,6 @@ describe Skill do
     end
   end
   
-  it "should lower title's case after creation" do
-    skill = Skill.create(title: "lOwErCaSe TiTlE", description: "A description")
-    
-    skill.lowercase_title.should == "lowercase title"
-  end
-  
   it "should search title by lowercase_title" do
     Skill.create(title: "case")
     Skill.create(title: "InCaSe")
@@ -58,7 +52,7 @@ describe Skill do
     Skill.create(title: "UPPER CASE")
     Skill.create(title: "other word")
     
-    Skill.search_titles("case").map{ |skill| skill.title }.should == ["case", "cases", "InCaSe", "UPPER CASE"]
+    Skill.search_titles("case").map{ |skill| skill.title }.should =~ ["case", "cases", "InCaSe", "UPPER CASE"]
   end
   
   describe "validation" do
@@ -81,8 +75,8 @@ describe Skill do
         skill_b.skill_embeddings.first.sub_skill = skill_a
         
         skill_b.save.should == false
-        Skill.find(skill_a._id).skill_embeddings.size.should == 1
-        Skill.find(skill_b._id).skill_embeddings.size.should == 0
+        Skill.find(skill_a.id).skill_embeddings.size.should == 1
+        Skill.find(skill_b.id).skill_embeddings.size.should == 0
       end
     
       it "should not create/save if skill has cyclical reference with itself" do
@@ -92,7 +86,7 @@ describe Skill do
         skill_a.skill_embeddings.first.sub_skill = skill_a
         
         skill_a.save.should == false
-        Skill.find(skill_a._id).skill_embeddings.size.should == 0
+        Skill.find(skill_a.id).skill_embeddings.size.should == 0
       end
     end
     
@@ -108,7 +102,7 @@ describe Skill do
         sub_embedding_2.sub_skill = sub_skill_a
 
         skill_a.save.should == false
-        Skill.find(skill_a._id).skill_embeddings.size.should == 0
+        Skill.find(skill_a.id).skill_embeddings.size.should == 0
       end
     end
   end
@@ -129,8 +123,8 @@ describe Skill do
         
         skill.save!
         
-        Skill.find(skill._id).skill_embeddings.first.weight.should == 1
-        Skill.find(skill._id).super_embeddings.first.weight.should == 2
+        Skill.find(skill.id).skill_embeddings.first.weight.should == 1
+        Skill.find(skill.id).super_embeddings.first.weight.should == 2
       end
       
       it "should be referenced from Skill Embedding" do
@@ -147,8 +141,8 @@ describe Skill do
         
         skill.save!
         
-        SkillEmbedding.find(sub_embedding._id).super_skill.title.should == "Skill Title"
-        SkillEmbedding.find(super_embedding._id).sub_skill.title.should == "Skill Title"
+        SkillEmbedding.find(sub_embedding.id).super_skill.title.should == "Skill Title"
+        SkillEmbedding.find(super_embedding.id).sub_skill.title.should == "Skill Title"
       end
     end
     
@@ -182,7 +176,7 @@ describe Skill do
         mission_skill.save!
         skill.save!
       
-        Skill.first.mission_skills.first._id.should == mission_skill._id
+        Skill.first.mission_skills.first.id.should == mission_skill.id
       end
     
       it "should be referenced by Mission SKill" do
@@ -195,7 +189,7 @@ describe Skill do
         mission_skill.save!
         skill.save!
       
-        MissionSkill.find(mission_skill._id).skill.title.should == "Skill title"
+        MissionSkill.find(mission_skill.id).skill.title.should == "Skill title"
       end
     end
   end
@@ -223,9 +217,9 @@ describe Skill do
           sub_skill_title: "Skill A",
           weight: 10 } } )
       
-      Skill.find_by(title: "Skill Title").skill_embeddings.size.should == 1
-      Skill.find_by(title: "Skill Title").skill_embeddings.first.sub_skill.title.should == "Skill A"
-      Skill.find_by(title: "Skill Title").skill_embeddings.first.weight.should == 10
+      Skill.find_by_title("Skill Title").skill_embeddings.size.should == 1
+      Skill.find_by_title("Skill Title").skill_embeddings.first.sub_skill.title.should == "Skill A"
+      Skill.find_by_title("Skill Title").skill_embeddings.first.weight.should == 10
     end
   end
   
@@ -245,7 +239,7 @@ describe Skill do
             weight: 9 } }
       
         skill.save!
-        saved_skill = Skill.find_by(title: "A Title")
+        saved_skill = Skill.find_by_title("A Title")
       
         saved_skill.skill_embeddings.size.should == 2
         saved_skill.skill_embeddings[0].sub_skill.title.should == "Skill A"
@@ -264,14 +258,14 @@ describe Skill do
             weight: 10 } }
         skill.save!
       
-        saved_skill = Skill.find_by(title: "A Title")
+        saved_skill = Skill.find_by_title("A Title")
         saved_skill.skill_embeddings.size.should == 1
       
         saved_skill.skill_embeddings_attributes = { 
-            "0" => { _id: saved_skill.skill_embeddings.first._id, _destroy: '1' } }
+            "0" => { id: saved_skill.skill_embeddings.first.id, _destroy: '1' } }
         saved_skill.save!
       
-        emptied_skill = Skill.find_by(title: "Skill A")
+        emptied_skill = Skill.find_by_title("Skill A")
     
         emptied_skill.skill_embeddings.size.should == 0
         SkillEmbedding.count.should == 0

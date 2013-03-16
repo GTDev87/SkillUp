@@ -60,13 +60,13 @@ describe User do
       User.first.user_missions.size.should == 2
     end
 
-    it "should give multiple connections to a user" do
+    it "should give multiple friendships to a user" do
       user = User.create(username: "username", email: "user@example.com", password: "password", password_confirmation: "password")
       
-      user.user_connections << build(:user_connection, connection: create(:user))
-      user.user_connections << build(:user_connection, connection: create(:user))
+      user.user_friendships << build(:user_friendship, friend: create(:user))
+      user.user_friendships << build(:user_friendship, friend: create(:user))
 
-      User.find(user.id).user_connections.size.should == 2
+      User.find(user.id).user_friendships.size.should == 2
     end
 
     it "should give multiple ratings to a user" do
@@ -339,17 +339,17 @@ describe User do
       User.first.user_missions.first.mission.title.should == "Mission A"
     end
 
-    it "should assign user_connections_attributes" do
+    it "should assign user_friendships_attributes" do
       User.create!(
         username: "username", 
         email: "user@example.com", 
         password: "password", 
         password_confirmation: "password",
-        user_connections_attributes: {
+        user_friendships_attributes: {
           "0" => { 
-            connection: create(:user) } } )
+            friend: create(:user) } } )
       
-      UserConnection.count.should == 1
+      UserFriendship.count.should == 1
     end
 
     it "should assign user_skill_ratting_attributes" do
@@ -403,12 +403,13 @@ describe User do
         saved_user.user_skills.size.should == 1
       
         saved_user.user_skills_attributes = { 
-            "0" => { _id: saved_user.user_skills.first._id, _destroy: '1' } }
+            "0" => { id: saved_user.user_skills.first.id, _destroy: '1' } }
         saved_user.save!
       
         emptied_user = User.first
       
         emptied_user.user_skills.size.should == 0
+        UserSkill.count.should == 0
       end
     end
       
@@ -423,9 +424,7 @@ describe User do
       
         saved_user = User.first
           
-        saved_user.user_missions.size.should == 2
-        saved_user.user_missions[0].mission.title.should == "Mission A"
-        saved_user.user_missions[1].mission.title.should == "Mission B"
+        saved_user.missions.pluck(:title) =~ ["Mission A", "Mission B"]
       end
     
       it "should delete using nested attributes" do
@@ -439,48 +438,47 @@ describe User do
         saved_user.user_missions.size.should == 1
       
         saved_user.user_missions_attributes = { 
-            "0" => { _id: saved_user.user_missions.first._id, _destroy: '1' } }
+            "0" => { id: saved_user.user_missions.first.id, _destroy: '1' } }
         saved_user.save!
       
         emptied_user = User.first
-      
+
         emptied_user.user_missions.size.should == 0
+        UserMission.count.should == 0
       end
     end
 
-    describe UserConnection do
-      it "should create a user_connection when it is given through nested attributes" do
+    describe UserFriendship do
+      it "should create a user_friendship when it is given through nested attributes" do
         user = User.new(username: "username", email: "user@example.com", password: "password", password_confirmation: "password")
         
-        user.user_connections_attributes = { 
-            "0" => { connection: create(:user, username: "User A") },
-            "1" => { connection: create(:user, username: "User B") } }
+        user.user_friendships_attributes = { 
+            "0" => { friend: create(:user, username: "User A") },
+            "1" => { friend: create(:user, username: "User B") } }
         user.save!
       
         saved_user = User.find(user.id)
           
-        saved_user.user_connections.size.should == 2
-        saved_user.user_connections[0].connection.username.should == "User A"
-        saved_user.user_connections[1].connection.username.should == "User B"
+        saved_user.friends.pluck(:username) =~ ["User A", "User B"]
       end
     
       it "should delete using nested attributes" do
         user = User.new(username: "username", email: "user@example.com", password: "password", password_confirmation: "password")
       
-        user.user_connections_attributes = { 
-            "0" => { connection: create(:user, username: "User A") } }
+        user.user_friendships_attributes = { 
+            "0" => { friend: create(:user, username: "User A") } }
         user.save!
       
         saved_user = User.find(user.id)
-        saved_user.user_connections.size.should == 1
+        saved_user.user_friendships.size.should == 1
       
-        saved_user.user_connections_attributes = { 
-            "0" => { _id: saved_user.user_connections.first._id, _destroy: '1' } }
+        saved_user.user_friendships_attributes = { 
+            "0" => { id: saved_user.user_friendships.first.id, _destroy: '1' } }
         saved_user.save!
       
         emptied_user = User.find(user.id)
       
-        emptied_user.user_connections.size.should == 0
+        emptied_user.user_friendships.size.should == 0
       end
     end
 
@@ -494,10 +492,8 @@ describe User do
         user.save!
       
         saved_user = User.find(user.id)
-          
-        saved_user.user_skill_ratings.size.should == 2
-        saved_user.user_skill_ratings[0].ratee.username.should == "User A"
-        saved_user.user_skill_ratings[1].ratee.username.should == "User B"
+
+        saved_user.ratees.pluck(:username) =~ ["User A", "User B"]
       end
     
       it "should delete using nested attributes" do
@@ -511,7 +507,7 @@ describe User do
         saved_user.user_skill_ratings.size.should == 1
       
         saved_user.user_skill_ratings_attributes = { 
-            "0" => { _id: saved_user.user_skill_ratings.first._id, _destroy: '1' } }
+            "0" => { id: saved_user.user_skill_ratings.first.id, _destroy: '1' } }
         saved_user.save!
       
         emptied_user = User.find(user.id)

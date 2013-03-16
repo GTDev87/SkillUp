@@ -1,6 +1,10 @@
 Currently using ruby1.9.3-turbo
   - rvm install 1.9.3-turbo
   - rvm use --default 1.9.3-turbo
+
+Start postgreSQL
+  - pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start
+
 Dependency on image_magick:
   Linux:
     sudo apt-get install imagemagick libmagick++-dev

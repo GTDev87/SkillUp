@@ -1,6 +1,4 @@
-class UserMission
-  include Mongoid::Document
-  include Mongoid::Timestamps
+class UserMission < ActiveRecord::Base
  
   belongs_to :user, inverse_of: :user_missions
   validates_presence_of :user
@@ -13,6 +11,6 @@ class UserMission
   end
 
   def mission_title=(title)
-    self.mission = Mission.find_or_create_by(title: title) if title.present?
+    self.mission = Mission.find_or_create_by_title(title) if title.present?
   end
 end
